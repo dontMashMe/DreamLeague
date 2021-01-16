@@ -1,0 +1,727 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageButton
+        android:id="@+id/s_imb_attackerRight"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/s_imb_attackerLeft"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_midMidSecond_val"
+        tools:layout_editor_absoluteX="218dp"
+        tools:layout_editor_absoluteY="537dp" />
+
+    <TextView
+        android:id="@+id/s_txt_attackerRight_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_attackerRight_name"
+        app:layout_constraintStart_toStartOf="@id/s_txt_attackerRight_name"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_attackerRight_name"
+        tools:layout_editor_absoluteX="244dp"
+        tools:layout_editor_absoluteY="624dp" />
+
+    <TextView
+        android:id="@+id/s_txt_attackerRight_name"
+        style="@style/PlayerName"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/my_border"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_attackerRight"
+        app:layout_constraintStart_toStartOf="@id/s_imb_attackerRight"
+        app:layout_constraintTop_toBottomOf="@id/s_imb_attackerRight"
+        tools:layout_editor_absoluteX="228dp"
+        tools:layout_editor_absoluteY="601dp" />
+
+    <TextView
+        android:id="@+id/s_txt_attackerRight_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/s_imb_attackerRight"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_attackerRight"
+        app:layout_constraintStart_toStartOf="@id/s_imb_attackerRight"
+        tools:layout_editor_absoluteX="285dp"
+        tools:layout_editor_absoluteY="582dp" />
+
+    <ImageButton
+        android:id="@+id/s_imb_attackerLeft"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toStartOf="@id/s_imb_attackerRight"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_midMidFirst_val"
+
+        tools:layout_editor_absoluteX="107dp"
+        tools:layout_editor_absoluteY="537dp" />
+
+    <TextView
+        android:id="@+id/s_txt_attackerLeft_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/s_imb_attackerLeft"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_attackerLeft"
+        app:layout_constraintStart_toStartOf="@id/s_imb_attackerLeft"
+        tools:layout_editor_absoluteX="174dp"
+        tools:layout_editor_absoluteY="582dp" />
+
+    <TextView
+        android:id="@+id/s_txt_attackerLeft_name"
+        style="@style/PlayerName"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/my_border"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_attackerLeft"
+        app:layout_constraintStart_toStartOf="@id/s_imb_attackerLeft"
+        app:layout_constraintTop_toBottomOf="@id/s_imb_attackerLeft"
+        tools:layout_editor_absoluteX="117dp"
+        tools:layout_editor_absoluteY="601dp" />
+
+    <TextView
+        android:id="@+id/s_txt_attackerLeft_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_attackerLeft_name"
+        app:layout_constraintStart_toStartOf="@id/s_txt_attackerLeft_name"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_attackerLeft_name"
+        tools:layout_editor_absoluteX="133dp"
+        tools:layout_editor_absoluteY="624dp" />
+
+    <ImageButton
+        android:id="@+id/s_imb_midRight"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/s_imb_midMidSecond"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_defenderRight_val"
+        tools:layout_editor_absoluteX="312dp"
+        tools:layout_editor_absoluteY="384dp" />
+
+    <TextView
+        android:id="@+id/s_txt_midRight_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_midRight_name"
+        app:layout_constraintStart_toStartOf="@id/s_txt_midRight_name"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_midRight_name"
+        tools:layout_editor_absoluteX="338dp"
+        tools:layout_editor_absoluteY="471dp" />
+
+    <TextView
+        android:id="@+id/s_txt_midRight_name"
+        style="@style/PlayerName"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/my_border"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_midRight"
+        app:layout_constraintStart_toStartOf="@id/s_imb_midRight"
+        app:layout_constraintTop_toBottomOf="@id/s_imb_midRight"
+        tools:layout_editor_absoluteX="322dp"
+        tools:layout_editor_absoluteY="448dp" />
+
+    <TextView
+        android:id="@+id/s_txt_midRight_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/s_imb_midRight"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_midRight"
+        app:layout_constraintStart_toStartOf="@id/s_imb_midRight"
+        tools:layout_editor_absoluteX="379dp"
+        tools:layout_editor_absoluteY="429dp" />
+
+    <ImageButton
+        android:id="@+id/s_imb_midMidSecond"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toStartOf="@id/s_imb_midRight"
+        app:layout_constraintStart_toEndOf="@id/s_imb_midMidFirst"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_defenderMidSecond_val"
+        tools:layout_editor_absoluteX="218dp"
+        tools:layout_editor_absoluteY="384dp" />
+
+    <TextView
+        android:id="@+id/s_txt_midMidSecond_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_midMidSecond_name"
+        app:layout_constraintStart_toStartOf="@id/s_txt_midMidSecond_name"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_midMidSecond_name"
+        tools:layout_editor_absoluteX="244dp"
+        tools:layout_editor_absoluteY="471dp" />
+
+    <TextView
+        android:id="@+id/s_txt_midMidSecond_name"
+        style="@style/PlayerName"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/my_border"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_midMidSecond"
+        app:layout_constraintStart_toStartOf="@id/s_imb_midMidSecond"
+        app:layout_constraintTop_toBottomOf="@id/s_imb_midMidSecond"
+        tools:layout_editor_absoluteX="228dp"
+        tools:layout_editor_absoluteY="448dp" />
+
+    <TextView
+        android:id="@+id/s_txt_midMidSecond_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/s_imb_midMidSecond"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_midMidSecond"
+        app:layout_constraintStart_toStartOf="@id/s_imb_midMidSecond"
+        tools:layout_editor_absoluteX="285dp"
+        tools:layout_editor_absoluteY="429dp" />
+
+    <ImageButton
+        android:id="@+id/s_imb_midMidFirst"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toStartOf="@id/s_imb_midMidSecond"
+        app:layout_constraintStart_toEndOf="@id/s_imb_midLeft"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_defenderMidFirst_val" />
+
+    <TextView
+        android:id="@+id/s_txt_midMidFirst_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_midMidFirst_name"
+        app:layout_constraintStart_toStartOf="@id/s_txt_midMidFirst_name"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_midMidFirst_name"
+        tools:layout_editor_absoluteX="141dp"
+        tools:layout_editor_absoluteY="471dp" />
+
+    <TextView
+        android:id="@+id/s_txt_midMidFirst_name"
+        style="@style/PlayerName"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/my_border"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_midMidFirst"
+        app:layout_constraintStart_toStartOf="@id/s_imb_midMidFirst"
+        app:layout_constraintTop_toBottomOf="@id/s_imb_midMidFirst"
+        tools:layout_editor_absoluteX="125dp"
+        tools:layout_editor_absoluteY="448dp" />
+
+    <TextView
+        android:id="@+id/s_txt_midMidFirst_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/s_imb_midMidFirst"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_midMidFirst"
+        app:layout_constraintStart_toStartOf="@id/s_imb_midMidFirst"
+        tools:layout_editor_absoluteX="182dp"
+        tools:layout_editor_absoluteY="429dp" />
+
+    <ImageButton
+        android:id="@+id/s_imb_midLeft"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toStartOf="@id/s_imb_midMidFirst"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_defenderLeft_val"
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="384dp" />
+
+    <TextView
+        android:id="@+id/s_txt_midLeft_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_midLeft_name"
+        app:layout_constraintStart_toStartOf="@id/s_txt_midLeft_name"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_midLeft_name"
+        tools:layout_editor_absoluteX="36dp"
+        tools:layout_editor_absoluteY="471dp" />
+
+    <TextView
+        android:id="@+id/s_txt_midLeft_name"
+        style="@style/PlayerName"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/my_border"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_midLeft"
+        app:layout_constraintStart_toStartOf="@id/s_imb_midLeft"
+        app:layout_constraintTop_toBottomOf="@id/s_imb_midLeft"
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_editor_absoluteY="448dp" />
+
+    <TextView
+        android:id="@+id/s_txt_midLeft_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/s_imb_midLeft"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_midLeft"
+        app:layout_constraintStart_toStartOf="@id/s_imb_midLeft"
+        tools:layout_editor_absoluteX="77dp"
+        tools:layout_editor_absoluteY="429dp" />
+
+    <ImageButton
+        android:id="@+id/s_imb_defenderRight"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/s_imb_defenderMidSecond"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_goalie_val"
+        tools:layout_editor_absoluteX="312dp"
+        tools:layout_editor_absoluteY="231dp" />
+
+    <TextView
+        android:id="@+id/s_txt_defenderRight_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/s_imb_defenderRight"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_defenderRight"
+        app:layout_constraintStart_toStartOf="@id/s_imb_defenderRight"
+
+        tools:layout_editor_absoluteX="379dp"
+        tools:layout_editor_absoluteY="276dp" />
+
+    <TextView
+        android:id="@+id/s_txt_defenderRight_name"
+        style="@style/PlayerName"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/my_border"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_defenderRight"
+        app:layout_constraintStart_toStartOf="@id/s_imb_defenderRight"
+        app:layout_constraintTop_toBottomOf="@id/s_imb_defenderRight"
+        tools:layout_editor_absoluteX="322dp"
+        tools:layout_editor_absoluteY="295dp" />
+
+    <TextView
+        android:id="@+id/s_txt_defenderRight_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_defenderRight_name"
+        app:layout_constraintStart_toStartOf="@id/s_txt_defenderRight_name"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_defenderRight_name"
+        tools:layout_editor_absoluteX="338dp"
+        tools:layout_editor_absoluteY="318dp" />
+
+    <ImageButton
+        android:id="@+id/s_imb_defenderMidSecond"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toStartOf="@id/s_imb_defenderRight"
+        app:layout_constraintStart_toEndOf="@id/s_imb_defenderMidFirst"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_goalie_val"
+        tools:layout_editor_absoluteX="226dp"
+        tools:layout_editor_absoluteY="231dp" />
+
+    <TextView
+        android:id="@+id/s_txt_defenderMidSecond_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/s_imb_defenderMidSecond"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_defenderMidSecond"
+        app:layout_constraintStart_toStartOf="@id/s_imb_defenderMidSecond"
+        tools:layout_editor_absoluteX="293dp"
+        tools:layout_editor_absoluteY="276dp" />
+
+    <TextView
+        android:id="@+id/s_txt_defenderMidSecond_name"
+        style="@style/PlayerName"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/my_border"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_defenderMidSecond"
+        app:layout_constraintStart_toStartOf="@id/s_imb_defenderMidSecond"
+        app:layout_constraintTop_toBottomOf="@id/s_imb_defenderMidSecond"
+        tools:layout_editor_absoluteX="236dp"
+        tools:layout_editor_absoluteY="295dp" />
+
+    <TextView
+        android:id="@+id/s_txt_defenderMidSecond_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_defenderMidSecond_name"
+        app:layout_constraintStart_toStartOf="@id/s_txt_defenderMidSecond_name"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_defenderMidSecond_name"
+        tools:layout_editor_absoluteX="252dp"
+        tools:layout_editor_absoluteY="318dp" />
+
+    <ImageButton
+        android:id="@+id/s_imb_defenderMidFirst"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toStartOf="@id/s_imb_defenderMidSecond"
+        app:layout_constraintStart_toEndOf="@id/s_imb_defenderLeft"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_goalie_val" />
+
+    <TextView
+        android:id="@+id/s_txt_defenderMidFirst_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/s_imb_defenderMidFirst"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_defenderMidFirst"
+        app:layout_constraintStart_toStartOf="@id/s_imb_defenderMidFirst"
+        tools:layout_editor_absoluteX="202dp"
+        tools:layout_editor_absoluteY="276dp" />
+
+    <TextView
+        android:id="@+id/s_txt_defenderMidFirst_name"
+        style="@style/PlayerName"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/my_border"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_defenderMidFirst"
+        app:layout_constraintStart_toStartOf="@id/s_imb_defenderMidFirst"
+        app:layout_constraintTop_toBottomOf="@id/s_imb_defenderMidFirst"
+        tools:layout_editor_absoluteX="145dp"
+        tools:layout_editor_absoluteY="295dp" />
+
+    <TextView
+        android:id="@+id/s_txt_defenderMidFirst_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_defenderMidFirst_name"
+        app:layout_constraintStart_toStartOf="@id/s_txt_defenderMidFirst_name"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_defenderMidFirst_name"
+        tools:layout_editor_absoluteX="161dp"
+        tools:layout_editor_absoluteY="318dp" />
+
+    <ImageButton
+        android:id="@+id/s_imb_defenderLeft"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toStartOf="@id/s_imb_defenderMidFirst"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_goalie_val"
+        tools:layout_editor_absoluteX="36dp"
+        tools:layout_editor_absoluteY="231dp" />
+
+    <TextView
+        android:id="@+id/s_txt_defenderLeft_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/s_imb_defenderLeft"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_defenderLeft"
+        app:layout_constraintStart_toStartOf="@id/s_imb_defenderLeft"
+        tools:layout_editor_absoluteX="93dp"
+        tools:layout_editor_absoluteY="276dp" />
+
+    <TextView
+        android:id="@+id/s_txt_defenderLeft_name"
+        style="@style/PlayerName"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/my_border"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_defenderLeft"
+        app:layout_constraintStart_toStartOf="@id/s_imb_defenderLeft"
+        app:layout_constraintTop_toBottomOf="@id/s_imb_defenderLeft"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="295dp" />
+
+    <TextView
+        android:id="@+id/s_txt_defenderLeft_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_defenderLeft_name"
+        app:layout_constraintStart_toStartOf="@id/s_txt_defenderLeft_name"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_defenderLeft_name"
+        tools:layout_editor_absoluteX="62dp"
+        tools:layout_editor_absoluteY="318dp" />
+
+    <TextView
+        android:id="@+id/s_txt_goalie_name"
+        style="@style/PlayerName"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/my_border"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_goalie"
+        app:layout_constraintStart_toStartOf="@id/s_imb_goalie"
+        app:layout_constraintTop_toBottomOf="@id/s_imb_goalie" />
+
+    <TextView
+        android:id="@+id/s_txt_goalie_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/s_imb_goalie"
+        app:layout_constraintEnd_toEndOf="@id/s_imb_goalie"
+        app:layout_constraintStart_toStartOf="@id/s_imb_goalie" />
+
+    <TextView
+        android:id="@+id/s_txt_goalie_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_goalie_name"
+        app:layout_constraintStart_toStartOf="@id/s_txt_goalie_name"
+        app:layout_constraintTop_toBottomOf="@id/s_txt_goalie_name" />
+
+    <ImageButton
+        android:id="@+id/s_imb_goalie"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="@id/img_field3"
+        app:layout_constraintStart_toStartOf="@id/img_field3"
+        app:layout_constraintTop_toTopOf="@id/img_field3" />
+
+    <ImageView
+        android:id="@+id/img_field3"
+        android:layout_width="400dp"
+        android:layout_height="600dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:clickable="false"
+        android:scaleType="fitXY"
+        android:translationZ="-90dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/field" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SQUAD"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/img_field3"
+        app:layout_constraintStart_toStartOf="@id/img_field3"
+        app:layout_constraintTop_toTopOf="@id/img_field3"
+        tools:layout_editor_absoluteX="182dp"
+        tools:layout_editor_absoluteY="44dp" />
+
+    <TextView
+        android:id="@+id/txt_avg_teamRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/average_team_rating"
+        app:layout_constraintBottom_toTopOf="@+id/img_field3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_avg_team_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="1dp"
+        android:text="@string/average_team_cost"
+        app:layout_constraintBottom_toTopOf="@+id/txt_avg_teamRating"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="271dp"
+        android:layout_height="369dp"
+        android:layout_marginTop="10000dp"
+        android:focusedByDefault="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="139dp"
+        android:layout_height="30dp"
+        android:layout_margin="4dp"
+        android:layout_marginBottom="10dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:elevation="8dp"
+        app:cardCornerRadius="40dp"
+        app:cardElevation="10dp"
+        app:cardPreventCornerOverlap="false"
+        app:layout_constraintBottom_toTopOf="@+id/img_field3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="lollipop">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/txt_dr_team_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple_500"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btn_kickOff"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/round_button"
+        android:text="Kick off"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/img_field3"
+        app:layout_constraintEnd_toEndOf="@id/img_field3"
+        app:layout_constraintStart_toStartOf="@id/img_field3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

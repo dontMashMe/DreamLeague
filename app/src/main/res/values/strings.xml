@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DreamLeague</string>
+    <string name="welcome">Dobrodošli u <b>DreamLeague!</b></string>
+    <string name="headerTxt"><u>Dream League</u></string>
+    <string name="intro">Kreiraj svoju momčad, odaberi igrače, skupljaj \n bodove i rukovodi ju do pobjede.</string>
+    <string name="intro2">Za početak, odaberi ime svoje DreamLeague momčadi.</string>
+    <string name="play">Zaigraj!</string>
+    <string name="logo">LOGO</string>
+    <string name="start_season">Završi i započni sezonu</string>
+    <string name="datum_ro_enja">Datum rođenja:</string>
+    <string name="title_activity_season">MainActivity</string>
+    <string name="title_home">Početna</string>
+    <string name="title_transfer">Transferi</string>
+    <string name="title_list">Utakmice</string>
+    <string name="list_attack">Popis svih napadača:</string>
+    <string name="list_mid">Popis svih centarfora:</string>
+    <string name="list_defend">Popis svih braniča:</string>
+    <string name="list_goalie">Popis svih golmana:</string>
+    <string name="kit">KIT</string>
+    <string name="sort_by_pr">Sort by PR</string>
+    <string name="week">WEEK</string>
+    <string name="dovoljno_novca">\"Nemate dovoljno novca! \"</string>
+    <string name="igrac">Igrač:</string>
+    <string name="uspjesno_kupljen">\" uspješno kupljen.\"</string>
+    <string name="vrijednost"><u>Vrijednost</u>: %s$</string>
+    <string name="average_team_rating">Average team rating:</string>
+    <string name="points">Points #:</string>
+    <string name="average_team_cost">Average team cost:</string>
+    <string name="strijecli"><u>Strijelci:</u></string>
+    <string name="leaderboards">Leaderboards</string>
+
+
+</resources>

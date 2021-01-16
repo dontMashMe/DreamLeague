@@ -1,0 +1,409 @@
+package com.example.dreamleague.Fragments.SeasonFragments;
+
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.Html;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.dreamleague.Activities.PopPlayerInfo;
+import com.example.dreamleague.DataModels.DreamTeam;
+import com.example.dreamleague.DataModels.GameResults;
+import com.example.dreamleague.DataModels.Match;
+import com.example.dreamleague.DataModels.MatchScores;
+import com.example.dreamleague.DataModels.Player;
+import com.example.dreamleague.DataModels.PlayerSingleton;
+import com.example.dreamleague.DataModels.Squads;
+import com.example.dreamleague.DataModels.Team;
+import com.example.dreamleague.DataModels.Utils;
+import com.example.dreamleague.R;
+import com.example.dreamleague.ViewModels.SeasonViewModel;
+
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
+
+
+public class HomeFragment extends Fragment {
+
+    ImageButton imb_goalie, imb_defenderLeft, imb_defenderMidFirst, imb_defenderMidSecond, imb_defenderRight, imb_midLeft, imb_midMidFirst, imb_midMidSecond, imb_midRight, imb_attackLeft, imb_attackRight;
+    TextView txt_goalie_name, txt_defenderLeft_name, txt_defenderMidFirst_name, txt_defenderMidSecond_name, txt_defenderRight_name, txt_midLeft_name, txt_midMidFirst_name, txt_midMidSecond_name, txt_midRight_name, txt_attackLeft_name, txt_attackRight_name;
+    TextView txt_goalie_pr, txt_defenderLeft_pr, txt_defenderMidFirst_pr, txt_defenderMidSecond_pr, txt_defenderRight_pr, txt_midLeft_pr, txt_midMidFirst_pr, txt_midMidSecond_pr, txt_midRight_pr, txt_attackLeft_pr, txt_attackRight_pr;
+    TextView txt_goalie_val, txt_defenderLeft_val, txt_defenderMidFirst_val, txt_defenderMidSecond_val, txt_defenderRight_val, txt_midLeft_val, txt_midMidFirst_val, txt_midMidSecond_val, txt_midRight_val, txt_attackLeft_val, txt_attackRight_val;
+    TextView txt_team_name, txt_avg_tr, txt_avg_tcost;
+    SeasonViewModel seasonViewModel;
+    ProgressBar progressBar;
+    List<Player> currentUserTeam = new ArrayList<>();
+    Button kickOff;
+    List<Team> allTeamsWithPlayers = new ArrayList<>();
+
+    List<Match> allMatches = new ArrayList<>();
+
+    @NonNull
+    public static HomeFragment newInstance() {
+        Bundle args = new Bundle();
+        HomeFragment fragment = new HomeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    private void runSetup(View view) {
+        if (currentUserTeam.isEmpty() || allTeamsWithPlayers.isEmpty()) {
+            LiveData<List<Match>> matchesLiveData = seasonViewModel.getAllMatches();
+            LiveData<List<DreamTeam>> dreamTeamLiveData = seasonViewModel.getDreamTeam();
+            LiveData<List<Player>> playerLiveData = seasonViewModel.getAllPlayers();
+            LiveData<List<Squads>> squadsLiveData = seasonViewModel.getAllSquads();
+            LiveData<List<Team>> teamLiveData = seasonViewModel.getAllTeams();
+            dreamTeamLiveData.observe(getViewLifecycleOwner(), dreamTeams -> playerLiveData.observe(getViewLifecycleOwner(), players -> squadsLiveData.observe(getViewLifecycleOwner(), squads -> teamLiveData.observe(getViewLifecycleOwner(), teams -> {
+                matchesLiveData.observe(getViewLifecycleOwner(), matches -> {
+                    if (allMatches.isEmpty()) {
+                        allMatches.addAll(matches);
+                    }
+                });
+                ExecutorService executor = Executors.newSingleThreadExecutor();
+                Handler handler = new Handler(Looper.getMainLooper());
+                executor.execute(() -> {
+                    //off
+                    if (allTeamsWithPlayers.isEmpty()) {
+                        allTeamsWithPlayers.addAll(teams);
+                    }
+
+                    List<Player> userPlayers;
+                    userPlayers = seasonViewModel.initialTeamSetup(dreamTeams.get(dreamTeams.size() - 1), players, squads, teams);
+                    setupVars(view);
+                    currentUserTeam.addAll(userPlayers);
+                    setupClickListeners();
+                    float avgCost = seasonViewModel.calcAvgTeamCost(userPlayers);
+                    float avgTR = seasonViewModel.calcAvgTeamRating(userPlayers);
+
+                    executor.shutdown();
+                    handler.post(() -> {
+                        for (Team a : allTeamsWithPlayers) {
+                            LiveData<List<Player>> playersFromTeam = seasonViewModel.getPlayersFromTeam(a.getTeam_id());
+                            playersFromTeam.observe(getViewLifecycleOwner(), teamPlayers -> {
+                                a.getPlayerList().addAll(teamPlayers);
+                            });
+                        }
+                        String text = getResources().getString(R.string.average_team_cost) + " <font color='#1b5e20'>" + NumberFormat.getInstance().format(avgCost) + " $</font>";
+                        txt_avg_tcost.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+
+                        text = getResources().getString(R.string.average_team_rating) + " <font color='#6300ee'>" + (Math.round(avgTR * 100.0) / 100.0) + "</font>";
+                        txt_avg_tr.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+                        txt_team_name.setText(dreamTeams.get(dreamTeams.size() - 1).getName());
+                        //postavljanje igrača na pozicije
+                        //izgleda ružno ali switch je brza naredba i izvršava se skoro instantno
+                        for (Player a : userPlayers) {
+                            switch (a.getRealPosition()) {
+                                case 1:
+                                    ((ImageButton) imb_goalie).setImageResource(a.getTeam().getTeamKit());
+                                    txt_goalie_name.setText(seasonViewModel.formatName(a));
+                                    txt_goalie_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
+                                    txt_goalie_pr.setText(a.getPlayerRating());
+                                    break;
+                                case 2:
+                                    (imb_defenderLeft).setImageResource(a.getTeam().getTeamKit());
+                                    txt_defenderLeft_name.setText(seasonViewModel.formatName(a));
+                                    txt_defenderLeft_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
+                                    txt_defenderLeft_pr.setText(a.getPlayerRating());
+                                    break;
+                                case 3:
+                                    (imb_defenderMidFirst).setImageResource(a.getTeam().getTeamKit());
+                                    txt_defenderMidFirst_name.setText(seasonViewModel.formatName(a));
+                                    txt_defenderMidFirst_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
+                                    txt_defenderMidFirst_pr.setText(a.getPlayerRating());
+                                    break;
+                                case 4:
+                                    (imb_defenderMidSecond).setImageResource(a.getTeam().getTeamKit());
+                                    txt_defenderMidSecond_name.setText(seasonViewModel.formatName(a));
+                                    txt_defenderMidSecond_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
+                                    txt_defenderMidSecond_pr.setText(a.getPlayerRating());
+                                    break;
+                                case 5:
+                                    (imb_defenderRight).setImageResource(a.getTeam().getTeamKit());
+                                    txt_defenderRight_name.setText(seasonViewModel.formatName(a));
+                                    txt_defenderRight_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
+                                    txt_defenderRight_pr.setText(a.getPlayerRating());
+                                    break;
+                                case 6:
+                                    (imb_midLeft).setImageResource(a.getTeam().getTeamKit());
+                                    txt_midLeft_name.setText(seasonViewModel.formatName(a));
+                                    txt_midLeft_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
+                                    txt_midLeft_pr.setText(a.getPlayerRating());
+                                    break;
+                                case 7:
+                                    (imb_midMidFirst).setImageResource(a.getTeam().getTeamKit());
+                                    txt_midMidFirst_name.setText(seasonViewModel.formatName(a));
+                                    txt_midMidFirst_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
+                                    txt_midMidFirst_pr.setText(a.getPlayerRating());
+                                    break;
+                                case 8:
+                                    (imb_midMidSecond).setImageResource(a.getTeam().getTeamKit());
+                                    txt_midMidSecond_name.setText(seasonViewModel.formatName(a));
+                                    txt_midMidSecond_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
+                                    txt_midMidSecond_pr.setText(a.getPlayerRating());
+                                    break;
+                                case 9:
+                                    (imb_midRight).setImageResource(a.getTeam().getTeamKit());
+                                    txt_midRight_name.setText(seasonViewModel.formatName(a));
+                                    txt_midRight_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
+                                    txt_midRight_pr.setText(a.getPlayerRating());
+                                    break;
+                                case 10:
+                                    (imb_attackLeft).setImageResource(a.getTeam().getTeamKit());
+                                    txt_attackLeft_name.setText(seasonViewModel.formatName(a));
+                                    txt_attackLeft_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
+                                    txt_attackLeft_pr.setText(a.getPlayerRating());
+                                    break;
+                                case 11:
+                                    (imb_attackRight).setImageResource(a.getTeam().getTeamKit());
+                                    txt_attackRight_name.setText(seasonViewModel.formatName(a));
+                                    txt_attackRight_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
+                                    txt_attackRight_pr.setText(a.getPlayerRating());
+                                    break;
+                            }
+                        }
+                        teamLiveData.removeObservers(getViewLifecycleOwner());
+                        matchesLiveData.removeObservers(getViewLifecycleOwner());
+                        dreamTeamLiveData.removeObservers(getViewLifecycleOwner());
+                        squadsLiveData.removeObservers(getViewLifecycleOwner());
+                        playerLiveData.removeObservers(getViewLifecycleOwner());
+                    });
+                });
+
+            }))));
+        }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        seasonViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication()))
+                .get(SeasonViewModel.class);
+
+        runSetup(view);
+
+        return view;
+    }
+
+
+
+        ;
+        //kul fadeout animacija
+        //iz nekog razloga ako stavim theme activitya na NoActionBar, buttoni izgube material design
+        //a s njim i pre-built animacije
+        private final AlphaAnimation alphaAnimation = new AlphaAnimation(0.2f, 1f);
+        List<GameResults> gameResults = new ArrayList<>();
+        /**
+         * Sve je statički
+         * Problem ako updateam bazu u observeru je to što je LiveData ... LiveData
+         * Konstantno čita iz baze i zapne u beskonačnom loopu updateanja istih records jer LiveData konstantno vuče iz baze
+         * morao sam koristit statičku listu matcheva, statičku listu igrača, timova, sve
+         * app je užasno spor na prvom loadu, ali dalje radi okej jer je sva cache-d
+         */
+        View.OnClickListener kickOffClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "CLICKED!!!!!!!!!", Toast.LENGTH_SHORT).show();
+                alphaAnimation.setDuration(500);
+                v.setAlpha(1f);
+                v.startAnimation(alphaAnimation);
+                int currentWeek = Utils.getCurrentWeek(getContext());
+                List<Match> currentWeekMatches = seasonViewModel.getMatchesFromWeekStatic(allMatches, currentWeek);
+                gameResults.clear();
+                gameResults.addAll(seasonViewModel.advanceWeek(currentWeekMatches, allTeamsWithPlayers));
+                ExecutorService executor = Executors.newSingleThreadExecutor();
+                executor.execute(()->{
+                    for (GameResults a : gameResults) {
+                        seasonViewModel.updateMatchesWhere(a.getGameId(), a.getHomeTeamScore(), a.getAwayTeamScore());
+                        seasonViewModel.updatePoints(a);
+                        for (Map.Entry<Player, Integer> entry : a.getAwayTeamScorers().entrySet()) {
+                            MatchScores matchScores = new MatchScores(0, a.getGameId(), entry.getKey().getPlayerId(), entry.getValue(), a.getTeamAwayId());
+                            seasonViewModel.insertMatchScores(matchScores);
+                        }
+                        for (Map.Entry<Player, Integer> entry : a.getHomeTeamScorers().entrySet()) {
+                            MatchScores matchScores = new MatchScores(0, a.getGameId(), entry.getKey().getPlayerId(), entry.getValue(), a.getHomeTeamId());
+                            seasonViewModel.insertMatchScores(matchScores);
+                        }
+                    }
+                });
+                executor.shutdown();
+                Utils.putCurrentWeekSharedPreference(getContext(), currentWeek + 1);
+            }
+        };
+
+
+        void setupVars(View view) {
+            kickOff = view.findViewById(R.id.btn_kickOff);
+            kickOff.setOnClickListener(kickOffClick);
+
+            txt_team_name = view.findViewById(R.id.txt_dr_team_name);
+            txt_avg_tcost = view.findViewById(R.id.txt_avg_team_cost);
+            txt_avg_tr = view.findViewById(R.id.txt_avg_teamRating);
+
+
+            imb_goalie = (ImageButton) view.findViewById(R.id.s_imb_goalie);
+            txt_goalie_name = (TextView) view.findViewById(R.id.s_txt_goalie_name);
+            txt_goalie_pr = (TextView) view.findViewById(R.id.s_txt_goalie_pr);
+            txt_goalie_val = (TextView) view.findViewById(R.id.s_txt_goalie_val);
+
+            imb_defenderLeft = (ImageButton) view.findViewById(R.id.s_imb_defenderLeft);
+            txt_defenderLeft_name = view.findViewById(R.id.s_txt_defenderLeft_name);
+            txt_defenderLeft_pr = view.findViewById(R.id.s_txt_defenderLeft_pr);
+            txt_defenderLeft_val = view.findViewById(R.id.s_txt_defenderLeft_val);
+
+            imb_defenderMidFirst = (ImageButton) view.findViewById(R.id.s_imb_defenderMidFirst);
+            txt_defenderMidFirst_name = view.findViewById(R.id.s_txt_defenderMidFirst_name);
+            txt_defenderMidFirst_pr = view.findViewById(R.id.s_txt_defenderMidFirst_pr);
+            txt_defenderMidFirst_val = view.findViewById(R.id.s_txt_defenderMidFirst_val);
+
+            imb_defenderMidSecond = (ImageButton) view.findViewById(R.id.s_imb_defenderMidSecond);
+            txt_defenderMidSecond_name = view.findViewById(R.id.s_txt_defenderMidSecond_name);
+            txt_defenderMidSecond_pr = view.findViewById(R.id.s_txt_defenderMidSecond_pr);
+            txt_defenderMidSecond_val = view.findViewById(R.id.s_txt_defenderMidSecond_val);
+
+            imb_defenderRight = (ImageButton) view.findViewById(R.id.s_imb_defenderRight);
+            txt_defenderRight_name = view.findViewById(R.id.s_txt_defenderRight_name);
+            txt_defenderRight_pr = view.findViewById(R.id.s_txt_defenderRight_pr);
+            txt_defenderRight_val = view.findViewById(R.id.s_txt_defenderRight_val);
+
+            imb_midLeft = (ImageButton) view.findViewById(R.id.s_imb_midLeft);
+            txt_midLeft_name = view.findViewById(R.id.s_txt_midLeft_name);
+            txt_midLeft_pr = view.findViewById(R.id.s_txt_midLeft_pr);
+            txt_midLeft_val = view.findViewById(R.id.s_txt_midLeft_val);
+
+            imb_midMidFirst = (ImageButton) view.findViewById(R.id.s_imb_midMidFirst);
+            txt_midMidFirst_name = view.findViewById(R.id.s_txt_midMidFirst_name);
+            txt_midMidFirst_pr = view.findViewById(R.id.s_txt_midMidFirst_pr);
+            txt_midMidFirst_val = view.findViewById(R.id.s_txt_midMidFirst_val);
+
+            imb_midMidSecond = (ImageButton) view.findViewById(R.id.s_imb_midMidSecond);
+            txt_midMidSecond_name = view.findViewById(R.id.s_txt_midMidSecond_name);
+            txt_midMidSecond_pr = view.findViewById(R.id.s_txt_midMidSecond_pr);
+            txt_midMidSecond_val = view.findViewById(R.id.s_txt_midMidSecond_val);
+
+            imb_midRight = (ImageButton) view.findViewById(R.id.s_imb_midRight);
+            txt_midRight_name = view.findViewById(R.id.s_txt_midRight_name);
+            txt_midRight_pr = view.findViewById(R.id.s_txt_midRight_pr);
+            txt_midRight_val = view.findViewById(R.id.s_txt_midRight_val);
+
+            imb_attackLeft = view.findViewById(R.id.s_imb_attackerLeft);
+            txt_attackLeft_name = view.findViewById(R.id.s_txt_attackerLeft_name);
+            txt_attackLeft_pr = view.findViewById(R.id.s_txt_attackerLeft_pr);
+            txt_attackLeft_val = view.findViewById(R.id.s_txt_attackerLeft_val);
+
+            imb_attackRight = view.findViewById(R.id.s_imb_attackerRight);
+            txt_attackRight_name = view.findViewById(R.id.s_txt_attackerRight_name);
+            txt_attackRight_pr = view.findViewById(R.id.s_txt_attackerRight_pr);
+            txt_attackRight_val = view.findViewById(R.id.s_txt_attackerRight_val);
+
+            progressBar = view.findViewById(R.id.progressBar2);
+            currentUserTeam = new ArrayList<>();
+        }
+
+        //služi samo kak bi na sve imagebuttone zakačio onClickListene
+        //nakon što je zakačen, array ispraznim.
+        List<ImageButton> imageButtons = new ArrayList<>();
+
+        /**
+         * mapira imagebutton id i realPos
+         * služi kak bi znali koji igrač je kliknut, izbjegava statičku klasu kao kod kreacije (ne zaboravi promijenit to), kao i lastRememberdPosition i ostalo
+         *
+         * @param ImageButton id, realPos id
+         */
+        Map<Integer, Integer> buttonPositionMap = new HashMap<>();
+
+        void setupClickListeners() {
+            imageButtons.add(imb_goalie);
+            buttonPositionMap.put(imb_goalie.getId(), 1);
+
+            imageButtons.add(imb_defenderLeft);
+            buttonPositionMap.put(imb_defenderLeft.getId(), 2);
+
+            imageButtons.add(imb_defenderMidFirst);
+            buttonPositionMap.put(imb_defenderMidFirst.getId(), 3);
+
+            imageButtons.add(imb_defenderMidSecond);
+            buttonPositionMap.put(imb_defenderMidSecond.getId(), 4);
+
+            imageButtons.add(imb_defenderRight);
+            buttonPositionMap.put(imb_defenderRight.getId(), 5);
+
+            imageButtons.add(imb_midLeft);
+            buttonPositionMap.put(imb_midLeft.getId(), 6);
+
+            imageButtons.add(imb_midMidFirst);
+            buttonPositionMap.put(imb_midMidFirst.getId(), 7);
+
+            imageButtons.add(imb_midMidSecond);
+            buttonPositionMap.put(imb_midMidSecond.getId(), 8);
+
+            imageButtons.add(imb_midRight);
+            buttonPositionMap.put(imb_midRight.getId(), 9);
+
+            imageButtons.add(imb_attackLeft);
+            buttonPositionMap.put(imb_attackLeft.getId(), 10);
+
+            imageButtons.add(imb_attackRight);
+            buttonPositionMap.put(imb_attackRight.getId(), 11);
+
+            for (ImageButton a : imageButtons) {
+                a.setOnClickListener(playerClickListener);
+            }
+            imageButtons.clear();
+
+        }
+
+        private final View.OnClickListener playerClickListener = new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                for (Map.Entry<Integer, Integer> entry : buttonPositionMap.entrySet()) {
+                    if (v.getId() == entry.getKey()) {
+                        PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
+                        playerSingleton.SetPlayer(seasonViewModel.getPlayerFromRealPos(entry.getValue(), currentUserTeam));
+                        startActivity(new Intent(requireActivity(), PopPlayerInfo.class));
+                    }
+                }
+            }
+        };
+
+        @Override
+        public void onDetach() {
+            super.onDetach();
+        }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+        }
+
+    }

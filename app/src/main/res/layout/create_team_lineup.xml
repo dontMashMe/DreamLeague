@@ -1,0 +1,654 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/txt_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginBottom="15dp"
+        android:textColor="#43a047"
+        android:textSize="16sp"
+        android:textStyle="bold"
+
+        app:layout_constraintBottom_toTopOf="@id/img_field"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_field"
+        android:layout_width="400dp"
+        android:layout_height="539dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:clickable="false"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/btn_startSeason"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/field" />
+
+    <ImageButton
+        android:id="@+id/imb_goalie"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/default_kit"
+        app:layout_constraintEnd_toEndOf="@id/img_field"
+        app:layout_constraintStart_toStartOf="@id/img_field"
+        app:layout_constraintTop_toTopOf="@id/img_field" />
+
+    <ImageButton
+        android:id="@+id/imb_defend2"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+
+        android:layout_height="64dp"
+        android:layout_marginTop="35dp"
+        android:src="@drawable/default_kit"
+        app:layout_constraintEnd_toStartOf="@id/imb_defend3"
+        app:layout_constraintStart_toEndOf="@id/imb_defend1"
+        app:layout_constraintTop_toBottomOf="@id/txt_goalie_val"
+        tools:layout_editor_absoluteY="192dp" />
+
+    <ImageButton
+        android:id="@+id/imb_defend3"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="35dp"
+
+        android:src="@drawable/default_kit"
+        app:layout_constraintEnd_toStartOf="@id/imb_defend4"
+        app:layout_constraintStart_toEndOf="@id/imb_defend2"
+        app:layout_constraintTop_toBottomOf="@id/txt_goalie_val"
+
+        tools:layout_editor_absoluteY="194dp" />
+
+    <ImageButton
+        android:id="@+id/imb_defend4"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="35dp"
+
+        android:src="@drawable/default_kit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imb_defend3"
+        app:layout_constraintTop_toBottomOf="@id/txt_goalie_val"
+        tools:layout_editor_absoluteY="193dp" />
+
+    <Button
+        android:id="@+id/btn_startSeason"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="159dp"
+        android:layout_marginLeft="159dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="159dp"
+        android:layout_marginRight="159dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/purple_700"
+        android:text="@string/start_season"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_field" />
+
+    <ImageButton
+        android:id="@+id/imb_attack1"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="40dp"
+
+        android:src="@drawable/default_kit"
+        app:layout_constraintBottom_toBottomOf="@id/img_field"
+        app:layout_constraintEnd_toStartOf="@id/imb_attack2"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="514dp" />
+
+    <ImageButton
+        android:id="@+id/imb_attack2"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="40dp"
+
+        android:src="@drawable/default_kit"
+        app:layout_constraintBottom_toBottomOf="@id/img_field"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imb_attack1"
+        tools:layout_editor_absoluteY="514dp" />
+
+
+    <ImageButton
+        android:id="@+id/imb_midfield1"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="75dp"
+
+        android:src="@drawable/default_kit"
+        app:layout_constraintEnd_toStartOf="@id/imb_midfield2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imb_defend1" />
+
+    <ImageButton
+        android:id="@+id/imb_defend1"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="35dp"
+        android:src="@drawable/default_kit"
+        app:layout_constraintEnd_toStartOf="@id/imb_defend2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_goalie_val" />
+
+    <ImageButton
+        android:id="@+id/imb_midfield2"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+
+        android:layout_height="64dp"
+        android:layout_marginTop="75dp"
+        android:src="@drawable/default_kit"
+        app:layout_constraintEnd_toStartOf="@id/imb_midfield3"
+        app:layout_constraintStart_toEndOf="@id/imb_midfield1"
+        app:layout_constraintTop_toBottomOf="@id/imb_defend2" />
+
+    <ImageButton
+        android:id="@+id/imb_midfield3"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+
+        android:layout_height="64dp"
+        android:layout_marginTop="75dp"
+        android:src="@drawable/default_kit"
+        app:layout_constraintEnd_toStartOf="@id/imb_midfield4"
+        app:layout_constraintStart_toEndOf="@id/imb_midfield2"
+        app:layout_constraintTop_toBottomOf="@id/imb_defend3"
+        tools:layout_editor_absoluteY="316dp" />
+
+    <ImageButton
+        android:id="@+id/imb_midfield4"
+        style="@style/imagebutton"
+        android:layout_width="83dp"
+
+        android:layout_height="64dp"
+        android:layout_marginTop="75dp"
+        android:src="@drawable/default_kit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imb_midfield3"
+        app:layout_constraintTop_toBottomOf="@id/imb_defend4"
+        tools:layout_editor_absoluteY="316dp" />
+
+
+    <TextView
+        android:id="@+id/txt_defender1_name"
+        style="@style/PlayerName"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginLeft="3dp"
+        android:text=""
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/imb_defend1"
+        app:layout_constraintStart_toStartOf="@id/imb_defend1"
+        app:layout_constraintTop_toBottomOf="@id/imb_defend1" />
+
+    <TextView
+        android:id="@+id/txt_midfielder1_name"
+        style="@style/PlayerName"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/imb_midfield1"
+        app:layout_constraintStart_toStartOf="@id/imb_midfield1"
+        app:layout_constraintTop_toBottomOf="@id/imb_midfield1"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="398dp" />
+
+    <TextView
+        android:id="@+id/txt_attacker1_name"
+        style="@style/PlayerName"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/imb_attack1"
+        app:layout_constraintStart_toStartOf="@id/imb_attack1"
+        app:layout_constraintTop_toBottomOf="@id/imb_attack1" />
+
+    <TextView
+        android:id="@+id/txt_attacker2_name"
+        style="@style/PlayerName"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/imb_attack2"
+        app:layout_constraintStart_toStartOf="@id/imb_attack2"
+
+        app:layout_constraintTop_toBottomOf="@id/imb_attack2" />
+
+    <TextView
+        android:id="@+id/txt_midfielder2_name"
+        style="@style/PlayerName"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/imb_midfield2"
+        app:layout_constraintStart_toStartOf="@id/imb_midfield2"
+        app:layout_constraintTop_toBottomOf="@id/imb_midfield2"
+        tools:layout_editor_absoluteX="127dp"
+        tools:layout_editor_absoluteY="398dp" />
+
+    <TextView
+        android:id="@+id/txt_midfielder3_name"
+        style="@style/PlayerName"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/imb_midfield3"
+        app:layout_constraintStart_toStartOf="@id/imb_midfield3"
+        app:layout_constraintTop_toBottomOf="@id/imb_midfield3"
+        tools:layout_editor_absoluteX="222dp"
+        tools:layout_editor_absoluteY="398dp" />
+
+    <TextView
+        android:id="@+id/txt_midfielder4_name"
+        style="@style/PlayerName"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/imb_midfield4"
+        app:layout_constraintStart_toStartOf="@id/imb_midfield4"
+        app:layout_constraintTop_toBottomOf="@id/imb_midfield4"
+        tools:layout_editor_absoluteX="317dp"
+        tools:layout_editor_absoluteY="398dp" />
+
+    <TextView
+        android:id="@+id/txt_defender2_name"
+        style="@style/PlayerName"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/imb_defend2"
+        app:layout_constraintStart_toStartOf="@id/imb_defend2"
+        app:layout_constraintTop_toBottomOf="@id/imb_defend2"
+        tools:layout_editor_absoluteX="134dp"
+        tools:layout_editor_absoluteY="280dp" />
+
+    <TextView
+        android:id="@+id/txt_goalie_name"
+        style="@style/PlayerName"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/imb_goalie"
+        app:layout_constraintStart_toStartOf="@id/imb_goalie"
+        app:layout_constraintTop_toBottomOf="@id/imb_goalie" />
+
+    <TextView
+        android:id="@+id/txt_defender3_name"
+        style="@style/PlayerName"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/imb_defend3"
+        app:layout_constraintStart_toStartOf="@id/imb_defend3"
+        app:layout_constraintTop_toBottomOf="@id/imb_defend3"
+        tools:layout_editor_absoluteX="226dp"
+        tools:layout_editor_absoluteY="282dp" />
+
+    <TextView
+        android:id="@+id/txt_defender4_name"
+        style="@style/PlayerName"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/imb_defend4"
+        app:layout_constraintStart_toStartOf="@id/imb_defend4"
+        app:layout_constraintTop_toBottomOf="@id/imb_defend4"
+        tools:layout_editor_absoluteX="319dp"
+        tools:layout_editor_absoluteY="280dp" />
+
+    <TextView
+        android:id="@+id/txt_defender1_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imb_defend1"
+        app:layout_constraintEnd_toEndOf="@id/imb_defend1"
+        app:layout_constraintStart_toStartOf="@id/imb_defend1"
+        tools:layout_editor_absoluteX="91dp"
+        tools:layout_editor_absoluteY="264dp" />
+
+    <TextView
+        android:id="@+id/txt_defender2_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imb_defend2"
+        app:layout_constraintEnd_toEndOf="@id/imb_defend2"
+        app:layout_constraintStart_toStartOf="@id/imb_defend2"
+        tools:layout_editor_absoluteX="192dp"
+        tools:layout_editor_absoluteY="264dp" />
+
+    <TextView
+        android:id="@+id/txt_defender1_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:text=""
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/txt_defender1_name"
+        app:layout_constraintStart_toStartOf="@id/txt_defender1_name"
+        app:layout_constraintTop_toBottomOf="@id/txt_defender1_name"
+        tools:layout_editor_absoluteX="51dp"
+        tools:layout_editor_absoluteY="303dp" />
+
+    <TextView
+        android:id="@+id/txt_defender2_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:text=""
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/txt_defender2_name"
+        app:layout_constraintStart_toStartOf="@id/txt_defender2_name"
+        app:layout_constraintTop_toBottomOf="@id/txt_defender2_name"
+        tools:layout_editor_absoluteX="143dp"
+        tools:layout_editor_absoluteY="303dp" />
+
+    <TextView
+        android:id="@+id/txt_defender3_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="@id/txt_defender3_name"
+        app:layout_constraintStart_toStartOf="@id/txt_defender3_name"
+        app:layout_constraintTop_toBottomOf="@id/txt_defender3_name"
+        tools:layout_editor_absoluteX="236dp"
+        tools:layout_editor_absoluteY="298dp" />
+
+    <TextView
+        android:id="@+id/txt_defender4_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="@id/txt_defender4_name"
+        app:layout_constraintStart_toStartOf="@id/txt_defender4_name"
+        app:layout_constraintTop_toBottomOf="@id/txt_defender4_name"
+        tools:layout_editor_absoluteX="337dp"
+        tools:layout_editor_absoluteY="298dp" />
+
+    <TextView
+        android:id="@+id/txt_defender3_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imb_defend3"
+        app:layout_constraintEnd_toEndOf="@id/imb_defend3"
+        app:layout_constraintStart_toStartOf="@id/imb_defend3"
+        tools:layout_editor_absoluteX="280dp"
+        tools:layout_editor_absoluteY="237dp" />
+
+    <TextView
+        android:id="@+id/txt_defender4_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imb_defend4"
+        app:layout_constraintEnd_toEndOf="@id/imb_defend4"
+        app:layout_constraintStart_toStartOf="@id/imb_defend4"
+
+        tools:layout_editor_absoluteX="370dp"
+        tools:layout_editor_absoluteY="270dp" />
+
+    <TextView
+        android:id="@+id/txt_midfielder1_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imb_midfield1"
+        app:layout_constraintEnd_toEndOf="@id/imb_midfield1"
+        app:layout_constraintStart_toStartOf="@id/imb_midfield1" />
+
+    <TextView
+        android:id="@+id/txt_midfielder2_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imb_midfield2"
+        app:layout_constraintEnd_toEndOf="@id/imb_midfield2"
+        app:layout_constraintStart_toStartOf="@id/imb_midfield2"
+        tools:layout_editor_absoluteX="182dp"
+        tools:layout_editor_absoluteY="379dp" />
+
+    <TextView
+        android:id="@+id/txt_attacker1_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imb_attack1"
+        app:layout_constraintEnd_toEndOf="@id/imb_attack1"
+        app:layout_constraintStart_toStartOf="@id/imb_attack1" />
+
+    <TextView
+        android:id="@+id/txt_goalie_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/imb_goalie"
+        app:layout_constraintEnd_toEndOf="@id/imb_goalie"
+        app:layout_constraintBottom_toBottomOf="@id/imb_goalie"
+        android:layout_marginLeft="65dp"
+        tools:layout_editor_absoluteX="198dp"
+        tools:layout_editor_absoluteY="131dp" />
+
+    <TextView
+        android:id="@+id/txt_attacker2_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imb_attack2"
+        app:layout_constraintEnd_toEndOf="@id/imb_attack2"
+        app:layout_constraintStart_toStartOf="@id/imb_attack2" />
+
+    <TextView
+        android:id="@+id/txt_midfielder3_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imb_midfield3"
+        app:layout_constraintEnd_toEndOf="@id/imb_midfield3"
+        app:layout_constraintStart_toStartOf="@id/imb_midfield3"
+
+
+        tools:layout_editor_absoluteX="270dp"
+        tools:layout_editor_absoluteY="379dp" />
+
+    <TextView
+        android:id="@+id/txt_midfielder4_pr"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
+        android:textColor="@color/purple_500"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imb_midfield4"
+        app:layout_constraintEnd_toEndOf="@id/imb_midfield4"
+        app:layout_constraintStart_toStartOf="@id/imb_midfield4"
+
+        tools:layout_editor_absoluteX="368dp"
+        tools:layout_editor_absoluteY="379dp" />
+
+    <TextView
+        android:id="@+id/txt_midfielder1_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:text=""
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="@id/txt_midfielder1_name"
+        app:layout_constraintStart_toStartOf="@id/txt_midfielder1_name"
+        app:layout_constraintTop_toBottomOf="@id/txt_midfielder1_name"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="452dp" />
+
+    <TextView
+        android:id="@+id/txt_goalie_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="@id/txt_goalie_name"
+        app:layout_constraintStart_toStartOf="@id/txt_goalie_name"
+        app:layout_constraintTop_toBottomOf="@id/txt_goalie_name"
+        tools:layout_editor_absoluteX="184dp"
+        tools:layout_editor_absoluteY="181dp" />
+
+    <TextView
+        android:id="@+id/txt_attacker1_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="@id/txt_attacker1_name"
+        app:layout_constraintStart_toStartOf="@id/txt_attacker1_name"
+        app:layout_constraintTop_toBottomOf="@id/txt_attacker1_name"
+        tools:layout_editor_absoluteX="106dp"
+        tools:layout_editor_absoluteY="596dp" />
+
+    <TextView
+        android:id="@+id/txt_attacker2_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:text=""
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="@id/txt_attacker2_name"
+        app:layout_constraintStart_toStartOf="@id/txt_attacker2_name"
+        app:layout_constraintTop_toBottomOf="@id/txt_attacker2_name"
+        tools:layout_editor_absoluteX="266dp"
+        tools:layout_editor_absoluteY="596dp" />
+
+    <TextView
+        android:id="@+id/txt_midfielder2_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="@id/txt_midfielder2_name"
+        app:layout_constraintStart_toStartOf="@id/txt_midfielder2_name"
+        app:layout_constraintTop_toBottomOf="@id/txt_midfielder2_name"
+        tools:layout_editor_absoluteX="139dp"
+        tools:layout_editor_absoluteY="452dp" />
+
+    <TextView
+        android:id="@+id/txt_midfielder3_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:text=""
+        android:textColor="@color/purple_700"
+        android:textSize="12sp"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="@id/txt_midfielder3_name"
+        app:layout_constraintStart_toStartOf="@id/txt_midfielder3_name"
+        app:layout_constraintTop_toBottomOf="@id/txt_midfielder3_name"
+        tools:layout_editor_absoluteX="236dp"
+        tools:layout_editor_absoluteY="452dp" />
+
+    <TextView
+        android:id="@+id/txt_midfielder4_val"
+        android:layout_width="40dp"
+        android:layout_height="16dp"
+        android:text=""
+        android:textColor="@color/purple_700"
+
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/txt_midfielder4_name"
+        app:layout_constraintStart_toStartOf="@id/txt_midfielder4_name"
+        app:layout_constraintTop_toBottomOf="@id/txt_midfielder4_name"
+        tools:layout_editor_absoluteX="330dp"
+        tools:layout_editor_absoluteY="452dp" />
+
+    <ImageButton
+        android:id="@+id/imb_autoFill"
+        android:layout_width="106dp"
+        android:layout_height="31dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/img_field"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.846"
+        app:srcCompat="@drawable/auto_fill" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Auto Fill"
+        tools:layout_editor_absoluteX="296dp"
+        tools:layout_editor_absoluteY="13dp"
+        app:layout_constraintStart_toStartOf="@id/imb_autoFill"
+        app:layout_constraintEnd_toEndOf="@id/imb_autoFill"
+        app:layout_constraintBottom_toTopOf="@id/imb_autoFill"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
