@@ -27,4 +27,16 @@ public class Utils {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return preferences.getInt("WEEK", 0);
     }
+
+    public static void putBalance(Context context, int balance){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("BALANCE", balance);
+        editor.commit();
+    }
+
+    public static int getBalance(Context context){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getInt("BALANCE", 0);
+    }
 }

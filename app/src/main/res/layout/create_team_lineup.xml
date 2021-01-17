@@ -57,7 +57,7 @@
 
         android:layout_height="64dp"
         android:layout_marginTop="35dp"
-        android:src="@drawable/default_kit"
+        android:src="@drawable/default_kit2"
         app:layout_constraintEnd_toStartOf="@id/imb_defend3"
         app:layout_constraintStart_toEndOf="@id/imb_defend1"
         app:layout_constraintTop_toBottomOf="@id/txt_goalie_val"

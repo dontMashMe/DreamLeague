@@ -25,7 +25,7 @@ public abstract class Database extends RoomDatabase {
         if(instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     Database.class, "Manager.db")
-                    .createFromAsset("manager.db")
+                    .createFromAsset("manager1.db")
                     .build();
 
         }

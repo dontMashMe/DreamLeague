@@ -41,4 +41,27 @@ public interface PlayerDao {
             "where team_id = :team_id\n" +
             "order by team.team_id")
     LiveData<List<Player>> getPlayersFromTeam(int team_id);
+
+
+    @Query("SELECT player.playerId, player.name, dateOfBirth, position, playerRating, playerValue from player\n" +
+            "inner join squads on player.playerId = squads.playerId\n" +
+            "inner join team on team.team_id = squads.teamId\n" +
+            "where team.name = :team_name AND player.position = :position\n" +
+            "order by player.playerRating DESC")
+    LiveData<List<Player>> getPlayersTransferQuery(String team_name, String position);
+
+
+    @Query("SELECT player.playerId, player.name, dateOfBirth, position, playerRating, playerValue from player\n" +
+            "inner join squads on player.playerId = squads.playerId\n" +
+            "inner join team on team.team_id = squads.teamId\n" +
+            "where team.name IN (SELECT team.name from team) AND player.position = :position\n" +
+            "order by player.playerRating DESC")
+    LiveData<List<Player>> transferQueryOnlyPositionSet(String position);
+
+    @Query("SELECT player.playerId, player.name, dateOfBirth, position, playerRating, playerValue from player\n" +
+            "inner join squads on player.playerId = squads.playerId\n" +
+            "inner join team on team.team_id = squads.teamId\n" +
+            "where team.name = :team_name AND player.position IN (SELECT player.position from player)" +
+            "order by player.playerRating DESC")
+    LiveData<List<Player>> transferQueryOnlyNameSet(String team_name);
 }

@@ -1,6 +1,9 @@
 package com.example.dreamleague.ViewModels;
 
 import android.app.Application;
+import android.text.Spannable;
+import android.text.style.ForegroundColorSpan;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -68,6 +71,18 @@ public class SeasonViewModel extends AndroidViewModel {
 
     }
 
+    public LiveData<List<Player>> transferQueryOnlyPositionSet(String position){
+        return playerRepository.transferQueryOnlyPositionSet(position);
+    }
+
+    public LiveData<List<Player>> transferQueryOnlyNameSet(String teamName){
+        return playerRepository.transferQueryOnlyNameSet(teamName);
+    }
+
+
+    public LiveData<List<Player>> getPlayersTransferQuery(String team_name, String pos){
+        return playerRepository.getPlayersTransferQuery(team_name, pos);
+    }
     public void updateWinner(int team_id){
         teamRepository.updateWinner(team_id);
     }
@@ -245,7 +260,16 @@ public class SeasonViewModel extends AndroidViewModel {
         logo_map.put("West Bromwich Albion FC", R.drawable.wba_logo);
     }
 
-    private Team setPlayerTeam(Player player, List<Squads> squads, List<Team> teams){
+    public int setPlayerKit(Player player){
+        fillMap();
+        for(Map.Entry<String, Integer> entry : map.entrySet()){
+            if(player.getTeam().getName().equals(entry.getKey())){
+                return entry.getValue();
+            }
+        }
+        return 0;
+    }
+    public Team setPlayerTeam(Player player, List<Squads> squads, List<Team> teams){
         int temp = 0;
         for(Squads a : squads){
             if(a.getPlayerId() == player.getPlayerId()){

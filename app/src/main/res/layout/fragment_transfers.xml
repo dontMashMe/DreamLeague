@@ -3,4 +3,122 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent">
+
+    <Spinner
+        android:id="@+id/spinner_position"
+        android:layout_width="168dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="105dp"
+        android:layout_marginRight="105dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinnr_team" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/choose_a_position"
+        tools:layout_editor_absoluteX="188dp"
+        tools:layout_editor_absoluteY="55dp"
+        app:layout_constraintStart_toStartOf="@id/spinner_position"
+        app:layout_constraintEnd_toEndOf="@id/spinner_position"
+        app:layout_constraintBottom_toTopOf="@id/spinner_position"/>
+
+    <ImageButton
+        android:id="@+id/imb_sortPR_transfer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="44dp"
+
+        android:layout_marginRight="44dp"
+        android:background="?attr/selectableItemBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinnr_team"
+        app:srcCompat="@drawable/arrow_down" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_transfers"
+        android:layout_width="357dp"
+        android:layout_height="574dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginRight="45dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_current_balance" />
+
+    <Spinner
+        android:id="@+id/spinnr_team"
+        android:layout_width="168dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="105dp"
+        android:layout_marginRight="105dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/choose_a_team"
+        app:layout_constraintBottom_toTopOf="@id/spinnr_team"
+        app:layout_constraintEnd_toEndOf="@id/spinnr_team"
+        app:layout_constraintStart_toStartOf="@id/spinnr_team"
+        tools:layout_editor_absoluteX="279dp"
+        tools:layout_editor_absoluteY="11dp" />
+
+    <ImageButton
+        android:id="@+id/imb_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/spinnr_team"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="?attr/selectableItemBackground"
+
+        app:srcCompat="@android:drawable/ic_menu_search" />
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="102dp"
+        android:layout_height="83dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/radio_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BUY" />
+
+        <RadioButton
+            android:id="@+id/radio_sell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SELL" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/txt_current_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/current_balance"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radio_group" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

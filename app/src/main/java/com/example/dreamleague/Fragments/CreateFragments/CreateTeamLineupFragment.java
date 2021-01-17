@@ -22,6 +22,7 @@ import com.example.dreamleague.DataModels.LineupSingleton;
 import com.example.dreamleague.DataModels.Player;
 import com.example.dreamleague.DataModels.Squads;
 import com.example.dreamleague.DataModels.Team;
+import com.example.dreamleague.DataModels.Utils;
 import com.example.dreamleague.Listeners.PositionListener;
 import com.example.dreamleague.R;
 import com.example.dreamleague.ViewModels.CreateTeamViewModel;
@@ -278,6 +279,7 @@ public class CreateTeamLineupFragment extends Fragment {
                 if(createTeamViewModel.checkCompletion(dreamTeam)){
                     dreamTeam.setName(teamName);
                     dreamTeam.setId(0);
+                    Utils.putBalance(getContext(), userBalance);
                     createTeamViewModel.insertDreamTeam(dreamTeam);
                     Intent intent = new Intent(getActivity(), SeasonActivity.class);
                     startActivity(intent);

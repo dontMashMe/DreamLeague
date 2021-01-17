@@ -71,6 +71,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_leaderboard);
         LiveData<List<Team>> getAllTeamsByPoints = seasonViewModel.getAllTeams();
+        List<Team> adapterList = new ArrayList<>();
         int currentWeek = Utils.getCurrentWeek(this);
         getAllTeamsByPoints.observe(this, teams -> {
             for(Team a : teams){
@@ -93,11 +94,14 @@ public class LeaderboardActivity extends AppCompatActivity {
                         a.setLast5games(last5games.toString().substring(0, last5games.length() - 1));
                     }
                 });
+                adapterList.add(a);
             }
-            seasonViewModel.setTeamLogos(teams);
-            LeaderboardAdapter adapter = new LeaderboardAdapter(teams);
+            seasonViewModel.setTeamLogos(adapterList);
+            LeaderboardAdapter adapter = new LeaderboardAdapter(adapterList);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            adapter.notifyDataSetChanged();
+
 
         });
 

@@ -29,6 +29,11 @@
     <string name="average_team_cost">Average team cost:</string>
     <string name="strijecli"><u>Strijelci:</u></string>
     <string name="leaderboards">Leaderboards</string>
+    <string name="buy">BUY</string>
+    <string name="sell">sell</string>
+    <string name="choose_a_position">Choose a position</string>
+    <string name="choose_a_team">Choose a team</string>
+    <string name="current_balance">Current balance:</string>
 
 
 </resources>

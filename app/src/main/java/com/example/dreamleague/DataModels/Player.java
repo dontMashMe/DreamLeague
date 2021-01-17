@@ -23,6 +23,17 @@ public class Player {
     private Team team;
     @Ignore
     private int realPosition;
+
+    @Ignore
+    private int teamKit;
+
+    public int getTeamKit() {
+        return teamKit;
+    }
+
+    public void setTeamKit(int teamKit) {
+        this.teamKit = teamKit;
+    }
     //realPosition je integer koji predstavlja "stvarnu" poziciju igraca na terenu, a mapirani su ispod
     //ovim redosljedom se daju konstruktoru DreamTeam klase, koja kao podatkovne clanove sadrzi id-eve igrača na njihovim pozicijima
     //1-goalie

@@ -47,4 +47,16 @@ public class PlayerRepository {
         return playerDao.getPlayersFromTeam(teamId);
     }
 
+    public LiveData<List<Player>> getPlayersTransferQuery(String team_name, String position){
+        return playerDao.getPlayersTransferQuery(team_name, position);
+    }
+
+    public LiveData<List<Player>> transferQueryOnlyPositionSet(String position){
+        return playerDao.transferQueryOnlyPositionSet(position);
+    }
+
+    public LiveData<List<Player>> transferQueryOnlyNameSet(String teamName){
+        return playerDao.transferQueryOnlyNameSet(teamName);
+    }
+
 }
