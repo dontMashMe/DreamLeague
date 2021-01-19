@@ -20,9 +20,6 @@ public interface PlayerDao {
     @Update
     void update(Player player);
 
-    @Delete
-    void delete(Player player);
-
     @Query("SELECT * FROM player ORDER BY playerId")
     LiveData<List<Player>> getAllPlayers();
 

@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Query;
 
 import com.example.dreamleague.DAOs.DreamTeamDao;
 import com.example.dreamleague.DataModels.Database;
@@ -45,5 +46,71 @@ public class DreamTeamRepository {
     public LiveData<List<DreamTeam>> getDreamTeam(){
         return this.dreamTeam;
     }
+
+    public void sellGoalie(){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.sellGoalie());
+        executor.shutdown();
+    };
+
+    public void sellDefenderLeft(){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.sellDefenderLeft());
+        executor.shutdown();
+    };
+
+    public void sellDefenderMidFirst(){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.sellDefenderMidFirst());
+        executor.shutdown();
+    };
+
+    public void sellDefenderMidSecond(){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.sellDefenderMidSecond());
+        executor.shutdown();
+    };
+
+    public void sellDefenderRight(){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.sellDefenderRight());
+        executor.shutdown();
+    };
+
+    public void sellMidLeft(){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.sellMidLeft());
+        executor.shutdown();
+    };
+
+    public void sellMidMidFirst(){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.sellMidMidFirst());
+        executor.shutdown();
+    };
+
+    public void sellMidMidSecond(){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.sellMidMidSecond());
+        executor.shutdown();
+    };
+
+    public void sellMidRight(){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.sellMidRight());
+        executor.shutdown();
+    };
+
+    public void sellAttackerLeft(){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.sellAttackerLeft());
+        executor.shutdown();
+    };
+
+    public void sellAttackerRight(){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.sellAttackerRight());
+        executor.shutdown();
+    };
 
 }

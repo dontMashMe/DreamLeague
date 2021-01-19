@@ -38,28 +38,6 @@ public class LeaderboardActivity extends AppCompatActivity {
         setupVars();
     }
 
-    /* ne kuzim
-    void setupVarsTry(){
-        LiveData<List<Team>> getAllTeamsByPoints = seasonViewModel.getAllTeams();
-
-
-        MediatorLiveData<Object> liveDataMerger = new MediatorLiveData<>();
-        liveDataMerger.addSource(getAllTeamsByPoints, liveDataMerger::setValue);
-
-
-
-        int currentWeek = Utils.getCurrentWeek(this);
-        getAllTeamsByPoints.observe(this, teams -> {
-            for(Team a :teams){
-                StringBuilder last5games = new StringBuilder();
-                LiveData<List<Match>> last5matches = seasonViewModel.last5Matches(currentWeek, a.getTeam_id());
-                getAllTeamsByPoints = Transformations.map(
-                        Team ->
-                )
-            }
-        });
-
-    }*/
 
     void setupVars(){
         teamsStatic = new ArrayList<>();
@@ -68,12 +46,14 @@ public class LeaderboardActivity extends AppCompatActivity {
             startActivity(new Intent(this, SeasonActivity.class));
             finish();
         });
-
         recyclerView = findViewById(R.id.recycler_leaderboard);
         LiveData<List<Team>> getAllTeamsByPoints = seasonViewModel.getAllTeams();
         List<Team> adapterList = new ArrayList<>();
+        LeaderboardAdapter adapter = new LeaderboardAdapter(adapterList);
         int currentWeek = Utils.getCurrentWeek(this);
         getAllTeamsByPoints.observe(this, teams -> {
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
             for(Team a : teams){
                 StringBuilder last5games = new StringBuilder();
                 LiveData<List<Match>> last5matches = seasonViewModel.last5Matches(currentWeek, a.getTeam_id());
@@ -92,16 +72,13 @@ public class LeaderboardActivity extends AppCompatActivity {
                             }
                         }
                         a.setLast5games(last5games.toString().substring(0, last5games.length() - 1));
+                        adapter.notifyDataSetChanged();
                     }
                 });
                 adapterList.add(a);
+                adapter.notifyDataSetChanged();
             }
             seasonViewModel.setTeamLogos(adapterList);
-            LeaderboardAdapter adapter = new LeaderboardAdapter(adapterList);
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            adapter.notifyDataSetChanged();
-
 
         });
 

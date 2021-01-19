@@ -120,81 +120,99 @@ public class HomeFragment extends Fragment {
                         txt_team_name.setText(dreamTeams.get(dreamTeams.size() - 1).getName());
                         //postavljanje igrača na pozicije
                         //izgleda ružno ali switch je brza naredba i izvršava se skoro instantno
+                        cleanText();
                         for (Player a : userPlayers) {
                             switch (a.getRealPosition()) {
                                 case 1:
                                     ((ImageButton) imb_goalie).setImageResource(a.getTeam().getTeamKit());
+                                    imb_goalie.setTag("filled");
                                     txt_goalie_name.setText(seasonViewModel.formatName(a));
                                     txt_goalie_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
                                     txt_goalie_pr.setText(a.getPlayerRating());
+                                    imageButtons.remove(imb_goalie);
                                     break;
                                 case 2:
                                     (imb_defenderLeft).setImageResource(a.getTeam().getTeamKit());
+                                    imb_defenderLeft.setTag("filled");
                                     txt_defenderLeft_name.setText(seasonViewModel.formatName(a));
                                     txt_defenderLeft_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
                                     txt_defenderLeft_pr.setText(a.getPlayerRating());
                                     break;
                                 case 3:
                                     (imb_defenderMidFirst).setImageResource(a.getTeam().getTeamKit());
+                                    imb_defenderMidFirst.setTag("filled");
                                     txt_defenderMidFirst_name.setText(seasonViewModel.formatName(a));
                                     txt_defenderMidFirst_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
                                     txt_defenderMidFirst_pr.setText(a.getPlayerRating());
                                     break;
                                 case 4:
                                     (imb_defenderMidSecond).setImageResource(a.getTeam().getTeamKit());
+                                    imb_defenderMidSecond.setTag("filled");
                                     txt_defenderMidSecond_name.setText(seasonViewModel.formatName(a));
                                     txt_defenderMidSecond_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
                                     txt_defenderMidSecond_pr.setText(a.getPlayerRating());
                                     break;
                                 case 5:
                                     (imb_defenderRight).setImageResource(a.getTeam().getTeamKit());
+                                    imb_defenderRight.setTag("filled");
                                     txt_defenderRight_name.setText(seasonViewModel.formatName(a));
                                     txt_defenderRight_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
                                     txt_defenderRight_pr.setText(a.getPlayerRating());
                                     break;
                                 case 6:
                                     (imb_midLeft).setImageResource(a.getTeam().getTeamKit());
+                                    imb_midLeft.setTag("filled");
                                     txt_midLeft_name.setText(seasonViewModel.formatName(a));
                                     txt_midLeft_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
                                     txt_midLeft_pr.setText(a.getPlayerRating());
                                     break;
                                 case 7:
                                     (imb_midMidFirst).setImageResource(a.getTeam().getTeamKit());
+                                    imb_midMidFirst.setTag("filled");
                                     txt_midMidFirst_name.setText(seasonViewModel.formatName(a));
                                     txt_midMidFirst_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
                                     txt_midMidFirst_pr.setText(a.getPlayerRating());
                                     break;
                                 case 8:
                                     (imb_midMidSecond).setImageResource(a.getTeam().getTeamKit());
+                                    imb_midMidSecond.setTag("filled");
                                     txt_midMidSecond_name.setText(seasonViewModel.formatName(a));
                                     txt_midMidSecond_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
                                     txt_midMidSecond_pr.setText(a.getPlayerRating());
                                     break;
                                 case 9:
                                     (imb_midRight).setImageResource(a.getTeam().getTeamKit());
+                                    imb_midRight.setTag("filled");
                                     txt_midRight_name.setText(seasonViewModel.formatName(a));
                                     txt_midRight_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
                                     txt_midRight_pr.setText(a.getPlayerRating());
+
                                     break;
                                 case 10:
                                     (imb_attackLeft).setImageResource(a.getTeam().getTeamKit());
+                                    imb_attackLeft.setTag("filled");
                                     txt_attackLeft_name.setText(seasonViewModel.formatName(a));
                                     txt_attackLeft_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
                                     txt_attackLeft_pr.setText(a.getPlayerRating());
+
                                     break;
                                 case 11:
                                     (imb_attackRight).setImageResource(a.getTeam().getTeamKit());
+                                    imb_attackRight.setTag("filled");
                                     txt_attackRight_name.setText(seasonViewModel.formatName(a));
                                     txt_attackRight_val.setText(String.format("%.2fM$", a.getPlayerValue() / 1000000.0));
                                     txt_attackRight_pr.setText(a.getPlayerRating());
                                     break;
                             }
                         }
+                        for(ImageButton a : imageButtons){
+                            if(a.getTag().equals("empty")){
+                                a.setImageResource(R.drawable.default_kit2);
+                            }
+                        }
+                        imageButtons.clear();
                         teamLiveData.removeObservers(getViewLifecycleOwner());
                         matchesLiveData.removeObservers(getViewLifecycleOwner());
-                        dreamTeamLiveData.removeObservers(getViewLifecycleOwner());
-                        squadsLiveData.removeObservers(getViewLifecycleOwner());
-                        playerLiveData.removeObservers(getViewLifecycleOwner());
                     });
                 });
 
@@ -237,30 +255,85 @@ public class HomeFragment extends Fragment {
                 v.setAlpha(1f);
                 v.startAnimation(alphaAnimation);
                 int currentWeek = Utils.getCurrentWeek(getContext());
-                List<Match> currentWeekMatches = seasonViewModel.getMatchesFromWeekStatic(allMatches, currentWeek);
-                gameResults.clear();
-                gameResults.addAll(seasonViewModel.advanceWeek(currentWeekMatches, allTeamsWithPlayers));
-                ExecutorService executor = Executors.newSingleThreadExecutor();
-                executor.execute(()->{
-                    for (GameResults a : gameResults) {
-                        seasonViewModel.updateMatchesWhere(a.getGameId(), a.getHomeTeamScore(), a.getAwayTeamScore());
-                        seasonViewModel.updatePoints(a);
-                        for (Map.Entry<Player, Integer> entry : a.getAwayTeamScorers().entrySet()) {
-                            MatchScores matchScores = new MatchScores(0, a.getGameId(), entry.getKey().getPlayerId(), entry.getValue(), a.getTeamAwayId());
-                            seasonViewModel.insertMatchScores(matchScores);
+                if(allMatches.isEmpty())
+                    Toast.makeText(getContext(), "PRAZNO JE", Toast.LENGTH_LONG).show();
+                else{
+                    List<Match> currentWeekMatches = seasonViewModel.getMatchesFromWeekStatic(allMatches, currentWeek);
+                    gameResults.clear();
+                    gameResults.addAll(seasonViewModel.advanceWeek(currentWeekMatches, allTeamsWithPlayers));
+                    ExecutorService executor = Executors.newSingleThreadExecutor();
+                    executor.execute(()->{
+                        for (GameResults a : gameResults) {
+                            seasonViewModel.updateMatchesWhere(a.getGameId(), a.getHomeTeamScore(), a.getAwayTeamScore());
+                            seasonViewModel.updatePoints(a);
+                            for (Map.Entry<Player, Integer> entry : a.getAwayTeamScorers().entrySet()) {
+                                MatchScores matchScores = new MatchScores(0, a.getGameId(), entry.getKey().getPlayerId(), entry.getValue(), a.getTeamAwayId());
+                                seasonViewModel.insertMatchScores(matchScores);
+                            }
+                            for (Map.Entry<Player, Integer> entry : a.getHomeTeamScorers().entrySet()) {
+                                MatchScores matchScores = new MatchScores(0, a.getGameId(), entry.getKey().getPlayerId(), entry.getValue(), a.getHomeTeamId());
+                                seasonViewModel.insertMatchScores(matchScores);
+                            }
                         }
-                        for (Map.Entry<Player, Integer> entry : a.getHomeTeamScorers().entrySet()) {
-                            MatchScores matchScores = new MatchScores(0, a.getGameId(), entry.getKey().getPlayerId(), entry.getValue(), a.getHomeTeamId());
-                            seasonViewModel.insertMatchScores(matchScores);
-                        }
-                    }
-                });
-                executor.shutdown();
-                Utils.putCurrentWeekSharedPreference(getContext(), currentWeek + 1);
+                    });
+                    executor.shutdown();
+                    Utils.putCurrentWeekSharedPreference(getContext(), currentWeek + 1);
+                }
+
             }
         };
 
 
+        void cleanText(){
+            txt_goalie_name.setText("");
+            txt_goalie_pr.setText("");
+            txt_goalie_val.setText("");
+
+            txt_defenderLeft_name.setText("");
+            txt_defenderLeft_pr.setText("");
+            txt_defenderLeft_val.setText("");
+
+            txt_defenderMidFirst_name.setText("");
+            txt_defenderMidFirst_pr.setText("");
+            txt_defenderMidFirst_val.setText("");
+
+            txt_defenderMidSecond_name.setText("");
+            txt_defenderMidSecond_pr.setText("");
+            txt_defenderMidSecond_val.setText("");
+
+            txt_defenderRight_name.setText("");
+            txt_defenderRight_pr.setText("");
+            txt_defenderRight_val.setText("");
+
+            txt_midLeft_name.setText("");
+            txt_midLeft_pr.setText("");
+            txt_midLeft_val.setText("");
+
+
+            txt_midMidFirst_name.setText("");
+            txt_midMidFirst_pr.setText("");
+            txt_midMidFirst_val.setText("");
+
+            txt_midMidSecond_name.setText("");
+            txt_midMidSecond_pr.setText("");
+            txt_midMidSecond_val.setText("");
+
+
+            txt_midRight_name.setText("");
+            txt_midRight_pr.setText("");
+            txt_midRight_val.setText("");
+
+
+
+            txt_attackLeft_name.setText("");
+            txt_attackLeft_pr.setText("");
+            txt_attackLeft_val.setText("");
+
+            txt_attackRight_name.setText("");
+            txt_attackRight_pr.setText("");
+            txt_attackRight_val.setText("");
+
+        }
         void setupVars(View view) {
             kickOff = view.findViewById(R.id.btn_kickOff);
             kickOff.setOnClickListener(kickOffClick);
@@ -271,56 +344,76 @@ public class HomeFragment extends Fragment {
 
 
             imb_goalie = (ImageButton) view.findViewById(R.id.s_imb_goalie);
+            imb_goalie.setTag("empty");
+
             txt_goalie_name = (TextView) view.findViewById(R.id.s_txt_goalie_name);
             txt_goalie_pr = (TextView) view.findViewById(R.id.s_txt_goalie_pr);
             txt_goalie_val = (TextView) view.findViewById(R.id.s_txt_goalie_val);
 
             imb_defenderLeft = (ImageButton) view.findViewById(R.id.s_imb_defenderLeft);
+            imb_defenderLeft.setTag("empty");
             txt_defenderLeft_name = view.findViewById(R.id.s_txt_defenderLeft_name);
             txt_defenderLeft_pr = view.findViewById(R.id.s_txt_defenderLeft_pr);
             txt_defenderLeft_val = view.findViewById(R.id.s_txt_defenderLeft_val);
 
             imb_defenderMidFirst = (ImageButton) view.findViewById(R.id.s_imb_defenderMidFirst);
+            imb_defenderMidFirst.setTag("empty");
             txt_defenderMidFirst_name = view.findViewById(R.id.s_txt_defenderMidFirst_name);
             txt_defenderMidFirst_pr = view.findViewById(R.id.s_txt_defenderMidFirst_pr);
             txt_defenderMidFirst_val = view.findViewById(R.id.s_txt_defenderMidFirst_val);
 
             imb_defenderMidSecond = (ImageButton) view.findViewById(R.id.s_imb_defenderMidSecond);
+            imb_defenderMidSecond.setTag("empty");
+
             txt_defenderMidSecond_name = view.findViewById(R.id.s_txt_defenderMidSecond_name);
             txt_defenderMidSecond_pr = view.findViewById(R.id.s_txt_defenderMidSecond_pr);
             txt_defenderMidSecond_val = view.findViewById(R.id.s_txt_defenderMidSecond_val);
 
             imb_defenderRight = (ImageButton) view.findViewById(R.id.s_imb_defenderRight);
+            imb_defenderRight.setTag("empty");
+
             txt_defenderRight_name = view.findViewById(R.id.s_txt_defenderRight_name);
             txt_defenderRight_pr = view.findViewById(R.id.s_txt_defenderRight_pr);
             txt_defenderRight_val = view.findViewById(R.id.s_txt_defenderRight_val);
 
             imb_midLeft = (ImageButton) view.findViewById(R.id.s_imb_midLeft);
+            imb_midLeft.setTag("empty");
+
             txt_midLeft_name = view.findViewById(R.id.s_txt_midLeft_name);
             txt_midLeft_pr = view.findViewById(R.id.s_txt_midLeft_pr);
             txt_midLeft_val = view.findViewById(R.id.s_txt_midLeft_val);
 
             imb_midMidFirst = (ImageButton) view.findViewById(R.id.s_imb_midMidFirst);
+            imb_midMidFirst.setTag("empty");
+
             txt_midMidFirst_name = view.findViewById(R.id.s_txt_midMidFirst_name);
             txt_midMidFirst_pr = view.findViewById(R.id.s_txt_midMidFirst_pr);
             txt_midMidFirst_val = view.findViewById(R.id.s_txt_midMidFirst_val);
 
             imb_midMidSecond = (ImageButton) view.findViewById(R.id.s_imb_midMidSecond);
+            imb_midMidSecond.setTag("empty");
+
             txt_midMidSecond_name = view.findViewById(R.id.s_txt_midMidSecond_name);
             txt_midMidSecond_pr = view.findViewById(R.id.s_txt_midMidSecond_pr);
             txt_midMidSecond_val = view.findViewById(R.id.s_txt_midMidSecond_val);
 
             imb_midRight = (ImageButton) view.findViewById(R.id.s_imb_midRight);
+            imb_midRight.setTag("empty");
+
             txt_midRight_name = view.findViewById(R.id.s_txt_midRight_name);
             txt_midRight_pr = view.findViewById(R.id.s_txt_midRight_pr);
             txt_midRight_val = view.findViewById(R.id.s_txt_midRight_val);
 
             imb_attackLeft = view.findViewById(R.id.s_imb_attackerLeft);
+            imb_attackLeft.setTag("empty");
+
             txt_attackLeft_name = view.findViewById(R.id.s_txt_attackerLeft_name);
             txt_attackLeft_pr = view.findViewById(R.id.s_txt_attackerLeft_pr);
             txt_attackLeft_val = view.findViewById(R.id.s_txt_attackerLeft_val);
 
             imb_attackRight = view.findViewById(R.id.s_imb_attackerRight);
+            imb_attackRight.setTag("empty");
+
             txt_attackRight_name = view.findViewById(R.id.s_txt_attackerRight_name);
             txt_attackRight_pr = view.findViewById(R.id.s_txt_attackerRight_pr);
             txt_attackRight_val = view.findViewById(R.id.s_txt_attackerRight_val);
@@ -378,7 +471,6 @@ public class HomeFragment extends Fragment {
             for (ImageButton a : imageButtons) {
                 a.setOnClickListener(playerClickListener);
             }
-            imageButtons.clear();
 
         }
 
@@ -388,9 +480,13 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 for (Map.Entry<Integer, Integer> entry : buttonPositionMap.entrySet()) {
                     if (v.getId() == entry.getKey()) {
-                        PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
-                        playerSingleton.SetPlayer(seasonViewModel.getPlayerFromRealPos(entry.getValue(), currentUserTeam));
-                        startActivity(new Intent(requireActivity(), PopPlayerInfo.class));
+                        ImageButton clicked = v.findViewById(v.getId());
+                        if(clicked.getTag().equals("filled")){
+                            PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
+                            playerSingleton.SetPlayer(seasonViewModel.getPlayerFromRealPos(entry.getValue(), currentUserTeam));
+                            startActivity(new Intent(requireActivity(), PopPlayerInfo.class));
+                        }
+
                     }
                 }
             }

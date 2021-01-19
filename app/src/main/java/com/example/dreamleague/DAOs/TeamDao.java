@@ -19,9 +19,6 @@ public interface TeamDao {
     @Update
     void update(Team team);
 
-    @Delete
-    void delete(Team team);
-
     @Query("SELECT * FROM team ORDER BY points DESC")
     LiveData<List<Team>> getAllTeams();
 

@@ -1,9 +1,9 @@
 package com.example.dreamleague.Fragments.SeasonFragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.style.ForegroundColorSpan;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,15 +22,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dreamleague.Adapters.SeasonAdapters.TransfersAdapter;
 import com.example.dreamleague.DataModels.DreamTeam;
 import com.example.dreamleague.DataModels.Player;
+import com.example.dreamleague.DataModels.PlayerSingleton;
 import com.example.dreamleague.DataModels.Squads;
 import com.example.dreamleague.DataModels.Team;
 import com.example.dreamleague.DataModels.Utils;
+import com.example.dreamleague.Listeners.TransferListener;
 import com.example.dreamleague.R;
 import com.example.dreamleague.ViewModels.SeasonViewModel;
 
@@ -69,13 +73,27 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
         return view;
     }
 
-    public static void appendColoredText(TextView tv, String text, int color) {
-        int start = tv.getText().length();
-        tv.append(text);
-        int end = tv.getText().length();
 
-        Spannable spannableText = (Spannable) tv.getText();
-        spannableText.setSpan(new ForegroundColorSpan(color), start, end, 0);
+    public static class CustLinearLayoutManager extends LinearLayoutManager {
+
+        public CustLinearLayoutManager(Context context) {
+            super(context);
+        }
+
+        public CustLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
+            super(context, orientation, reverseLayout);
+        }
+
+        public CustLinearLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+            super(context, attrs, defStyleAttr, defStyleRes);
+        }
+
+// Something is happening here
+
+        @Override
+        public boolean supportsPredictiveItemAnimations() {
+            return false;
+        }
     }
 
     void setupVars(View view) {
@@ -87,17 +105,16 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
         dreamTeam.observe(getViewLifecycleOwner(), new Observer<List<DreamTeam>>() {
             @Override
             public void onChanged(List<DreamTeam> dreamTeams) {
-                for(DreamTeam a : dreamTeams){
+                for (DreamTeam a : dreamTeams) {
                     userPlayers.addAll(a.getAllIds());
                     currentDreamTeam.add(a);
-
                 }
                 dreamTeam.removeObservers(getViewLifecycleOwner());
             }
         });
 
         balance = view.findViewById(R.id.txt_current_balance);
-        String balanceS = getResources().getString(R.string.current_balance) + " <font color='#1b5e20'>" + String.format("%.2fM", Utils.getBalance(getContext())/ 1000000.0) + " $</font>";
+        String balanceS = getResources().getString(R.string.current_balance) + " <font color='#1b5e20'>" + String.format("%.2fM", Utils.getBalance(getContext()) / 1000000.0) + " $</font>";
         balance.setText(Html.fromHtml(balanceS), TextView.BufferType.SPANNABLE);
 
         //radio group - sell, buy
@@ -108,11 +125,11 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(checkedId == R.id.radio_buy){
+                if (checkedId == R.id.radio_buy) {
                     buy.setChecked(true);
                     sell.setChecked(false);
                     USER_TEAM_FLAG = 1;
-                }else{
+                } else {
                     USER_TEAM_FLAG = 0;
                     buy.setChecked(false);
                     sell.setChecked(true);
@@ -155,21 +172,31 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                 LiveData<List<Squads>> squads = seasonViewModel.getAllSquads();
                 LiveData<List<Team>> teams = seasonViewModel.getAllTeams();
                 List<Player> playerList = new ArrayList<>();
-                if(USER_TEAM_FLAG == 1){
+
+                //kupi
+                if (USER_TEAM_FLAG == 1) {
                     //team flag and position flag set
-                    if(!TEAM_FLAG.equals("") && !POSITION_FLAG.equals("")){
+                    if (!TEAM_FLAG.equals("") && !POSITION_FLAG.equals("")) {
                         LiveData<List<Player>> players = seasonViewModel.getPlayersTransferQuery(TEAM_FLAG, POSITION_FLAG);
                         players.observe(getViewLifecycleOwner(), players1 -> {
                             squads.observe(getViewLifecycleOwner(), squads1 -> {
                                 teams.observe(getViewLifecycleOwner(), teams1 -> {
-                                    for(Player a : players1){
+                                    for (Player a : players1) {
                                         a.setTeam(seasonViewModel.setPlayerTeam(a, squads1, teams1));
                                         a.getTeam().setTeamKit(seasonViewModel.setPlayerKit(a));
-                                        if(!userPlayers.contains(a.getPlayerId())){
+                                        if (!userPlayers.contains(a.getPlayerId())) {
                                             playerList.add(a);
                                         }
                                     }
-                                    TransfersAdapter adapter = new TransfersAdapter(playerList);
+
+                                    TransfersAdapter adapter = new TransfersAdapter(playerList, new TransferListener() {
+                                        @Override
+                                        public void onPositionClicked(int position) {
+                                            PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
+                                            Player player = playerSingleton.returnPlayer();
+                                            Toast.makeText(getContext(), "" + player.getName(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
@@ -178,19 +205,26 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                         });
                     }
                     //team flag set, position not
-                    else if (!TEAM_FLAG.equals("") && POSITION_FLAG.equals("")){
+                    else if (!TEAM_FLAG.equals("") && POSITION_FLAG.equals("")) {
                         LiveData<List<Player>> players = seasonViewModel.transferQueryOnlyNameSet(TEAM_FLAG);
                         players.observe(getViewLifecycleOwner(), players1 -> {
                             squads.observe(getViewLifecycleOwner(), squads1 -> {
                                 teams.observe(getViewLifecycleOwner(), teams1 -> {
-                                    for(Player a : players1){
+                                    for (Player a : players1) {
                                         a.setTeam(seasonViewModel.setPlayerTeam(a, squads1, teams1));
                                         a.getTeam().setTeamKit(seasonViewModel.setPlayerKit(a));
-                                        if(!userPlayers.contains(a.getPlayerId())){
+                                        if (!userPlayers.contains(a.getPlayerId())) {
                                             playerList.add(a);
                                         }
                                     }
-                                    TransfersAdapter adapter = new TransfersAdapter(playerList);
+                                    TransfersAdapter adapter = new TransfersAdapter(playerList, new TransferListener() {
+                                        @Override
+                                        public void onPositionClicked(int position) {
+                                            PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
+                                            Player player = playerSingleton.returnPlayer();
+                                            Toast.makeText(getContext(), "" + player.getName(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
@@ -199,19 +233,26 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                         });
                     }
                     //team flag not set, position set
-                    else if (TEAM_FLAG.equals("") && !POSITION_FLAG.equals("")){
+                    else if (TEAM_FLAG.equals("") && !POSITION_FLAG.equals("")) {
                         LiveData<List<Player>> players = seasonViewModel.transferQueryOnlyPositionSet(POSITION_FLAG);
                         players.observe(getViewLifecycleOwner(), players1 -> {
                             squads.observe(getViewLifecycleOwner(), squads1 -> {
                                 teams.observe(getViewLifecycleOwner(), teams1 -> {
-                                    for(Player a : players1){
+                                    for (Player a : players1) {
                                         a.setTeam(seasonViewModel.setPlayerTeam(a, squads1, teams1));
                                         a.getTeam().setTeamKit(seasonViewModel.setPlayerKit(a));
-                                        if(!userPlayers.contains(a.getPlayerId())){
+                                        if (!userPlayers.contains(a.getPlayerId())) {
                                             playerList.add(a);
                                         }
                                     }
-                                    TransfersAdapter adapter = new TransfersAdapter(playerList);
+                                    TransfersAdapter adapter = new TransfersAdapter(playerList, new TransferListener() {
+                                        @Override
+                                        public void onPositionClicked(int position) {
+                                            PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
+                                            Player player = playerSingleton.returnPlayer();
+                                            Toast.makeText(getContext(), "" + player.getName(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
@@ -220,19 +261,26 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                         });
                     }
                     //team flag not set position not set
-                    else if (TEAM_FLAG.equals("") && POSITION_FLAG.equals("")){
+                    else if (TEAM_FLAG.equals("") && POSITION_FLAG.equals("")) {
                         LiveData<List<Player>> players = seasonViewModel.getAllPlayers();
                         players.observe(getViewLifecycleOwner(), players1 -> {
                             squads.observe(getViewLifecycleOwner(), squads1 -> {
                                 teams.observe(getViewLifecycleOwner(), teams1 -> {
-                                    for(Player a : players1){
+                                    for (Player a : players1) {
                                         a.setTeam(seasonViewModel.setPlayerTeam(a, squads1, teams1));
                                         a.getTeam().setTeamKit(seasonViewModel.setPlayerKit(a));
-                                        if(!userPlayers.contains(a.getPlayerId())){
+                                        if (!userPlayers.contains(a.getPlayerId())) {
                                             playerList.add(a);
                                         }
                                     }
-                                    TransfersAdapter adapter = new TransfersAdapter(playerList);
+                                    TransfersAdapter adapter = new TransfersAdapter(playerList, new TransferListener() {
+                                        @Override
+                                        public void onPositionClicked(int position) {
+                                            PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
+                                            Player player = playerSingleton.returnPlayer();
+                                            Toast.makeText(getContext(), "" + player.getName(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
@@ -242,61 +290,100 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                         });
                     }
                 }
-                else if(USER_TEAM_FLAG == 0){
+                //prodaj
+                else if (USER_TEAM_FLAG == 0) {
                     LiveData<List<Player>> players = seasonViewModel.getAllPlayers();
-
+                    currentDreamTeam.clear();
+                    dreamTeam.observe(getViewLifecycleOwner(), currentDreamTeam::addAll);
                     players.observe(getViewLifecycleOwner(), players1 -> {
                         squads.observe(getViewLifecycleOwner(), squads1 -> {
                             teams.observe(getViewLifecycleOwner(), teams1 -> {
                                 List<Player> usersPlayers = new ArrayList<>();
                                 usersPlayers = seasonViewModel.initialTeamSetup(currentDreamTeam.get(0), players1, squads1, teams1);
                                 //team flag and position flag set
-                                if(!TEAM_FLAG.equals("") && !POSITION_FLAG.equals("")){
+                                if (!TEAM_FLAG.equals("") && !POSITION_FLAG.equals("")) {
                                     List<Player> filteredList = new ArrayList<>();
-                                    for(Player a : usersPlayers){
-                                        if(a.getTeam().getName().equals(TEAM_FLAG) && a.getPosition().equals(POSITION_FLAG)){
+                                    for (Player a : usersPlayers) {
+                                        if (a.getTeam().getName().equals(TEAM_FLAG) && a.getPosition().equals(POSITION_FLAG)) {
                                             filteredList.add(a);
                                         }
                                     }
-                                    TransfersAdapter adapter = new TransfersAdapter(filteredList);
+                                    TransfersAdapter adapter = new TransfersAdapter(filteredList, new TransferListener() {
+                                        @Override
+                                        public void onPositionClicked(int position) {
+                                            PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
+                                            Player player = playerSingleton.returnPlayer();
+                                            userPlayers.remove(player);
+                                            seasonViewModel.sellPlayer(player.getRealPosition());
+                                        }
+                                    });
                                     recyclerView.setAdapter(adapter);
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    recyclerView.setLayoutManager(new CustLinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
+
                                 }
                                 //team flag set, position not
-                                else if (!TEAM_FLAG.equals("") && POSITION_FLAG.equals("")){
+                                else if (!TEAM_FLAG.equals("") && POSITION_FLAG.equals("")) {
                                     List<Player> filteredList = new ArrayList<>();
-                                    for(Player a : usersPlayers){
-                                        if(a.getTeam().getName().equals(TEAM_FLAG)){
+                                    for (Player a : usersPlayers) {
+                                        if (a.getTeam().getName().equals(TEAM_FLAG)) {
                                             filteredList.add(a);
                                         }
                                     }
-                                    TransfersAdapter adapter = new TransfersAdapter(filteredList);
+                                    TransfersAdapter adapter = new TransfersAdapter(filteredList, new TransferListener() {
+                                        @Override
+                                        public void onPositionClicked(int position) {
+                                            PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
+                                            Player player = playerSingleton.returnPlayer();
+                                            seasonViewModel.sellPlayer(player.getRealPosition());
+                                            userPlayers.remove(player);
+                                            Toast.makeText(getContext(), "" + player.getName() + "REAL POS:" + player.getRealPosition(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                     recyclerView.setAdapter(adapter);
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    recyclerView.setLayoutManager(new CustLinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
                                 }
                                 //team flag not set, position set
-                                else if (TEAM_FLAG.equals("") && !POSITION_FLAG.equals("")){
+                                else if (TEAM_FLAG.equals("") && !POSITION_FLAG.equals("")) {
                                     List<Player> filteredList = new ArrayList<>();
-                                    for(Player a : usersPlayers){
-                                        if(a.getPosition().equals(POSITION_FLAG)){
+                                    for (Player a : usersPlayers) {
+                                        if (a.getPosition().equals(POSITION_FLAG)) {
                                             filteredList.add(a);
                                         }
                                     }
-                                    TransfersAdapter adapter = new TransfersAdapter(filteredList);
+                                    TransfersAdapter adapter = new TransfersAdapter(filteredList, new TransferListener() {
+                                        @Override
+                                        public void onPositionClicked(int position) {
+                                            PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
+                                            Player player = playerSingleton.returnPlayer();
+                                            seasonViewModel.sellPlayer(player.getRealPosition());
+                                            userPlayers.remove(player);
+
+                                            Toast.makeText(getContext(), "" + player.getName() + "REAL POS:" + player.getRealPosition(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                     recyclerView.setAdapter(adapter);
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    recyclerView.setLayoutManager(new CustLinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
                                 }
                                 //team flag not set position not set
-                                else if (TEAM_FLAG.equals("") && POSITION_FLAG.equals("")){
-                                    TransfersAdapter adapter = new TransfersAdapter(usersPlayers);
+                                else if (TEAM_FLAG.equals("") && POSITION_FLAG.equals("")) {
+                                    TransfersAdapter adapter = new TransfersAdapter(usersPlayers, new TransferListener() {
+                                        @Override
+                                        public void onPositionClicked(int position) {
+                                            PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
+                                            Player player = playerSingleton.returnPlayer();
+                                            seasonViewModel.sellPlayer(player.getRealPosition());
+                                            userPlayers.remove(player);
+
+                                            Toast.makeText(getContext(), ""+ player.getName()+ "REAL POS:" + player.getRealPosition(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                     recyclerView.setAdapter(adapter);
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    recyclerView.setLayoutManager(new CustLinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
                                 }
-
                             });
                         });
                     });
@@ -305,7 +392,6 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
         });
         imbSearch.performClick();
     }
-
 
     @Override
     public void onDetach() {
@@ -320,25 +406,24 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         //spinner za pozicije
-        if(parent.getId() == R.id.spinner_position){
-                String selection = String.valueOf(parent.getItemAtPosition(position));
-                if(selection.equals("All")){
-                    POSITION_FLAG = "";
-                }else{
-                    POSITION_FLAG = selection;
-                }
+        if (parent.getId() == R.id.spinner_position) {
+            String selection = String.valueOf(parent.getItemAtPosition(position));
+            if (selection.equals("All")) {
+                POSITION_FLAG = "";
+            } else {
+                POSITION_FLAG = selection;
+            }
         }
         //spinner za timove
-        else if(parent.getId() == R.id.spinnr_team){
+        else if (parent.getId() == R.id.spinnr_team) {
             String selection = String.valueOf(parent.getItemAtPosition(position));
-            if(selection.equals("All")){
+            if (selection.equals("All")) {
                 TEAM_FLAG = "";
-            }else{
+            } else {
                 TEAM_FLAG = selection;
             }
 
         }
-
     }
 
     @Override

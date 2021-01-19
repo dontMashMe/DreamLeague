@@ -489,7 +489,43 @@ public class SeasonViewModel extends AndroidViewModel {
             updateDraw(gameResults.getTeamAwayId());
         }
     }
-
+    public void sellPlayer(int realPosition){
+        switch(realPosition){
+            case 1:
+                dreamTeamRepository.sellGoalie();
+                break;
+            case 2:
+                dreamTeamRepository.sellDefenderLeft();
+                break;
+            case 3:
+                dreamTeamRepository.sellDefenderMidFirst();
+                break;
+            case 4:
+                dreamTeamRepository.sellDefenderMidSecond();
+                break;
+            case 5:
+                dreamTeamRepository.sellDefenderRight();
+                break;
+            case 6:
+                dreamTeamRepository.sellMidLeft();
+                break;
+            case 7:
+                dreamTeamRepository.sellMidMidFirst();
+                break;
+            case 8:
+                dreamTeamRepository.sellMidMidSecond();
+                break;
+            case 9:
+                dreamTeamRepository.sellMidRight();
+                break;
+            case 10:
+                dreamTeamRepository.sellAttackerLeft();
+                break;
+            case 11:
+                dreamTeamRepository.sellAttackerRight();
+                break;
+        }
+    }
 
 
 }

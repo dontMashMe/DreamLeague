@@ -1,32 +1,39 @@
 package com.example.dreamleague.Adapters.SeasonAdapters;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.dreamleague.Adapters.CreateAdapters.CreateTeamRecViewAdapter;
 import com.example.dreamleague.DataModels.Player;
+import com.example.dreamleague.DataModels.PlayerSingleton;
+import com.example.dreamleague.Listeners.TransferListener;
 import com.example.dreamleague.R;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 public class TransfersAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     List<Player> players;
-    public TransfersAdapter(List<Player> players){
+    private final TransferListener listener;
+    public TransfersAdapter(List<Player> players, TransferListener listener){
         this.players = players;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_row_crteam_rec, parent, false);
-        return new RowViewHolder(view);
+        return new RowViewHolder(view, listener);
     }
 
     @Override
@@ -38,19 +45,40 @@ public class TransfersAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHol
         viewHolder.txt_PR.setText(String.valueOf(player.getPlayerRating()));
         viewHolder.txt_value.setText(String.format("%.2fM$", player.getPlayerValue() / 1000000.0));
         viewHolder.img_kit.setImageResource(player.getTeam().getTeamKit());
-    }
-    static class RowViewHolder extends RecyclerView.ViewHolder{
+        viewHolder.buy_sell_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
+                playerSingleton.SetPlayer(player);
+                viewHolder.transferListenerWeakReference.get().onPositionClicked(position);
+                viewHolder.itemView.setBackgroundColor(Color.parseColor("#fc2c03"));
+                Toast.makeText(v.getContext(), "Uspješno prodan!", Toast.LENGTH_SHORT).show();
+                players.remove(player);
+                notifyItemRangeChanged(position, players.size());
+            }
+        });
 
+    }
+    static class RowViewHolder extends RecyclerView.ViewHolder {
+
+        ImageButton buy_sell_button;
         ImageView img_kit;
         TextView txt_name, txt_PR, txt_value;
+        //weakreference je istao kao da detachamo listener u on destroy, sprjecava memory leakove
+        private final WeakReference<TransferListener> transferListenerWeakReference;
 
-        public RowViewHolder(@NonNull View itemView) {
+        public RowViewHolder(@NonNull View itemView, TransferListener listener) {
             super(itemView);
+            transferListenerWeakReference = new WeakReference<>(listener);
             txt_name = itemView.findViewById(R.id.text_name);
             txt_PR = itemView.findViewById(R.id.text_PR);
             txt_value = itemView.findViewById(R.id.txt_value);
             img_kit = itemView.findViewById(R.id.img_kit);
+            buy_sell_button = itemView.findViewById(R.id.buy_button);
+
         }
+
+
     }
     String formatName(String name){
         if(name.length() <= 12) return name;
