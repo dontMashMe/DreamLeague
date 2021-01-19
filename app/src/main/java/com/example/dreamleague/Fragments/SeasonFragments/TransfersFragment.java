@@ -196,7 +196,7 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                             Player player = playerSingleton.returnPlayer();
                                             Toast.makeText(getContext(), "" + player.getName(), Toast.LENGTH_SHORT).show();
                                         }
-                                    });
+                                    }, USER_TEAM_FLAG);
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
@@ -224,7 +224,7 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                             Player player = playerSingleton.returnPlayer();
                                             Toast.makeText(getContext(), "" + player.getName(), Toast.LENGTH_SHORT).show();
                                         }
-                                    });
+                                    }, USER_TEAM_FLAG);
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
@@ -252,7 +252,7 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                             Player player = playerSingleton.returnPlayer();
                                             Toast.makeText(getContext(), "" + player.getName(), Toast.LENGTH_SHORT).show();
                                         }
-                                    });
+                                    }, USER_TEAM_FLAG);
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
@@ -280,7 +280,7 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                             Player player = playerSingleton.returnPlayer();
                                             Toast.makeText(getContext(), "" + player.getName(), Toast.LENGTH_SHORT).show();
                                         }
-                                    });
+                                    }, USER_TEAM_FLAG);
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
@@ -314,9 +314,12 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                             PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
                                             Player player = playerSingleton.returnPlayer();
                                             userPlayers.remove(player);
+                                            Utils.putBalance(getContext(), Utils.getBalance(getContext()) + player.getPlayerValue());
+                                            String balanceS = getResources().getString(R.string.current_balance) + " <font color='#1b5e20'>" + String.format("%.2fM", Utils.getBalance(getContext()) / 1000000.0) + " $</font>";
+                                            balance.setText(Html.fromHtml(balanceS), TextView.BufferType.SPANNABLE);
                                             seasonViewModel.sellPlayer(player.getRealPosition());
                                         }
-                                    });
+                                    }, USER_TEAM_FLAG);
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setLayoutManager(new CustLinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
@@ -337,9 +340,14 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                             Player player = playerSingleton.returnPlayer();
                                             seasonViewModel.sellPlayer(player.getRealPosition());
                                             userPlayers.remove(player);
+                                            Utils.putBalance(getContext(), Utils.getBalance(getContext()) + player.getPlayerValue());
+
+                                            String balanceS = getResources().getString(R.string.current_balance) + " <font color='#1b5e20'>" + String.format("%.2fM", Utils.getBalance(getContext()) / 1000000.0) + " $</font>";
+                                            balance.setText(Html.fromHtml(balanceS), TextView.BufferType.SPANNABLE);
+
                                             Toast.makeText(getContext(), "" + player.getName() + "REAL POS:" + player.getRealPosition(), Toast.LENGTH_SHORT).show();
                                         }
-                                    });
+                                    }, USER_TEAM_FLAG);
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setLayoutManager(new CustLinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
@@ -359,10 +367,12 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                             Player player = playerSingleton.returnPlayer();
                                             seasonViewModel.sellPlayer(player.getRealPosition());
                                             userPlayers.remove(player);
-
+                                            Utils.putBalance(getContext(), Utils.getBalance(getContext()) + player.getPlayerValue());
+                                            String balanceS = getResources().getString(R.string.current_balance) + " <font color='#1b5e20'>" + String.format("%.2fM", Utils.getBalance(getContext()) / 1000000.0) + " $</font>";
+                                            balance.setText(Html.fromHtml(balanceS), TextView.BufferType.SPANNABLE);
                                             Toast.makeText(getContext(), "" + player.getName() + "REAL POS:" + player.getRealPosition(), Toast.LENGTH_SHORT).show();
                                         }
-                                    });
+                                    }, USER_TEAM_FLAG);
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setLayoutManager(new CustLinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
@@ -376,10 +386,12 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                             Player player = playerSingleton.returnPlayer();
                                             seasonViewModel.sellPlayer(player.getRealPosition());
                                             userPlayers.remove(player);
-
+                                            Utils.putBalance(getContext(), Utils.getBalance(getContext()) + player.getPlayerValue());
+                                            String balanceS = getResources().getString(R.string.current_balance) + " <font color='#1b5e20'>" + String.format("%.2fM", Utils.getBalance(getContext()) / 1000000.0) + " $</font>";
+                                            balance.setText(Html.fromHtml(balanceS), TextView.BufferType.SPANNABLE);
                                             Toast.makeText(getContext(), ""+ player.getName()+ "REAL POS:" + player.getRealPosition(), Toast.LENGTH_SHORT).show();
                                         }
-                                    });
+                                    }, USER_TEAM_FLAG);
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setLayoutManager(new CustLinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();

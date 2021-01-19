@@ -16,14 +16,14 @@
         android:layout_marginTop="60dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
+        app:srcCompat="@drawable/ic_launcher_foreground"
+        android:contentDescription="@string/slikica" />
 
     <TextView
         android:id="@+id/txt_team_name_pop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="TextView"
         app:layout_constraintEnd_toEndOf="@id/img_team_logo_pop"
         app:layout_constraintStart_toStartOf="@id/img_team_logo_pop"
         app:layout_constraintTop_toBottomOf="@id/img_team_logo_pop" />
@@ -37,23 +37,10 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="12dp"
-        android:text="TextView"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/img_team_logo_pop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/txt_player_dob_pop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="40dp"
-        android:text="TextView"
-        android:textStyle="italic"
-        app:layout_constraintStart_toEndOf="@+id/img_team_logo_pop"
-        app:layout_constraintTop_toBottomOf="@+id/txt_player_name_pop" />
 
     <TextView
         android:id="@+id/txt_player_val_pop"
@@ -61,11 +48,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
+        android:layout_marginTop="80dp"
         android:textStyle="italic"
         app:layout_constraintStart_toEndOf="@+id/img_team_logo_pop"
-        app:layout_constraintTop_toBottomOf="@+id/txt_player_dob_pop" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txt_player_points_pop"
@@ -74,7 +60,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:text="TextView"
         android:textStyle="italic"
         app:layout_constraintStart_toEndOf="@+id/img_team_logo_pop"
         app:layout_constraintTop_toBottomOf="@+id/txt_player_val_pop" />
@@ -84,15 +69,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginRight="45dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
         android:layout_marginBottom="160dp"
-        android:text="90"
         android:textColor="@color/purple_500"
         android:textSize="50sp"
-        app:layout_constraintBottom_toTopOf="@+id/view2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.39" />
+
+    <ImageButton
+        android:contentDescription="@string/slikica"
+        android:id="@+id/imb_sell"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+
+        android:layout_marginTop="56dp"
+        android:background="?attr/selectableItemBackground"
+        android:scaleType="centerInside"
+        android:src="@drawable/sell"
+        app:layout_constraintEnd_toEndOf="@id/txt_player_pr_pop"
+        app:layout_constraintStart_toStartOf="@id/txt_player_pr_pop"
+        app:layout_constraintTop_toBottomOf="@+id/txt_player_pr_pop" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/prodaj_igra_a"
+        app:layout_constraintEnd_toEndOf="@id/imb_sell"
+        app:layout_constraintStart_toStartOf="@id/imb_sell"
+        app:layout_constraintTop_toBottomOf="@id/imb_sell" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

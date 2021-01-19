@@ -34,6 +34,8 @@
     <string name="choose_a_position">Choose a position</string>
     <string name="choose_a_team">Choose a team</string>
     <string name="current_balance">Current balance:</string>
+    <string name="prodaj_igra_a">Prodaj igrača</string>
+    <string name="slikica">slikica</string>
 
 
 </resources>

@@ -23,10 +23,12 @@ import java.util.List;
 public class TransfersAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     List<Player> players;
+    private final int  USER_TEAM_FLAG;
     private final TransferListener listener;
-    public TransfersAdapter(List<Player> players, TransferListener listener){
+    public TransfersAdapter(List<Player> players, TransferListener listener , int USER_TEAM_FLAG){
         this.players = players;
         this.listener = listener;
+        this.USER_TEAM_FLAG = USER_TEAM_FLAG;
     }
 
     @NonNull
@@ -45,18 +47,24 @@ public class TransfersAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHol
         viewHolder.txt_PR.setText(String.valueOf(player.getPlayerRating()));
         viewHolder.txt_value.setText(String.format("%.2fM$", player.getPlayerValue() / 1000000.0));
         viewHolder.img_kit.setImageResource(player.getTeam().getTeamKit());
-        viewHolder.buy_sell_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
-                playerSingleton.SetPlayer(player);
-                viewHolder.transferListenerWeakReference.get().onPositionClicked(position);
-                viewHolder.itemView.setBackgroundColor(Color.parseColor("#fc2c03"));
-                Toast.makeText(v.getContext(), "Uspješno prodan!", Toast.LENGTH_SHORT).show();
-                players.remove(player);
-                notifyItemRangeChanged(position, players.size());
-            }
-        });
+        //prodaj
+        if(USER_TEAM_FLAG == 0){
+            viewHolder.buy_sell_button.setImageResource(R.drawable.sell);
+            viewHolder.buy_sell_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
+                    playerSingleton.SetPlayer(player);
+                    viewHolder.transferListenerWeakReference.get().onPositionClicked(position);
+                    viewHolder.itemView.setBackgroundColor(Color.parseColor("#fc2c03"));
+                    Toast.makeText(v.getContext(), "Uspješno prodan!", Toast.LENGTH_SHORT).show();
+                    players.remove(player);
+                    notifyItemRangeChanged(position, players.size());
+                }
+            });
+        }
+
+
 
     }
     static class RowViewHolder extends RecyclerView.ViewHolder {

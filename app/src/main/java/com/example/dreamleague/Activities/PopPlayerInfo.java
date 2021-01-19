@@ -3,25 +3,36 @@ package com.example.dreamleague.Activities;
 import android.app.Activity;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.dreamleague.DataModels.Player;
 import com.example.dreamleague.DataModels.PlayerSingleton;
 import com.example.dreamleague.R;
+import com.example.dreamleague.ViewModels.SeasonViewModel;
+
 import java.text.NumberFormat;
 
 
-public class PopPlayerInfo extends Activity {
+public class PopPlayerInfo extends AppCompatActivity {
 
-    TextView txt_player_name, txt_player_dob, txt_player_pr, txt_player_val, txt_player_team, txt_player_points;
+    SeasonViewModel seasonViewModel;
+    TextView txt_player_name, txt_player_pr, txt_player_val, txt_player_team, txt_player_points;
     ImageView img_player_team_logo;
+    ImageButton imb_sell;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        seasonViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()))
+                .get(SeasonViewModel.class);
 
         setContentView(R.layout.pop_layout);
         int screenHeight = getResources().getDisplayMetrics().heightPixels;
@@ -40,12 +51,10 @@ public class PopPlayerInfo extends Activity {
     }
 
     void setupVars(Player player){
+
         txt_player_name = findViewById(R.id.txt_player_name_pop);
         txt_player_name.setText(player.getName());
         txt_player_name.setPaintFlags(txt_player_name.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-
-        txt_player_dob = findViewById(R.id.txt_player_dob_pop);
-        txt_player_dob.setText(String.format("Datum rođenja: %s", formatDate(player.getDateOfBirth())));
 
         txt_player_pr = findViewById(R.id.txt_player_pr_pop);
         txt_player_pr.setText(String.valueOf(player.getPlayerRating()));
@@ -62,21 +71,15 @@ public class PopPlayerInfo extends Activity {
         img_player_team_logo = findViewById(R.id.img_team_logo_pop);
         img_player_team_logo.setImageResource(player.getTeam().getTeamLogo());
 
+        imb_sell = findViewById(R.id.imb_sell);
+        imb_sell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    seasonViewModel.sellPlayer(player.getRealPosition());
+                Toast.makeText(PopPlayerInfo.this, "Igrač " + player.getName() + " uspješno prodan!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
-    private String formatDate(String date){
-        StringBuilder year = new StringBuilder();
-        StringBuilder month = new StringBuilder();
-        StringBuilder day = new StringBuilder();
-        for(int i =0; i < date.length(); i++){
-            if(i<4){
-                year.append(date.charAt(i));
-            }else if(i>=5 && i< 7){
-                month.append(date.charAt(i));
-            }else if(i>=8 && i<10){
-                day.append(date.charAt(i));
-            }
-        }
-        return day + "/" + month + "/" + year;
-    }
 }
