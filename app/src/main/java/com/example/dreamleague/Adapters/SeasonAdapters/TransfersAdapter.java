@@ -47,6 +47,7 @@ public class TransfersAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHol
         viewHolder.txt_PR.setText(String.valueOf(player.getPlayerRating()));
         viewHolder.txt_value.setText(String.format("%.2fM$", player.getPlayerValue() / 1000000.0));
         viewHolder.img_kit.setImageResource(player.getTeam().getTeamKit());
+        viewHolder.txt_pos.setText(player.getPosition());
         //prodaj
         if(USER_TEAM_FLAG == 0){
             viewHolder.buy_sell_button.setImageResource(R.drawable.sell);
@@ -63,15 +64,26 @@ public class TransfersAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHol
                 }
             });
         }
-
-
-
+        //kupi
+        else if(USER_TEAM_FLAG == 1){
+            viewHolder.buy_sell_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
+                    playerSingleton.SetPlayer(player);
+                    viewHolder.transferListenerWeakReference.get().onPositionClicked(position);
+                    viewHolder.itemView.setBackgroundColor(Color.parseColor("#61eb34"));
+                    players.remove(player);
+                    notifyItemRangeChanged(position, players.size());
+                }
+            });
+        }
     }
     static class RowViewHolder extends RecyclerView.ViewHolder {
 
         ImageButton buy_sell_button;
         ImageView img_kit;
-        TextView txt_name, txt_PR, txt_value;
+        TextView txt_name, txt_PR, txt_value, txt_pos;
         //weakreference je istao kao da detachamo listener u on destroy, sprjecava memory leakove
         private final WeakReference<TransferListener> transferListenerWeakReference;
 
@@ -82,6 +94,7 @@ public class TransfersAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHol
             txt_PR = itemView.findViewById(R.id.text_PR);
             txt_value = itemView.findViewById(R.id.txt_value);
             img_kit = itemView.findViewById(R.id.img_kit);
+            txt_pos = itemView.findViewById(R.id.txt_player_position);
             buy_sell_button = itemView.findViewById(R.id.buy_button);
 
         }

@@ -61,7 +61,7 @@ public class SeasonViewModel extends AndroidViewModel {
         allTeams = teamRepository.getAllTeams();
 
         matchesRepository = new MatchesRepository(application);
-        allMatches =matchesRepository.getAllMatches();
+        allMatches = matchesRepository.getAllMatches();
 
         matchScoresRepository = new MatchScoresRepository(application);
 
@@ -71,65 +71,81 @@ public class SeasonViewModel extends AndroidViewModel {
 
     }
 
-    public LiveData<List<Player>> transferQueryOnlyPositionSet(String position){
+    public LiveData<List<Player>> transferQueryOnlyPositionSet(String position) {
         return playerRepository.transferQueryOnlyPositionSet(position);
     }
 
-    public LiveData<List<Player>> transferQueryOnlyNameSet(String teamName){
+    public LiveData<List<Player>> transferQueryOnlyNameSet(String teamName) {
         return playerRepository.transferQueryOnlyNameSet(teamName);
     }
 
 
-    public LiveData<List<Player>> getPlayersTransferQuery(String team_name, String pos){
+    public LiveData<List<Player>> getPlayersTransferQuery(String team_name, String pos) {
         return playerRepository.getPlayersTransferQuery(team_name, pos);
     }
-    public void updateWinner(int team_id){
+
+    public void updateWinner(int team_id) {
         teamRepository.updateWinner(team_id);
     }
-    public void updateDraw(int team_id){
+
+    public void updateDraw(int team_id) {
         teamRepository.updateDraw(team_id);
     }
 
-    public void insertMatchScores(MatchScores matchScores){
+    public void insertMatchScores(MatchScores matchScores) {
         matchScoresRepository.InsertMatchScores(matchScores);
     }
-    public LiveData<List<Player>> getAllPlayers(){
+
+    public LiveData<List<Player>> getAllPlayers() {
         return this.allPlayers;
     }
-    public LiveData<List<DreamTeam>> getDreamTeam(){
+
+    public LiveData<List<DreamTeam>> getDreamTeam() {
         return this.dreamTeam;
     }
-    public LiveData<List<Squads>> getAllSquads(){return this.allSquads;}
-    public LiveData<List<Team>> getAllTeams(){return this.allTeams;}
-    public LiveData<List<Match>> getAllMatches(){return this.allMatches;}
-    public LiveData<List<Player>> getPlayersFromTeam(int team_id){
+
+    public LiveData<List<Squads>> getAllSquads() {
+        return this.allSquads;
+    }
+
+    public LiveData<List<Team>> getAllTeams() {
+        return this.allTeams;
+    }
+
+    public LiveData<List<Match>> getAllMatches() {
+        return this.allMatches;
+    }
+
+    public LiveData<List<Player>> getPlayersFromTeam(int team_id) {
         return playerRepository.getPlayersFromTeam(team_id);
     }
 
-    public LiveData<List<Match>> last5Matches(int currentWeek, int teamId){
+    public LiveData<List<Match>> last5Matches(int currentWeek, int teamId) {
         return matchesRepository.last5Matches(currentWeek, teamId);
     }
 
-    public LiveData<List<Match>> getMatchesFromWeek(int week){
+    public LiveData<List<Match>> getMatchesFromWeek(int week) {
         return matchesRepository.getMatchesFromWeek(week);
     }
-    public void updateMatchesWhere(int gameId, int homeScore, int awayScore){
+
+    public void updateMatchesWhere(int gameId, int homeScore, int awayScore) {
         matchesRepository.updateMatchWhere(gameId, homeScore, awayScore);
     }
 
-    public List<MatchScores> getMatchScoresForGame(int gameId){
+    public List<MatchScores> getMatchScoresForGame(int gameId) {
         return matchScoresRepository.getMatchScoresForGame(gameId);
     }
 
-    public List<Match> getMatchesFromWeekStatic(List<Match> matches, int week){
+    public List<Match> getMatchesFromWeekStatic(List<Match> matches, int week) {
         List<Match> returnList = new ArrayList<>();
-        for(Match a : matches){
-            if(a.getWeek() == week) returnList.add(a);
+        for (Match a : matches) {
+            if (a.getWeek() == week) returnList.add(a);
         }
         return returnList;
     }
+
     //početno generiranje utakmica
-    public void InitialMatchesGenerator(List<Team> ListTeam){
+    public void InitialMatchesGenerator(List<Team> ListTeam) {
         int numDays = (ListTeam.size() - 1);
         int halfSize = ListTeam.size() / 2;
         List<Team> teams = new ArrayList<>(ListTeam);
@@ -137,15 +153,15 @@ public class SeasonViewModel extends AndroidViewModel {
         //ako zelimo zadrzati prvi element lista mora biti specificno soritrana, nisam bas skuzio; ovo je jednostavnije
         Collections.shuffle(teams); //shufflaj listu, rezultat su različita kola
         int teamSize = teams.size();
-        for(int day = 0; day < numDays; day++){
+        for (int day = 0; day < numDays; day++) {
             int week = day + 1;
             int teamIdx = day % teamSize;
             //utakmice sa 0tim timom
             Match matchWith0thTeam = new Match(0, week, teams.get(teamIdx).getTeam_id(), ListTeam.get(0).getTeam_id(), 0, 0);
             matchesRepository.insertMatch(matchWith0thTeam);
-            for(int idx = 1; idx < halfSize; idx++){
+            for (int idx = 1; idx < halfSize; idx++) {
                 //permutacije elemenata liste
-                                        //n/2-> polu sezona; zamijeni domace i gostujuce timove
+                //n/2-> polu sezona; zamijeni domace i gostujuce timove
                 //1 -> 2 -> 3 -> 4 ... -> n/2 - 1 -> n - 1 -> n - 2 -> n - 3 -> ... -> n/2 -> 1
                 int firstTeam = (day + idx) % teamSize;
                 int secondTeam = (day + teamSize - idx) % teamSize;
@@ -158,63 +174,57 @@ public class SeasonViewModel extends AndroidViewModel {
 
     Map<String, Integer> map = new HashMap<>();
     Map<String, Integer> logo_map = new HashMap<>();
-    /** početno postavljanje korsničkog tima i njihovih realnih pozicija te postavljanje dresova i logo-a za timove*/
-    public List<Player> initialTeamSetup(DreamTeam dreamTeam, List<Player> players, List<Squads> squads, List<Team> teams){
+
+    /**
+     * početno postavljanje korsničkog tima i njihovih realnih pozicija te postavljanje dresova i logo-a za timove
+     */
+    public List<Player> initialTeamSetup(DreamTeam dreamTeam, List<Player> players, List<Squads> squads, List<Team> teams) {
         List<Player> tempList = new ArrayList<>();
-        for(Player a : players){
-            if(dreamTeam.getAllIds().contains(a.getPlayerId())){
-                if(a.getPlayerId() == dreamTeam.getGoalie()){
+        for (Player a : players) {
+            if (dreamTeam.getAllIds().contains(a.getPlayerId())) {
+                if (a.getPlayerId() == dreamTeam.getGoalie()) {
                     a.setRealPosition(1);
-                }
-                else if(a.getPlayerId() == dreamTeam.getDefenderLeft()){
+                } else if (a.getPlayerId() == dreamTeam.getDefenderLeft()) {
                     a.setRealPosition(2);
-                }
-                else if(a.getPlayerId() == dreamTeam.getDefenderMidFirst()){
+                } else if (a.getPlayerId() == dreamTeam.getDefenderMidFirst()) {
                     a.setRealPosition(3);
-                }
-                else if(a.getPlayerId() == dreamTeam.getDefenderMidSecond()){
+                } else if (a.getPlayerId() == dreamTeam.getDefenderMidSecond()) {
                     a.setRealPosition(4);
-                }
-                else if(a.getPlayerId() == dreamTeam.getDefenderRight()){
+                } else if (a.getPlayerId() == dreamTeam.getDefenderRight()) {
                     a.setRealPosition(5);
-                }
-                else if(a.getPlayerId() == dreamTeam.getMidLeft()){
+                } else if (a.getPlayerId() == dreamTeam.getMidLeft()) {
                     a.setRealPosition(6);
-                }
-                else if(a.getPlayerId() == dreamTeam.getMidMidFirst()){
+                } else if (a.getPlayerId() == dreamTeam.getMidMidFirst()) {
                     a.setRealPosition(7);
-                }
-                else if(a.getPlayerId() == dreamTeam.getMidMidSecond()){
+                } else if (a.getPlayerId() == dreamTeam.getMidMidSecond()) {
                     a.setRealPosition(8);
-                }
-                else if(a.getPlayerId() == dreamTeam.getMidRight()){
+                } else if (a.getPlayerId() == dreamTeam.getMidRight()) {
                     a.setRealPosition(9);
-                }
-                else if(a.getPlayerId() == dreamTeam.getAttackLeft()){
+                } else if (a.getPlayerId() == dreamTeam.getAttackLeft()) {
                     a.setRealPosition(10);
-                }
-                else if(a.getPlayerId() == dreamTeam.getAttackRight()){
+                } else if (a.getPlayerId() == dreamTeam.getAttackRight()) {
                     a.setRealPosition(11);
                 }
                 a.setTeam(setPlayerTeam(a, squads, teams));
                 tempList.add(a);
             }
         }
-        for(Player a : tempList){
-            for(Map.Entry<String, Integer> entry : map.entrySet()){
-                    if(a.getTeam().getName().equals(entry.getKey())){
+        for (Player a : tempList) {
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                if (a.getTeam().getName().equals(entry.getKey())) {
                     a.getTeam().setTeamKit(entry.getValue());
                 }
             }
-            for(Map.Entry<String, Integer> entry : logo_map.entrySet()){
-                if(a.getTeam().getName().equals(entry.getKey())){
+            for (Map.Entry<String, Integer> entry : logo_map.entrySet()) {
+                if (a.getTeam().getName().equals(entry.getKey())) {
                     a.getTeam().setTeamLogo(entry.getValue());
                 }
             }
         }
         return tempList;
     }
-    void fillMap(){
+
+    void fillMap() {
         map.put("Arsenal FC", R.drawable.arsenal_kit);
         map.put("Aston Villa FC", R.drawable.aston_kit);
         map.put("Everton FC", R.drawable.everton_kit);
@@ -237,7 +247,7 @@ public class SeasonViewModel extends AndroidViewModel {
         map.put("West Bromwich Albion FC", R.drawable.wba_fc);
     }
 
-    void fillLogoMap(){
+    void fillLogoMap() {
         logo_map.put("Arsenal FC", R.drawable.arsenal_logo);
         logo_map.put("Aston Villa FC", R.drawable.aston_logo);
         logo_map.put("Everton FC", R.drawable.everton_logo);
@@ -260,71 +270,73 @@ public class SeasonViewModel extends AndroidViewModel {
         logo_map.put("West Bromwich Albion FC", R.drawable.wba_logo);
     }
 
-    public int setPlayerKit(Player player){
+    public int setPlayerKit(Player player) {
         fillMap();
-        for(Map.Entry<String, Integer> entry : map.entrySet()){
-            if(player.getTeam().getName().equals(entry.getKey())){
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            if (player.getTeam().getName().equals(entry.getKey())) {
                 return entry.getValue();
             }
         }
         return 0;
     }
-    public Team setPlayerTeam(Player player, List<Squads> squads, List<Team> teams){
+
+    public Team setPlayerTeam(Player player, List<Squads> squads, List<Team> teams) {
         int temp = 0;
-        for(Squads a : squads){
-            if(a.getPlayerId() == player.getPlayerId()){
+        for (Squads a : squads) {
+            if (a.getPlayerId() == player.getPlayerId()) {
                 temp = a.getTeamId();
                 break;
             }
         }
-        for(Team a : teams){
-            if(a.getTeam_id() == temp){
+        for (Team a : teams) {
+            if (a.getTeam_id() == temp) {
                 return a;
             }
         }
         return null;
     }
-    public String formatName(Player player){
+
+    public String formatName(Player player) {
         String[] name_surname = player.getName().split(" ");
-        if(name_surname.length != 1){
+        if (name_surname.length != 1) {
             String surname = name_surname[1];
-            if(surname.length() <= 9){
+            if (surname.length() <= 9) {
                 return surname;
-            }else{
+            } else {
                 StringBuilder formated_lastName = new StringBuilder();
-                for(int i = 0; i < 7; i++){
+                for (int i = 0; i < 7; i++) {
                     formated_lastName.append(surname.charAt(i));
                 }
                 formated_lastName.append("...");
                 return formated_lastName.toString();
             }
-        }
-        else{
+        } else {
             return name_surname[0];
         }
     }
-    public Team getTeamById(int id, List<Team> teams){
-        for(Team a : teams){
-            if(id == a.getTeam_id()){
+
+    public Team getTeamById(int id, List<Team> teams) {
+        for (Team a : teams) {
+            if (id == a.getTeam_id()) {
                 return a;
             }
         }
         return null;
     }
 
-    private int setTeamKit(Map<String, Integer> map, Team team){
-        for(Map.Entry<String, Integer> entry :map.entrySet()){
-            if(team.getName().equals(entry.getKey())){
+    private int setTeamKit(Map<String, Integer> map, Team team) {
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            if (team.getName().equals(entry.getKey())) {
                 return entry.getValue();
             }
         }
         return 0;
     }
 
-    public void setTeamLogos(List<Team> teams){
-        for(Team team : teams){
-            for(Map.Entry<String, Integer> entry : logo_map.entrySet()){
-                if(team.getName().equals(entry.getKey())){
+    public void setTeamLogos(List<Team> teams) {
+        for (Team team : teams) {
+            for (Map.Entry<String, Integer> entry : logo_map.entrySet()) {
+                if (team.getName().equals(entry.getKey())) {
                     team.setTeamLogo(entry.getValue());
                 }
             }
@@ -333,9 +345,9 @@ public class SeasonViewModel extends AndroidViewModel {
     }
 
 
-    public List<Match> setTeamsAndLogos(List<Match> matches, List<Team> teams){
+    public List<Match> setTeamsAndLogos(List<Match> matches, List<Team> teams) {
         List<Match> returnList = new ArrayList<>();
-        for(Match a : matches){
+        for (Match a : matches) {
             a.setObjTeamHome(getTeamById(a.getTeamHome(), teams));
             a.getObjTeamHome().setTeamLogo(setTeamKit(logo_map, a.getObjTeamHome()));
             a.setObjTeamAway(getTeamById(a.getTeamAway(), teams));
@@ -344,45 +356,48 @@ public class SeasonViewModel extends AndroidViewModel {
         }
         return returnList;
     }
-    public Player getPlayerFromRealPos(int realPos, List<Player> players){
-        for(Player a : players){
-            if(a.getRealPosition() == realPos){
+
+    public Player getPlayerFromRealPos(int realPos, List<Player> players) {
+        for (Player a : players) {
+            if (a.getRealPosition() == realPos) {
                 return a;
             }
         }
         return null;
     }
 
-    public Float calcAvgTeamRating(List<Player> players){
-        float sum =  0;
-        for(Player a : players){
-            sum+= Integer.parseInt(a.getPlayerRating());
-        }
-        return sum / players.size();
-    }
-    public Float calcAvgTeamCost(List<Player> players){
-        float sum =  0;
-        for(Player a : players){
-            sum+= a.getPlayerValue();
+    public Float calcAvgTeamRating(List<Player> players) {
+        float sum = 0;
+        for (Player a : players) {
+            sum += Integer.parseInt(a.getPlayerRating());
         }
         return sum / players.size();
     }
 
-    public void setTeamPlayers(Team team, List<Player> playersFromTeam){
+    public Float calcAvgTeamCost(List<Player> players) {
+        float sum = 0;
+        for (Player a : players) {
+            sum += a.getPlayerValue();
+        }
+        return sum / players.size();
+    }
+
+    public void setTeamPlayers(Team team, List<Player> playersFromTeam) {
         team.getPlayerList().addAll(playersFromTeam);
     }
 
 
     private static final double baseChance = 0.5;
 
-    /** Postavlja "težinu" igrača kod izračuna vjerojatnosti zabijanja pogotka
-     *  napadači imaju veću težinsku vrijednost, centarfori manje i obrana najmanju (golmani nemaju, nebi se trebalo desit da golman zabije)
-     *  uz poziciju dodaj player rating / 1000
-     *  npr Cavani 93 PR -> Napadač
-     *  0.70 + 0.093 = 0.793 -> 79.3% šanse da je Cavani zabio pogodak, ukoliko se isti dogodi
+    /**
+     * Postavlja "težinu" igrača kod izračuna vjerojatnosti zabijanja pogotka
+     * napadači imaju veću težinsku vrijednost, centarfori manje i obrana najmanju (golmani nemaju, nebi se trebalo desit da golman zabije)
+     * uz poziciju dodaj player rating / 1000
+     * npr Cavani 93 PR -> Napadač
+     * 0.70 + 0.093 = 0.793 -> 79.3% šanse da je Cavani zabio pogodak, ukoliko se isti dogodi
      **/
-    private void weightSetter(Player player){
-        switch(player.getPosition()){
+    private void weightSetter(Player player) {
+        switch (player.getPosition()) {
             case "Goalkeeper":
                 player.setProbabilityWeight(0.00); //shouldnt happen
                 break;
@@ -397,10 +412,11 @@ public class SeasonViewModel extends AndroidViewModel {
                 break;
         }
     }
-    public List<GameResults> advanceWeek(List<Match> upcomingWeekMatches, List<Team> teamsWithPlayers){
+
+    public List<GameResults> advanceWeek(List<Match> upcomingWeekMatches, List<Team> teamsWithPlayers) {
 
         List<GameResults> gameResults = new ArrayList<>();
-        for(Match a : upcomingWeekMatches){
+        for (Match a : upcomingWeekMatches) {
             //posloži team home i team away te njihov team rating
             Team home = getTeamById(a.getTeamHome(), teamsWithPlayers);
             float homeTeamRating = calcAvgTeamRating(home.getPlayerList());
@@ -412,22 +428,22 @@ public class SeasonViewModel extends AndroidViewModel {
             int teamAwayScore = 0;
             double flagIncrementer = 0.10;
             //postavi težine
-            for(Player b : home.getPlayerList()){
+            for (Player b : home.getPlayerList()) {
                 weightSetter(b);
             }
-            for(Player c : away.getPlayerList()){
+            for (Player c : away.getPlayerList()) {
                 weightSetter(c);
             }
             //strijelci oba tima
             List<Player> awayScorers = new ArrayList<>();
             List<Player> homeScorers = new ArrayList<>();
-            while(!flag){ //kontrolna varijabla
-                if(new Random().nextDouble() <= baseChance - (homeTeamRating - awayTeamRating)){
+            while (!flag) { //kontrolna varijabla
+                if (new Random().nextDouble() <= baseChance - (homeTeamRating - awayTeamRating)) {
                     teamAwayScore++;
                     boolean scoredFlag = false;
-                    while(!scoredFlag){ //dešavalo se da se na niti jednom igraču ne triggera random event, ovo osigurava da svaki gol ima strijelca
-                        for(Player player : away.getPlayerList()){
-                            if(new Random().nextDouble() <= player.getProbabilityWeight()){
+                    while (!scoredFlag) { //dešavalo se da se na niti jednom igraču ne triggera random event, ovo osigurava da svaki gol ima strijelca
+                        for (Player player : away.getPlayerList()) {
+                            if (new Random().nextDouble() <= player.getProbabilityWeight()) {
                                 awayScorers.add(player);
                                 scoredFlag = true;
                                 break;
@@ -435,12 +451,12 @@ public class SeasonViewModel extends AndroidViewModel {
                         }
                     }
                 }
-                if(new Random().nextDouble() <= baseChance - (awayTeamRating - homeTeamRating)){
+                if (new Random().nextDouble() <= baseChance - (awayTeamRating - homeTeamRating)) {
                     teamHomeScore++;
                     boolean scoredFlag = false;
-                    while(!scoredFlag){
-                        for(Player player : home.getPlayerList()){
-                            if(new Random().nextDouble() <= player.getProbabilityWeight()){
+                    while (!scoredFlag) {
+                        for (Player player : home.getPlayerList()) {
+                            if (new Random().nextDouble() <= player.getProbabilityWeight()) {
                                 homeScorers.add(player);
                                 scoredFlag = true;
                                 break;
@@ -457,40 +473,39 @@ public class SeasonViewModel extends AndroidViewModel {
             }
             //pobroji golove po igraču
             Map<Player, Integer> countAway = new HashMap<>();
-            for(Player player : awayScorers){
-                if(!countAway.containsKey(player)){
+            for (Player player : awayScorers) {
+                if (!countAway.containsKey(player)) {
                     countAway.put(player, 1);
-                }else{
-                    countAway.put(player, countAway.get(player) +1);
+                } else {
+                    countAway.put(player, countAway.get(player) + 1);
                 }
             }
             Map<Player, Integer> countHome = new HashMap<>();
-            for(Player player : homeScorers){
-                if(!countHome.containsKey(player)){
+            for (Player player : homeScorers) {
+                if (!countHome.containsKey(player)) {
                     countHome.put(player, 1);
-                }else{
-                    countHome.put(player, countHome.get(player) +1);
+                } else {
+                    countHome.put(player, countHome.get(player) + 1);
                 }
             }
-            gameResults.add( new GameResults(a.getGameId(), a.getTeamHome(), a.getTeamAway(), teamHomeScore, teamAwayScore, countHome, countAway));
+            gameResults.add(new GameResults(a.getGameId(), a.getTeamHome(), a.getTeamAway(), teamHomeScore, teamAwayScore, countHome, countAway));
         }
         return gameResults;
     }
 
-    public void updatePoints (GameResults gameResults){
-        if(gameResults.getAwayTeamScore() > gameResults.getHomeTeamScore()){
+    public void updatePoints(GameResults gameResults) {
+        if (gameResults.getAwayTeamScore() > gameResults.getHomeTeamScore()) {
             updateWinner(gameResults.getTeamAwayId());
-        }
-        else if(gameResults.getHomeTeamScore() > gameResults.getAwayTeamScore()){
+        } else if (gameResults.getHomeTeamScore() > gameResults.getAwayTeamScore()) {
             updateWinner(gameResults.getHomeTeamId());
-        }
-        else{
+        } else {
             updateDraw(gameResults.getHomeTeamId());
             updateDraw(gameResults.getTeamAwayId());
         }
     }
-    public void sellPlayer(int realPosition){
-        switch(realPosition){
+
+    public void sellPlayer(int realPosition) {
+        switch (realPosition) {
             case 1:
                 dreamTeamRepository.sellGoalie();
                 break;
@@ -525,6 +540,97 @@ public class SeasonViewModel extends AndroidViewModel {
                 dreamTeamRepository.sellAttackerRight();
                 break;
         }
+    }
+
+    public void buyPlayer(Player player, DreamTeam dreamTeam) {
+        switch (player.getRealPosition()) {
+            case 1:
+                dreamTeamRepository.buyGoalie(player.getPlayerId());
+                dreamTeam.setGoalie(player.getPlayerId());
+                break;
+            case 2:
+                dreamTeamRepository.buyDefenderLeft(player.getPlayerId());
+                dreamTeam.setDefenderLeft(player.getPlayerId());
+                break;
+            case 3:
+                dreamTeamRepository.buyDefenderMidFirst(player.getPlayerId());
+                dreamTeam.setDefenderMidFirst(player.getPlayerId());
+                break;
+            case 4:
+                dreamTeamRepository.buyDefenderMidSecond(player.getPlayerId());
+                dreamTeam.setDefenderMidSecond(player.getPlayerId());
+                break;
+            case 5:
+                dreamTeamRepository.buyDefenderRight(player.getPlayerId());
+                dreamTeam.setDefenderRight(player.getPlayerId());
+                break;
+            case 6:
+                dreamTeamRepository.buyMidLeft(player.getPlayerId());
+                dreamTeam.setMidLeft(player.getPlayerId());
+                break;
+            case 7:
+                dreamTeamRepository.buyMidMidFirst(player.getPlayerId());
+                dreamTeam.setMidMidFirst(player.getPlayerId());
+                break;
+            case 8:
+                dreamTeamRepository.buyMidMidSecond(player.getPlayerId());
+                dreamTeam.setMidMidSecond(player.getPlayerId());
+                break;
+            case 9:
+                dreamTeamRepository.buyMidRight(player.getPlayerId());
+                dreamTeam.setMidRight(player.getPlayerId());
+                break;
+            case 10:
+                dreamTeamRepository.buyAttackerLeft(player.getPlayerId());
+                dreamTeam.setAttackLeft(player.getPlayerId());
+                break;
+            case 11:
+                dreamTeamRepository.buyAttackerRight(player.getPlayerId());
+                dreamTeam.setAttackRight(player.getPlayerId());
+                break;
+        }
+    }
+
+    //nisam pretjerano ponosan na ovo ali ne znam kak drugacije da to napravim
+    public int inferFreePosition(String position, DreamTeam dreamTeam) {
+        switch (position) {
+            case "Goalkeeper":
+                if (dreamTeam.getGoalie() == 0) {
+                    return 1;
+                }
+                break;
+            case "Defender":
+                if (dreamTeam.getDefenderLeft() == 0) {
+                    return 2;
+                } else if (dreamTeam.getDefenderMidFirst() == 0) {
+                    return 3;
+                } else if (dreamTeam.getDefenderMidSecond() == 0) {
+                    return 4;
+                } else if (dreamTeam.getDefenderRight() == 0) {
+                    return 5;
+                }
+                break;
+            case "Midfielder":
+                if (dreamTeam.getMidLeft() == 0) {
+                    return 6;
+                } else if (dreamTeam.getMidMidFirst() == 0) {
+                    return 7;
+                } else if (dreamTeam.getMidMidSecond() == 0) {
+                    return 8;
+                } else if (dreamTeam.getMidRight() == 0) {
+                    return 9;
+                }
+                break;
+            case "Attacker":
+                if (dreamTeam.getAttackLeft() == 0) {
+                    return 10;
+                } else if (dreamTeam.getAttackRight() == 0) {
+                    return 11;
+                }
+                break;
+        }
+
+        return 0;
     }
 
 

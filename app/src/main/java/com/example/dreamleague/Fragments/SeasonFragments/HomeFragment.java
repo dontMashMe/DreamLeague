@@ -486,7 +486,9 @@ public class HomeFragment extends Fragment {
                             playerSingleton.SetPlayer(seasonViewModel.getPlayerFromRealPos(entry.getValue(), currentUserTeam));
                             startActivity(new Intent(requireActivity(), PopPlayerInfo.class));
                         }
+                        else if(clicked.getTag().equals("empty")){
 
+                        }
                     }
                 }
             }

@@ -113,4 +113,53 @@ public class DreamTeamRepository {
         executor.shutdown();
     };
 
+    public void buyGoalie(int playerId){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.buyGoalie(playerId));
+        executor.shutdown();
+    }
+    public void buyDefenderLeft(int playerId){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.buydefenderLeft(playerId));
+        executor.shutdown();
+    }
+    public void buyDefenderMidFirst(int playerId){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.buydefenderMidFirst(playerId));
+        executor.shutdown();
+    }public void buyDefenderMidSecond(int playerId){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.buydefenderMidSecond(playerId));
+        executor.shutdown();
+    }public void buyDefenderRight(int playerId){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.buydefenderRight(playerId));
+        executor.shutdown();
+
+    }public void buyMidLeft(int playerId){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.buymidLeft(playerId));
+        executor.shutdown();
+    }public void buyMidMidFirst(int playerId){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.buymidMidFirst(playerId));
+        executor.shutdown();
+    }public void buyMidMidSecond(int playerId){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.buymidMidSecond(playerId));
+        executor.shutdown();
+    }public void buyMidRight(int playerId){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.buymidRight(playerId));
+        executor.shutdown();
+    }public void buyAttackerLeft(int playerId){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.buyAttackerLeft(playerId));
+        executor.shutdown();
+    }
+    public void buyAttackerRight(int playerId){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(()-> dreamTeamDao.buyAttackerRight(playerId));
+        executor.shutdown();
+    }
 }

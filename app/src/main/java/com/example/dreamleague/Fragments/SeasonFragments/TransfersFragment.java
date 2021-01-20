@@ -22,7 +22,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -74,6 +73,9 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
     }
 
 
+    //fix za crashanje adaptera kad se miču elementi iz liste
+    //problem je supportsPredictiveItemAnimations metoda
+    //stavim da returna false da ne poziva
     public static class CustLinearLayoutManager extends LinearLayoutManager {
 
         public CustLinearLayoutManager(Context context) {
@@ -94,6 +96,7 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
         public boolean supportsPredictiveItemAnimations() {
             return false;
         }
+
     }
 
     void setupVars(View view) {
@@ -109,10 +112,8 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                     userPlayers.addAll(a.getAllIds());
                     currentDreamTeam.add(a);
                 }
-                dreamTeam.removeObservers(getViewLifecycleOwner());
             }
         });
-
         balance = view.findViewById(R.id.txt_current_balance);
         String balanceS = getResources().getString(R.string.current_balance) + " <font color='#1b5e20'>" + String.format("%.2fM", Utils.getBalance(getContext()) / 1000000.0) + " $</font>";
         balance.setText(Html.fromHtml(balanceS), TextView.BufferType.SPANNABLE);
@@ -172,9 +173,11 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                 LiveData<List<Squads>> squads = seasonViewModel.getAllSquads();
                 LiveData<List<Team>> teams = seasonViewModel.getAllTeams();
                 List<Player> playerList = new ArrayList<>();
-
                 //kupi
                 if (USER_TEAM_FLAG == 1) {
+                    currentDreamTeam.clear();
+                    dreamTeam.observe(getViewLifecycleOwner(), currentDreamTeam::addAll);
+
                     //team flag and position flag set
                     if (!TEAM_FLAG.equals("") && !POSITION_FLAG.equals("")) {
                         LiveData<List<Player>> players = seasonViewModel.getPlayersTransferQuery(TEAM_FLAG, POSITION_FLAG);
@@ -188,17 +191,26 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                             playerList.add(a);
                                         }
                                     }
-
                                     TransfersAdapter adapter = new TransfersAdapter(playerList, new TransferListener() {
                                         @Override
                                         public void onPositionClicked(int position) {
                                             PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
                                             Player player = playerSingleton.returnPlayer();
-                                            Toast.makeText(getContext(), "" + player.getName(), Toast.LENGTH_SHORT).show();
+                                            int freePos = seasonViewModel.inferFreePosition(POSITION_FLAG, currentDreamTeam.get(0));
+                                            if (freePos != 0) {
+                                                player.setRealPosition(freePos);
+                                                seasonViewModel.buyPlayer(player, currentDreamTeam.get(0));
+                                                Toast.makeText(getContext(), "Igrač " + player.getName() + " uspješno kupljen!", Toast.LENGTH_SHORT).show();
+                                                playerList.remove(player);
+
+                                            } else {
+                                                imbSearch.performClick();
+                                                Toast.makeText(getContext(), "Nemate slobodnih pozicija na " + POSITION_FLAG, Toast.LENGTH_SHORT).show();
+                                            }
                                         }
                                     }, USER_TEAM_FLAG);
                                     recyclerView.setAdapter(adapter);
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    recyclerView.setLayoutManager(new CustLinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
                                 });
                             });
@@ -222,11 +234,21 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                         public void onPositionClicked(int position) {
                                             PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
                                             Player player = playerSingleton.returnPlayer();
-                                            Toast.makeText(getContext(), "" + player.getName(), Toast.LENGTH_SHORT).show();
+                                            int freePos = seasonViewModel.inferFreePosition(POSITION_FLAG, currentDreamTeam.get(0));
+                                            if (freePos != 0 && player.getPlayerValue() <= Utils.getBalance(getContext())) {
+                                                player.setRealPosition(freePos);
+                                                seasonViewModel.buyPlayer(player, currentDreamTeam.get(0));
+                                                Toast.makeText(getContext(), "Igrač " + player.getName() + " uspješno kupljen!", Toast.LENGTH_SHORT).show();
+                                                playerList.remove(player);
+
+                                            } else {
+                                                imbSearch.performClick();
+                                                Toast.makeText(getContext(), "Nemate slobodnih pozicija na " + POSITION_FLAG, Toast.LENGTH_SHORT).show();
+                                            }
                                         }
                                     }, USER_TEAM_FLAG);
                                     recyclerView.setAdapter(adapter);
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    recyclerView.setLayoutManager(new CustLinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
                                 });
                             });
@@ -250,11 +272,22 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                         public void onPositionClicked(int position) {
                                             PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
                                             Player player = playerSingleton.returnPlayer();
-                                            Toast.makeText(getContext(), "" + player.getName(), Toast.LENGTH_SHORT).show();
+                                            int freePos = seasonViewModel.inferFreePosition(POSITION_FLAG, currentDreamTeam.get(0));
+                                            if (freePos != 0 && player.getPlayerValue() <= Utils.getBalance(getContext())) {
+                                                player.setRealPosition(freePos);
+                                                seasonViewModel.buyPlayer(player, currentDreamTeam.get(0));
+                                                Toast.makeText(getContext(), "Igrač " + player.getName() + " uspješno kupljen!", Toast.LENGTH_SHORT).show();
+                                                playerList.remove(player);
+
+                                            } else {
+                                                imbSearch.performClick();
+
+                                                Toast.makeText(getContext(), "Nemate slobodnih pozicija na " + POSITION_FLAG, Toast.LENGTH_SHORT).show();
+                                            }
                                         }
                                     }, USER_TEAM_FLAG);
                                     recyclerView.setAdapter(adapter);
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    recyclerView.setLayoutManager(new CustLinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
                                 });
                             });
@@ -278,11 +311,21 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                         public void onPositionClicked(int position) {
                                             PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
                                             Player player = playerSingleton.returnPlayer();
-                                            Toast.makeText(getContext(), "" + player.getName(), Toast.LENGTH_SHORT).show();
+                                            int freePos = seasonViewModel.inferFreePosition(POSITION_FLAG, currentDreamTeam.get(0));
+                                            if (freePos != 0 && player.getPlayerValue() <= Utils.getBalance(getContext())) {
+                                                player.setRealPosition(freePos);
+                                                seasonViewModel.buyPlayer(player, currentDreamTeam.get(0));
+                                                Toast.makeText(getContext(), "Igrač " + player.getName() + " uspješno kupljen!", Toast.LENGTH_SHORT).show();
+                                                playerList.remove(player);
+
+                                            } else {
+                                                imbSearch.performClick();
+                                                Toast.makeText(getContext(), "Nemate slobodnih pozicija na " + POSITION_FLAG, Toast.LENGTH_SHORT).show();
+                                            }
                                         }
                                     }, USER_TEAM_FLAG);
                                     recyclerView.setAdapter(adapter);
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    recyclerView.setLayoutManager(new CustLinearLayoutManager(getContext()));
                                     adapter.notifyDataSetChanged();
 
                                 });
@@ -341,10 +384,8 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                             seasonViewModel.sellPlayer(player.getRealPosition());
                                             userPlayers.remove(player);
                                             Utils.putBalance(getContext(), Utils.getBalance(getContext()) + player.getPlayerValue());
-
                                             String balanceS = getResources().getString(R.string.current_balance) + " <font color='#1b5e20'>" + String.format("%.2fM", Utils.getBalance(getContext()) / 1000000.0) + " $</font>";
                                             balance.setText(Html.fromHtml(balanceS), TextView.BufferType.SPANNABLE);
-
                                             Toast.makeText(getContext(), "" + player.getName() + "REAL POS:" + player.getRealPosition(), Toast.LENGTH_SHORT).show();
                                         }
                                     }, USER_TEAM_FLAG);
@@ -389,7 +430,7 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                             Utils.putBalance(getContext(), Utils.getBalance(getContext()) + player.getPlayerValue());
                                             String balanceS = getResources().getString(R.string.current_balance) + " <font color='#1b5e20'>" + String.format("%.2fM", Utils.getBalance(getContext()) / 1000000.0) + " $</font>";
                                             balance.setText(Html.fromHtml(balanceS), TextView.BufferType.SPANNABLE);
-                                            Toast.makeText(getContext(), ""+ player.getName()+ "REAL POS:" + player.getRealPosition(), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "" + player.getName() + "REAL POS:" + player.getRealPosition(), Toast.LENGTH_SHORT).show();
                                         }
                                     }, USER_TEAM_FLAG);
                                     recyclerView.setAdapter(adapter);
@@ -440,7 +481,6 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 }
 

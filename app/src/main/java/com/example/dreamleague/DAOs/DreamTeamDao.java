@@ -63,6 +63,8 @@ public interface DreamTeamDao {
     @Query("UPDATE UserTeam SET attackRight = 0")
     void sellAttackerRight();
 
+
+
     @Query("UPDATE UserTeam SET goalie = :playerId")
     void buyGoalie(int playerId);
 
@@ -88,7 +90,7 @@ public interface DreamTeamDao {
     void buymidMidSecond (int playerId);
 
     @Query("UPDATE UserTeam SET midRight = :playerId")
-    void buyMidRight(int playerId);
+    void buymidRight(int playerId);
 
     @Query("UPDATE UserTeam SET attackLeft = :playerId")
     void buyAttackerLeft(int playerId);

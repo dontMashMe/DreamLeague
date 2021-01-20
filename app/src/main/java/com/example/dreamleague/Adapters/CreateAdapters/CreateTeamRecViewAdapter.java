@@ -51,6 +51,7 @@ public class CreateTeamRecViewAdapter extends RecyclerView.Adapter<RecyclerView.
         viewHolder.txt_PR.setText(String.valueOf(player.getPlayerRating()));
         viewHolder.txt_value.setText(String.format("%.2fM$", player.getPlayerValue() / 1000000.0));
         viewHolder.img_kit.setImageResource(player.getTeam().getTeamKit());
+        viewHolder.txt_pos.setText(player.getPosition());
         viewHolder.buyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +73,7 @@ public class CreateTeamRecViewAdapter extends RecyclerView.Adapter<RecyclerView.
     static class RowViewHolder extends RecyclerView.ViewHolder
     {
         ImageButton buyButton;
-        TextView txt_name, txt_PR, txt_value;
+        TextView txt_name, txt_PR, txt_value, txt_pos;
         ImageView img_kit;
         public RowViewHolder(@NonNull View itemView){
             super(itemView);
@@ -81,6 +82,7 @@ public class CreateTeamRecViewAdapter extends RecyclerView.Adapter<RecyclerView.
             buyButton = itemView.findViewById(R.id.buy_button);
             txt_value = itemView.findViewById(R.id.txt_value);
             img_kit = itemView.findViewById(R.id.img_kit);
+            txt_pos = itemView.findViewById(R.id.txt_player_position);
 
         }
     }
