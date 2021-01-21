@@ -42,28 +42,13 @@ public class MatchesRepository {
         return matchesDao.last5Matches(currentWeek, teamId);
     }
 
-    public void updateMatch(Match match){
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(()->{
-            matchesDao.update(match);
-        });
-        executor.shutdown();
-    }
-
     public void updateMatchWhere(int gameId, int homeScore, int awayScore){
         matchesDao.updateMatchWhere(awayScore, homeScore, gameId);
     }
+
+
+    public LiveData<List<Match>> allMatchesFromPlayersTeam (int teamId, int currentWeek){
+        return matchesDao.allMatchesFromPlayersTeam(teamId, currentWeek);
+    }
 }
 
-
-/*
-*
-*   ExecutorService executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
-        executor.execute(()->{
-            //background thread
-            dreamTeamDao.insert(dreamTeam);
-            handler.post(()->{
-                //glavni thread
-            });
-        });*/

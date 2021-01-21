@@ -30,5 +30,7 @@ public interface MatchesDao {
     @Query("SELECT * FROM Matches WHERE week < :currentWeek AND teamAway = :teamId OR week < :currentWeek AND teamHome = :teamId order by week desc limit 5")
     LiveData<List<Match>> last5Matches(int currentWeek, int teamId);
 
+    @Query("SELECT * FROM Matches WHERE teamAway = :teamId AND week < :currentWeek OR teamHome =:teamId AND week < :currentWeek")
+    LiveData<List<Match>> allMatchesFromPlayersTeam (int teamId, int currentWeek);
 
 }

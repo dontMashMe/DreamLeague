@@ -14,9 +14,10 @@ public class MatchScores {
     private int playerId;
     @NonNull
     private int numberOfGoals;
-
     @NonNull
     private int team;
+
+
 
     public MatchScores(int recordId, int gameId, int playerId, int numberOfGoals, int team) {
         this.recordId = recordId;

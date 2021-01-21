@@ -1,6 +1,5 @@
 package com.example.dreamleague.Activities;
 
-import android.app.Activity;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
@@ -12,14 +11,18 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.dreamleague.DataModels.Match;
 import com.example.dreamleague.DataModels.Player;
 import com.example.dreamleague.DataModels.PlayerSingleton;
+import com.example.dreamleague.DataModels.Utils;
 import com.example.dreamleague.R;
 import com.example.dreamleague.ViewModels.SeasonViewModel;
 
 import java.text.NumberFormat;
+import java.util.List;
 
 
 public class PopPlayerInfo extends AppCompatActivity {
@@ -28,26 +31,43 @@ public class PopPlayerInfo extends AppCompatActivity {
     TextView txt_player_name, txt_player_pr, txt_player_val, txt_player_team, txt_player_points;
     ImageView img_player_team_logo;
     ImageButton imb_sell;
+    int numberOfPoints = 0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         seasonViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()))
                 .get(SeasonViewModel.class);
 
+
         setContentView(R.layout.pop_layout);
         int screenHeight = getResources().getDisplayMetrics().heightPixels;
         int screenWidth = getResources().getDisplayMetrics().widthPixels;
         getWindow().setLayout((int)(screenWidth * .9), (int)(screenHeight *.3));
-
         //zamracuje ekran iza activitya
         WindowManager.LayoutParams wp = getWindow().getAttributes();
         wp.dimAmount = 0.75f;
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         getWindow().setAttributes(wp);
         //-------------------------------------
+
         PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
         Player player = playerSingleton.returnPlayer();
-        setupVars(player);
+
+        LiveData<Integer> goalsLiveData = seasonViewModel.playerNumberOfGoals(player.getPlayerId());
+        LiveData<List<Match>> matchesLiveData = seasonViewModel.allMatchesFromPlayersTeam(player.getTeam().getTeam_id(), Utils.getCurrentWeek(this));
+        goalsLiveData.observe(this, goals->{
+            matchesLiveData.observe(this, matches -> {
+                if(goals != null){ //ako igrač nije zabio niti jedan gol, playerNumberOfGoals vraća 0
+                    numberOfPoints = seasonViewModel.calculatePlayerPoints(matches, player, goals);
+                    setupVars(player);
+                }else{
+                    numberOfPoints = seasonViewModel.calculatePlayerPoints(matches, player, 0);
+                    setupVars(player);
+
+                }
+            });
+        });
+
     }
 
     void setupVars(Player player){
@@ -66,7 +86,7 @@ public class PopPlayerInfo extends AppCompatActivity {
         txt_player_team.setText(player.getTeam().getName());
 
         txt_player_points = findViewById(R.id.txt_player_points_pop);
-        txt_player_points.setText(String.format("Bodovi: %s", 32));
+        txt_player_points.setText(String.format("Bodovi: %s", numberOfPoints));
 
         img_player_team_logo = findViewById(R.id.img_team_logo_pop);
         img_player_team_logo.setImageResource(player.getTeam().getTeamLogo());

@@ -98,13 +98,13 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
         }
 
     }
+    List<DreamTeam> currentDreamTeam = new ArrayList<>();
 
     void setupVars(View view) {
         //misc
         List<Integer> userPlayers = new ArrayList<>();
         LiveData<List<DreamTeam>> dreamTeam = seasonViewModel.getDreamTeam();
         //da se ne pokazuju igrači koje smo već kupili
-        List<DreamTeam> currentDreamTeam = new ArrayList<>();
         dreamTeam.observe(getViewLifecycleOwner(), new Observer<List<DreamTeam>>() {
             @Override
             public void onChanged(List<DreamTeam> dreamTeams) {
@@ -196,7 +196,8 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                         public void onPositionClicked(int position) {
                                             PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
                                             Player player = playerSingleton.returnPlayer();
-                                            int freePos = seasonViewModel.inferFreePosition(POSITION_FLAG, currentDreamTeam.get(0));
+                                            //price check se odrađuje u adapteru da ne zeleni red bezveze jer onda ne znam maknut
+                                            int freePos = seasonViewModel.inferFreePosition(player.getPosition(), currentDreamTeam.get(0));
                                             if (freePos != 0) {
                                                 player.setRealPosition(freePos);
                                                 seasonViewModel.buyPlayer(player, currentDreamTeam.get(0));
@@ -234,7 +235,7 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                         public void onPositionClicked(int position) {
                                             PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
                                             Player player = playerSingleton.returnPlayer();
-                                            int freePos = seasonViewModel.inferFreePosition(POSITION_FLAG, currentDreamTeam.get(0));
+                                            int freePos = seasonViewModel.inferFreePosition(player.getPosition(), currentDreamTeam.get(0));
                                             if (freePos != 0 && player.getPlayerValue() <= Utils.getBalance(getContext())) {
                                                 player.setRealPosition(freePos);
                                                 seasonViewModel.buyPlayer(player, currentDreamTeam.get(0));
@@ -272,7 +273,7 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                         public void onPositionClicked(int position) {
                                             PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
                                             Player player = playerSingleton.returnPlayer();
-                                            int freePos = seasonViewModel.inferFreePosition(POSITION_FLAG, currentDreamTeam.get(0));
+                                            int freePos = seasonViewModel.inferFreePosition(player.getPosition(), currentDreamTeam.get(0));
                                             if (freePos != 0 && player.getPlayerValue() <= Utils.getBalance(getContext())) {
                                                 player.setRealPosition(freePos);
                                                 seasonViewModel.buyPlayer(player, currentDreamTeam.get(0));
@@ -311,7 +312,7 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                         public void onPositionClicked(int position) {
                                             PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
                                             Player player = playerSingleton.returnPlayer();
-                                            int freePos = seasonViewModel.inferFreePosition(POSITION_FLAG, currentDreamTeam.get(0));
+                                            int freePos = seasonViewModel.inferFreePosition(player.getPosition(), currentDreamTeam.get(0));
                                             if (freePos != 0 && player.getPlayerValue() <= Utils.getBalance(getContext())) {
                                                 player.setRealPosition(freePos);
                                                 seasonViewModel.buyPlayer(player, currentDreamTeam.get(0));
@@ -444,6 +445,20 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
             }
         });
         imbSearch.performClick();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        currentDreamTeam.clear();
+        LiveData<List<DreamTeam>> dreamteamlive = seasonViewModel.getDreamTeam();
+        dreamteamlive.observe(getViewLifecycleOwner(), new Observer<List<DreamTeam>>() {
+            @Override
+            public void onChanged(List<DreamTeam> dreamTeams) {
+                currentDreamTeam.addAll(dreamTeams);
+            }
+        });
+
     }
 
     @Override

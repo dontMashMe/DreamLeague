@@ -17,4 +17,8 @@ public interface MatchScoresDao {
 
     @Query("SELECT * FROM MatchScores where gameId = :gameId")
     List<MatchScores> matchScoresForGame(int gameId);
+
+    @Query("SELECT sum(numberOfGoals) from MatchScores where playerId = :playerId")
+    LiveData<Integer> countPlayerNumberOfGoals(int playerId);
+
 }

@@ -1,12 +1,11 @@
 package com.example.dreamleague.Fragments.SeasonFragments;
 
-import android.app.ProgressDialog;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Html;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.dreamleague.Activities.PopPlayerInfo;
@@ -39,17 +37,11 @@ import com.example.dreamleague.ViewModels.SeasonViewModel;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 
 public class HomeFragment extends Fragment {
@@ -213,6 +205,7 @@ public class HomeFragment extends Fragment {
                         imageButtons.clear();
                         teamLiveData.removeObservers(getViewLifecycleOwner());
                         matchesLiveData.removeObservers(getViewLifecycleOwner());
+                        squadsLiveData.removeObservers(getViewLifecycleOwner());
                     });
                 });
 
@@ -318,12 +311,9 @@ public class HomeFragment extends Fragment {
             txt_midMidSecond_pr.setText("");
             txt_midMidSecond_val.setText("");
 
-
             txt_midRight_name.setText("");
             txt_midRight_pr.setText("");
             txt_midRight_val.setText("");
-
-
 
             txt_attackLeft_name.setText("");
             txt_attackLeft_pr.setText("");
@@ -475,7 +465,6 @@ public class HomeFragment extends Fragment {
         }
 
         private final View.OnClickListener playerClickListener = new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 for (Map.Entry<Integer, Integer> entry : buttonPositionMap.entrySet()) {
@@ -485,9 +474,6 @@ public class HomeFragment extends Fragment {
                             PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
                             playerSingleton.SetPlayer(seasonViewModel.getPlayerFromRealPos(entry.getValue(), currentUserTeam));
                             startActivity(new Intent(requireActivity(), PopPlayerInfo.class));
-                        }
-                        else if(clicked.getTag().equals("empty")){
-
                         }
                     }
                 }
@@ -504,4 +490,5 @@ public class HomeFragment extends Fragment {
             super.onDestroy();
         }
 
-    }
+
+}

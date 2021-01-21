@@ -633,5 +633,74 @@ public class SeasonViewModel extends AndroidViewModel {
         return 0;
     }
 
+    //nadogradi, za sad samo golovi se broje
+    public LiveData<Integer> playerNumberOfGoals(int playerId){
+        return matchScoresRepository.countPlayerNumberOfGoals(playerId);
+    }
+
+    public LiveData<List<Match>> allMatchesFromPlayersTeam(int teamId, int currentWeek){
+        return matchesRepository.allMatchesFromPlayersTeam(teamId, currentWeek);
+    }
+
+    public int calculatePlayerPoints(List<Match> teamMatches, Player player,  int numberOfGoals){
+        int pointsSum = 0;
+        //performanse tima
+        for(Match a : teamMatches){
+            if(a.getTeamHome() == player.getTeam().getTeam_id()){
+                if(a.getTeamHomeScore() > a.getTeamAwayScore()) {
+                    pointsSum+=2;
+                    //clean sheet
+                    if (a.getTeamAwayScore() == 0){
+                        switch(player.getPosition()){
+                            case "Goalkeeper":
+                            case "Defender":
+                                pointsSum += 4;
+                                break;
+                            case "Midfielder":
+                                pointsSum += 1;
+                                break;
+                        }
+
+                    }
+                }
+                else if(a.getTeamHomeScore() == a.getTeamAwayScore()) pointsSum+=1;
+            }
+            else if(a.getTeamAway() == player.getTeam().getTeam_id()){
+                if(a.getTeamAwayScore() > a.getTeamHomeScore()) {
+                    pointsSum+=2;
+                    if(a.getTeamAwayScore() == 0){
+                        switch(player.getPosition()){
+                            case "Goalkeeper":
+                            case "Defender":
+                                pointsSum += 4;
+                                break;
+                            case "Midfielder":
+                                pointsSum += 1;
+                                break;
+                        }
+                    }
+                }
+                else if(a.getTeamAwayScore() == a.getTeamHomeScore()) pointsSum+=1;
+            }
+        }
+        //broj golova
+        switch(player.getPosition()){
+            case "Goalkeeper":
+                pointsSum += numberOfGoals * 8;
+                break;
+            case "Defender":
+                pointsSum += numberOfGoals * 6;
+                break;
+            case "Midfielder":
+                pointsSum += numberOfGoals * 5;
+                break;
+            case "Attacker":
+                pointsSum += numberOfGoals * 4;
+                break;
+        }
+        return pointsSum;
+
+    }
+
 
 }

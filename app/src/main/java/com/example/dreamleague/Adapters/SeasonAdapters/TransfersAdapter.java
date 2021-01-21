@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dreamleague.DataModels.Player;
 import com.example.dreamleague.DataModels.PlayerSingleton;
+import com.example.dreamleague.DataModels.Utils;
 import com.example.dreamleague.Listeners.TransferListener;
 import com.example.dreamleague.R;
 
@@ -69,12 +70,17 @@ public class TransfersAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHol
             viewHolder.buy_sell_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
-                    playerSingleton.SetPlayer(player);
-                    viewHolder.transferListenerWeakReference.get().onPositionClicked(position);
-                    viewHolder.itemView.setBackgroundColor(Color.parseColor("#61eb34"));
-                    players.remove(player);
-                    notifyItemRangeChanged(position, players.size());
+                    if(player.getPlayerValue() < Utils.getBalance(v.getContext())){
+                        PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
+                        playerSingleton.SetPlayer(player);
+                        viewHolder.transferListenerWeakReference.get().onPositionClicked(position);
+                        viewHolder.itemView.setBackgroundColor(Color.parseColor("#61eb34"));
+                        players.remove(player);
+                        notifyItemRangeChanged(position, players.size());
+                    }else{
+                        Toast.makeText(v.getContext(), "Nemate dovoljno novca!", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             });
         }
@@ -96,10 +102,7 @@ public class TransfersAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHol
             img_kit = itemView.findViewById(R.id.img_kit);
             txt_pos = itemView.findViewById(R.id.txt_player_position);
             buy_sell_button = itemView.findViewById(R.id.buy_button);
-
         }
-
-
     }
     String formatName(String name){
         if(name.length() <= 12) return name;

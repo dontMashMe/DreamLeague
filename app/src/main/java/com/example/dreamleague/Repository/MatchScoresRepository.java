@@ -36,7 +36,14 @@ public class MatchScoresRepository {
         executor.execute(()->{
              returnList.addAll(matchScoresDao.matchScoresForGame(gameId));
         });
+        executor.shutdown();
+
         return returnList;
     }
+
+    public LiveData<Integer> countPlayerNumberOfGoals(int playerId){
+        return matchScoresDao.countPlayerNumberOfGoals(playerId);
+    }
+
 
 }
