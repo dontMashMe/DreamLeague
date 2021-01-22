@@ -19,13 +19,13 @@
     <string name="list_goalie">Popis svih golmana:</string>
     <string name="kit">KIT</string>
     <string name="sort_by_pr">Sort by PR</string>
-    <string name="week">WEEK</string>
+    <string name="week">WEEK:</string>
     <string name="dovoljno_novca">\"Nemate dovoljno novca! \"</string>
     <string name="igrac">Igrač:</string>
     <string name="uspjesno_kupljen">\" uspješno kupljen.\"</string>
     <string name="vrijednost"><u>Vrijednost</u>: %s$</string>
     <string name="average_team_rating">Average team rating:</string>
-    <string name="points">Points #:</string>
+    <string name="points">POINTS</string>
     <string name="average_team_cost">Average team cost:</string>
     <string name="strijecli"><u>Strijelci:</u></string>
     <string name="leaderboards">Leaderboards</string>

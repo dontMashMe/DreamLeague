@@ -118,7 +118,6 @@ public class MatchesFragment extends Fragment implements AdapterView.OnItemSelec
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         LiveData<List<Match>> matchesFromWeek = seasonViewModel.getMatchesFromWeek((Integer) parent.getItemAtPosition(position));
         matchesFromWeek.observe(getViewLifecycleOwner(), matches -> {
-            List<Match> matchesSetupd = seasonViewModel.setTeamsAndLogos(matches, allTeams);
             LiveData<List<Player>> allPlayers = seasonViewModel.getAllPlayers();
             allPlayers.observe(getViewLifecycleOwner(), players1 -> {
                 players.addAll(players1);
@@ -137,6 +136,8 @@ public class MatchesFragment extends Fragment implements AdapterView.OnItemSelec
                 };
                 executor.execute(runnable);
                 executor.shutdown();
+                List<Match> matchesSetupd = seasonViewModel.setTeamsAndLogos(matches, allTeams);
+
                 //nazalost moram poslat i listu igrača kako bi prikazao strijelce..
                 MatchesRecViewAdapter matchesRecViewAdapter = new MatchesRecViewAdapter(matchesSetupd, players);
                 recyclerView.setAdapter(matchesRecViewAdapter);

@@ -643,26 +643,26 @@
         tools:layout_editor_absoluteY="44dp" />
 
     <TextView
-        android:id="@+id/txt_avg_teamRating"
+        android:id="@+id/txt_current_points"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="16dp"
-        android:text="@string/average_team_rating"
+        android:text="@string/points"
         app:layout_constraintBottom_toTopOf="@+id/img_field3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txt_avg_team_cost"
+        android:id="@+id/txt_current_week"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="1dp"
-        android:text="@string/average_team_cost"
-        app:layout_constraintBottom_toTopOf="@+id/txt_avg_teamRating"
+        android:text="@string/week"
+        app:layout_constraintBottom_toTopOf="@+id/txt_current_points"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

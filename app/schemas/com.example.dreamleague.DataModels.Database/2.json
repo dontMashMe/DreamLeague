@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "d50fecc48eb3518e8081eade19696b98",
+    "identityHash": "9934518348599053204ad16f30c329da",
     "entities": [
       {
         "tableName": "Player",
@@ -322,12 +322,38 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "PlayerPoints",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`playerId` INTEGER NOT NULL, `points` INTEGER NOT NULL, PRIMARY KEY(`playerId`))",
+        "fields": [
+          {
+            "fieldPath": "playerId",
+            "columnName": "playerId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "points",
+            "columnName": "points",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "playerId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd50fecc48eb3518e8081eade19696b98')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9934518348599053204ad16f30c329da')"
     ]
   }
 }

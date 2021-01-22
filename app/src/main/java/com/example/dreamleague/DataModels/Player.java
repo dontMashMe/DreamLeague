@@ -27,6 +27,17 @@ public class Player {
     @Ignore
     private int teamKit;
 
+    @Ignore
+    private int pointsAcquired;
+
+    public int getPointsAcquired() {
+        return pointsAcquired;
+    }
+
+    public void setPointsAcquired(int pointsAcquired) {
+        this.pointsAcquired = pointsAcquired;
+    }
+
     public int getTeamKit() {
         return teamKit;
     }

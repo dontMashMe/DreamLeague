@@ -14,12 +14,14 @@ import com.example.dreamleague.DataModels.GameResults;
 import com.example.dreamleague.DataModels.Match;
 import com.example.dreamleague.DataModels.MatchScores;
 import com.example.dreamleague.DataModels.Player;
+import com.example.dreamleague.DataModels.PlayerPoints;
 import com.example.dreamleague.DataModels.Squads;
 import com.example.dreamleague.DataModels.Team;
 import com.example.dreamleague.R;
 import com.example.dreamleague.Repository.DreamTeamRepository;
 import com.example.dreamleague.Repository.MatchScoresRepository;
 import com.example.dreamleague.Repository.MatchesRepository;
+import com.example.dreamleague.Repository.PlayerPointsRepository;
 import com.example.dreamleague.Repository.PlayerRepository;
 import com.example.dreamleague.Repository.SquadsRepository;
 import com.example.dreamleague.Repository.TeamRepository;
@@ -30,6 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SeasonViewModel extends AndroidViewModel {
 
@@ -39,6 +43,7 @@ public class SeasonViewModel extends AndroidViewModel {
     private final TeamRepository teamRepository;
     private final MatchesRepository matchesRepository;
     private final MatchScoresRepository matchScoresRepository;
+    private final PlayerPointsRepository playerPointsRepository;
 
     private final LiveData<List<DreamTeam>> dreamTeam;
     private final LiveData<List<Player>> allPlayers;
@@ -65,10 +70,24 @@ public class SeasonViewModel extends AndroidViewModel {
 
         matchScoresRepository = new MatchScoresRepository(application);
 
+        playerPointsRepository = new PlayerPointsRepository(application);
         fillLogoMap();
         fillMap();
 
 
+    }
+
+    public void updatePlayerPoints(List<Player> players, Match match) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            for (Player a : players) {
+                int numberOfGoals = matchScoresRepository.returnNumberOfGoals(a.getPlayerId());
+                a.setPointsAcquired(calculatePlayerPoints(match, a, numberOfGoals));
+            }
+            playerPointsRepository.updatePlayerPoints(players);
+
+        });
+        executor.shutdown();
     }
 
     public LiveData<List<Player>> transferQueryOnlyPositionSet(String position) {
@@ -134,6 +153,10 @@ public class SeasonViewModel extends AndroidViewModel {
 
     public List<MatchScores> getMatchScoresForGame(int gameId) {
         return matchScoresRepository.getMatchScoresForGame(gameId);
+    }
+
+    public LiveData<Integer> getPlayerPoints(int playerId) {
+        return playerPointsRepository.getPlayerPoints(playerId);
     }
 
     public List<Match> getMatchesFromWeekStatic(List<Match> matches, int week) {
@@ -374,19 +397,6 @@ public class SeasonViewModel extends AndroidViewModel {
         return sum / players.size();
     }
 
-    public Float calcAvgTeamCost(List<Player> players) {
-        float sum = 0;
-        for (Player a : players) {
-            sum += a.getPlayerValue();
-        }
-        return sum / players.size();
-    }
-
-    public void setTeamPlayers(Team team, List<Player> playersFromTeam) {
-        team.getPlayerList().addAll(playersFromTeam);
-    }
-
-
     private static final double baseChance = 0.5;
 
     /**
@@ -504,7 +514,8 @@ public class SeasonViewModel extends AndroidViewModel {
         }
     }
 
-    public void sellPlayer(int realPosition) {
+    public void sellPlayer(int realPosition, int playerId) {
+        playerPointsRepository.deletePlayer(playerId);
         switch (realPosition) {
             case 1:
                 dreamTeamRepository.sellGoalie();
@@ -589,6 +600,7 @@ public class SeasonViewModel extends AndroidViewModel {
                 dreamTeam.setAttackRight(player.getPlayerId());
                 break;
         }
+        playerPointsRepository.insertPlayer(player.getPlayerId());
     }
 
     //nisam pretjerano ponosan na ovo ali ne znam kak drugacije da to napravim
@@ -634,57 +646,55 @@ public class SeasonViewModel extends AndroidViewModel {
     }
 
     //nadogradi, za sad samo golovi se broje
-    public LiveData<Integer> playerNumberOfGoals(int playerId){
+    public LiveData<Integer> playerNumberOfGoals(int playerId) {
         return matchScoresRepository.countPlayerNumberOfGoals(playerId);
     }
 
-    public LiveData<List<Match>> allMatchesFromPlayersTeam(int teamId, int currentWeek){
+    public LiveData<List<Match>> allMatchesFromPlayersTeam(int teamId, int currentWeek) {
         return matchesRepository.allMatchesFromPlayersTeam(teamId, currentWeek);
     }
 
-    public int calculatePlayerPoints(List<Match> teamMatches, Player player,  int numberOfGoals){
+
+    public int calculatePlayerPoints(Match match, Player player, int numberOfGoals) {
         int pointsSum = 0;
         //performanse tima
-        for(Match a : teamMatches){
-            if(a.getTeamHome() == player.getTeam().getTeam_id()){
-                if(a.getTeamHomeScore() > a.getTeamAwayScore()) {
-                    pointsSum+=2;
-                    //clean sheet
-                    if (a.getTeamAwayScore() == 0){
-                        switch(player.getPosition()){
-                            case "Goalkeeper":
-                            case "Defender":
-                                pointsSum += 4;
-                                break;
-                            case "Midfielder":
-                                pointsSum += 1;
-                                break;
-                        }
+        if (match.getTeamHome() == player.getTeam().getTeam_id()) {
+            if (match.getTeamHomeScore() > match.getTeamAwayScore()) {
+                pointsSum += 2;
+                //clean sheet
+                if (match.getTeamAwayScore() == 0) {
+                    switch (player.getPosition()) {
+                        case "Goalkeeper":
+                        case "Defender":
+                            pointsSum += 4;
+                            break;
+                        case "Midfielder":
+                            pointsSum += 1;
+                            break;
+                    }
 
-                    }
                 }
-                else if(a.getTeamHomeScore() == a.getTeamAwayScore()) pointsSum+=1;
-            }
-            else if(a.getTeamAway() == player.getTeam().getTeam_id()){
-                if(a.getTeamAwayScore() > a.getTeamHomeScore()) {
-                    pointsSum+=2;
-                    if(a.getTeamAwayScore() == 0){
-                        switch(player.getPosition()){
-                            case "Goalkeeper":
-                            case "Defender":
-                                pointsSum += 4;
-                                break;
-                            case "Midfielder":
-                                pointsSum += 1;
-                                break;
-                        }
-                    }
-                }
-                else if(a.getTeamAwayScore() == a.getTeamHomeScore()) pointsSum+=1;
-            }
+            } else if (match.getTeamHomeScore() == match.getTeamAwayScore()) pointsSum += 1;
         }
+        else if (match.getTeamAway() == player.getTeam().getTeam_id()) {
+            if (match.getTeamAwayScore() > match.getTeamHomeScore()) {
+                pointsSum += 2;
+                if (match.getTeamAwayScore() == 0) {
+                    switch (player.getPosition()) {
+                        case "Goalkeeper":
+                        case "Defender":
+                            pointsSum += 4;
+                            break;
+                        case "Midfielder":
+                            pointsSum += 1;
+                            break;
+                    }
+                }
+            } else if (match.getTeamAwayScore() == match.getTeamHomeScore()) pointsSum += 1;
+        }
+
         //broj golova
-        switch(player.getPosition()){
+        switch (player.getPosition()) {
             case "Goalkeeper":
                 pointsSum += numberOfGoals * 8;
                 break;
@@ -699,7 +709,6 @@ public class SeasonViewModel extends AndroidViewModel {
                 break;
         }
         return pointsSum;
-
     }
 
 

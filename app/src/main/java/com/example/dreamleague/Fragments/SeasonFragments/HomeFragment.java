@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
     TextView txt_goalie_name, txt_defenderLeft_name, txt_defenderMidFirst_name, txt_defenderMidSecond_name, txt_defenderRight_name, txt_midLeft_name, txt_midMidFirst_name, txt_midMidSecond_name, txt_midRight_name, txt_attackLeft_name, txt_attackRight_name;
     TextView txt_goalie_pr, txt_defenderLeft_pr, txt_defenderMidFirst_pr, txt_defenderMidSecond_pr, txt_defenderRight_pr, txt_midLeft_pr, txt_midMidFirst_pr, txt_midMidSecond_pr, txt_midRight_pr, txt_attackLeft_pr, txt_attackRight_pr;
     TextView txt_goalie_val, txt_defenderLeft_val, txt_defenderMidFirst_val, txt_defenderMidSecond_val, txt_defenderRight_val, txt_midLeft_val, txt_midMidFirst_val, txt_midMidSecond_val, txt_midRight_val, txt_attackLeft_val, txt_attackRight_val;
-    TextView txt_team_name, txt_avg_tr, txt_avg_tcost;
+    TextView txt_team_name, txt_current_points, txt_current_week;
     SeasonViewModel seasonViewModel;
     ProgressBar progressBar;
     List<Player> currentUserTeam = new ArrayList<>();
@@ -93,22 +93,19 @@ public class HomeFragment extends Fragment {
                     setupVars(view);
                     currentUserTeam.addAll(userPlayers);
                     setupClickListeners();
-                    float avgCost = seasonViewModel.calcAvgTeamCost(userPlayers);
-                    float avgTR = seasonViewModel.calcAvgTeamRating(userPlayers);
-
                     executor.shutdown();
                     handler.post(() -> {
                         for (Team a : allTeamsWithPlayers) {
                             LiveData<List<Player>> playersFromTeam = seasonViewModel.getPlayersFromTeam(a.getTeam_id());
                             playersFromTeam.observe(getViewLifecycleOwner(), teamPlayers -> {
+                                a.getPlayerList().clear();
                                 a.getPlayerList().addAll(teamPlayers);
                             });
                         }
-                        String text = getResources().getString(R.string.average_team_cost) + " <font color='#1b5e20'>" + NumberFormat.getInstance().format(avgCost) + " $</font>";
-                        txt_avg_tcost.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
-
-                        text = getResources().getString(R.string.average_team_rating) + " <font color='#6300ee'>" + (Math.round(avgTR * 100.0) / 100.0) + "</font>";
-                        txt_avg_tr.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+                        String text = getResources().getString(R.string.week) + " <font color='#1b5e20'>" + Utils.getCurrentWeek(getContext()) + " $</font>";
+                        txt_current_week.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+                        text = getResources().getString(R.string.points) + " <font color='#6300ee'>" + 80 + "</font>";
+                        txt_current_points.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
                         txt_team_name.setText(dreamTeams.get(dreamTeams.size() - 1).getName());
                         //postavljanje igrača na pozicije
                         //izgleda ružno ali switch je brza naredba i izvršava se skoro instantno
@@ -248,8 +245,9 @@ public class HomeFragment extends Fragment {
                 v.setAlpha(1f);
                 v.startAnimation(alphaAnimation);
                 int currentWeek = Utils.getCurrentWeek(getContext());
-                if(allMatches.isEmpty())
-                    Toast.makeText(getContext(), "PRAZNO JE", Toast.LENGTH_LONG).show();
+                if(allMatches.isEmpty()){
+                    Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+                }
                 else{
                     List<Match> currentWeekMatches = seasonViewModel.getMatchesFromWeekStatic(allMatches, currentWeek);
                     gameResults.clear();
@@ -257,6 +255,8 @@ public class HomeFragment extends Fragment {
                     ExecutorService executor = Executors.newSingleThreadExecutor();
                     executor.execute(()->{
                         for (GameResults a : gameResults) {
+                            Match playedMatch = new Match(a.getGameId(), currentWeek, a.getHomeTeamId(), a.getTeamAwayId(), a.getHomeTeamScore(), a.getAwayTeamScore());
+                            seasonViewModel.updatePlayerPoints(currentUserTeam, playedMatch);
                             seasonViewModel.updateMatchesWhere(a.getGameId(), a.getHomeTeamScore(), a.getAwayTeamScore());
                             seasonViewModel.updatePoints(a);
                             for (Map.Entry<Player, Integer> entry : a.getAwayTeamScorers().entrySet()) {
@@ -329,8 +329,8 @@ public class HomeFragment extends Fragment {
             kickOff.setOnClickListener(kickOffClick);
 
             txt_team_name = view.findViewById(R.id.txt_dr_team_name);
-            txt_avg_tcost = view.findViewById(R.id.txt_avg_team_cost);
-            txt_avg_tr = view.findViewById(R.id.txt_avg_teamRating);
+            txt_current_week = view.findViewById(R.id.txt_current_week);
+            txt_current_points = view.findViewById(R.id.txt_current_points);
 
 
             imb_goalie = (ImageButton) view.findViewById(R.id.s_imb_goalie);

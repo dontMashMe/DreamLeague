@@ -281,6 +281,9 @@ public class CreateTeamLineupFragment extends Fragment {
                     dreamTeam.setId(0);
                     Utils.putBalance(getContext(), userBalance);
                     createTeamViewModel.insertDreamTeam(dreamTeam);
+                    LineupSingleton lineupSingleton = LineupSingleton.getInstance();
+                    List<Player> boughtPlayers = lineupSingleton.ReturnList();
+                    createTeamViewModel.insertPlayerPointsOnCreation(boughtPlayers);
                     Intent intent = new Intent(getActivity(), SeasonActivity.class);
                     startActivity(intent);
                     requireActivity().finish();

@@ -10,10 +10,12 @@ import androidx.lifecycle.LiveData;
 import com.example.dreamleague.DataModels.DreamTeam;
 import com.example.dreamleague.DataModels.LineupSingleton;
 import com.example.dreamleague.DataModels.Player;
+import com.example.dreamleague.DataModels.PlayerPoints;
 import com.example.dreamleague.DataModels.Squads;
 import com.example.dreamleague.DataModels.Team;
 import com.example.dreamleague.R;
 import com.example.dreamleague.Repository.DreamTeamRepository;
+import com.example.dreamleague.Repository.PlayerPointsRepository;
 import com.example.dreamleague.Repository.PlayerRepository;
 import com.example.dreamleague.Repository.SquadsRepository;
 import com.example.dreamleague.Repository.TeamRepository;
@@ -29,6 +31,7 @@ public class CreateTeamViewModel extends AndroidViewModel {
     private TeamRepository teamRepository;
     private SquadsRepository squadsRepository;
     private DreamTeamRepository dreamTeamRepository;
+    private PlayerPointsRepository playerPointsRepository;
 
     private LiveData<List<Team>> allTeams;
     private LiveData<List<Player>> allPlayers;
@@ -44,6 +47,7 @@ public class CreateTeamViewModel extends AndroidViewModel {
         allPlayers = playerRepository.getAllPlayers();
         allTeams = teamRepository.getAllTeams();
         allSquads = squadsRepository.getAllSquads();
+        playerPointsRepository = new PlayerPointsRepository(application);
     }
 
     /********GETTERS**********/
@@ -64,6 +68,10 @@ public class CreateTeamViewModel extends AndroidViewModel {
     }
     public LiveData<List<Player>> getPlayersSearch(String name){
         return playerRepository.getPlayersSearch(name);
+    }
+
+    public void insertPlayerPointsOnCreation(List<Player> players){
+        playerPointsRepository.insertOnCreation(players);
     }
 
     public String formatName(Player player){

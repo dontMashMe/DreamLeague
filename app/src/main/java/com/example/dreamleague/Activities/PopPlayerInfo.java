@@ -31,7 +31,6 @@ public class PopPlayerInfo extends AppCompatActivity {
     TextView txt_player_name, txt_player_pr, txt_player_val, txt_player_team, txt_player_points;
     ImageView img_player_team_logo;
     ImageButton imb_sell;
-    int numberOfPoints = 0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,22 +51,12 @@ public class PopPlayerInfo extends AppCompatActivity {
 
         PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
         Player player = playerSingleton.returnPlayer();
-
-        LiveData<Integer> goalsLiveData = seasonViewModel.playerNumberOfGoals(player.getPlayerId());
-        LiveData<List<Match>> matchesLiveData = seasonViewModel.allMatchesFromPlayersTeam(player.getTeam().getTeam_id(), Utils.getCurrentWeek(this));
-        goalsLiveData.observe(this, goals->{
-            matchesLiveData.observe(this, matches -> {
-                if(goals != null){ //ako igrač nije zabio niti jedan gol, playerNumberOfGoals vraća 0
-                    numberOfPoints = seasonViewModel.calculatePlayerPoints(matches, player, goals);
-                    setupVars(player);
-                }else{
-                    numberOfPoints = seasonViewModel.calculatePlayerPoints(matches, player, 0);
-                    setupVars(player);
-
-                }
-            });
+        LiveData<Integer> playerPoints = seasonViewModel.getPlayerPoints(player.getPlayerId());
+        playerPoints.observe(this, points->{
+            setupVars(player);
+            txt_player_points = findViewById(R.id.txt_player_points_pop);
+            txt_player_points.setText(String.format("Bodovi: %s", points));
         });
-
     }
 
     void setupVars(Player player){
@@ -85,8 +74,7 @@ public class PopPlayerInfo extends AppCompatActivity {
         txt_player_team = findViewById(R.id.txt_team_name_pop);
         txt_player_team.setText(player.getTeam().getName());
 
-        txt_player_points = findViewById(R.id.txt_player_points_pop);
-        txt_player_points.setText(String.format("Bodovi: %s", numberOfPoints));
+
 
         img_player_team_logo = findViewById(R.id.img_team_logo_pop);
         img_player_team_logo.setImageResource(player.getTeam().getTeamLogo());
@@ -95,7 +83,7 @@ public class PopPlayerInfo extends AppCompatActivity {
         imb_sell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    seasonViewModel.sellPlayer(player.getRealPosition());
+                    seasonViewModel.sellPlayer(player.getRealPosition(), player.getPlayerId());
                 Toast.makeText(PopPlayerInfo.this, "Igrač " + player.getName() + " uspješno prodan!", Toast.LENGTH_SHORT).show();
             }
         });

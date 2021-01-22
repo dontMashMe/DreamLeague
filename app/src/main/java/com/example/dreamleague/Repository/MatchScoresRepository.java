@@ -45,5 +45,11 @@ public class MatchScoresRepository {
         return matchScoresDao.countPlayerNumberOfGoals(playerId);
     }
 
+    public int returnNumberOfGoals(int playerId){
+        return matchScoresDao.returnNumberOfGoals(playerId);
+    }
+
+
+
 
 }

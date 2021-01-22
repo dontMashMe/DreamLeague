@@ -361,7 +361,7 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                             Utils.putBalance(getContext(), Utils.getBalance(getContext()) + player.getPlayerValue());
                                             String balanceS = getResources().getString(R.string.current_balance) + " <font color='#1b5e20'>" + String.format("%.2fM", Utils.getBalance(getContext()) / 1000000.0) + " $</font>";
                                             balance.setText(Html.fromHtml(balanceS), TextView.BufferType.SPANNABLE);
-                                            seasonViewModel.sellPlayer(player.getRealPosition());
+                                            seasonViewModel.sellPlayer(player.getRealPosition(), player.getPlayerId());
                                         }
                                     }, USER_TEAM_FLAG);
                                     recyclerView.setAdapter(adapter);
@@ -382,7 +382,7 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                         public void onPositionClicked(int position) {
                                             PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
                                             Player player = playerSingleton.returnPlayer();
-                                            seasonViewModel.sellPlayer(player.getRealPosition());
+                                            seasonViewModel.sellPlayer(player.getRealPosition(), player.getPlayerId());
                                             userPlayers.remove(player);
                                             Utils.putBalance(getContext(), Utils.getBalance(getContext()) + player.getPlayerValue());
                                             String balanceS = getResources().getString(R.string.current_balance) + " <font color='#1b5e20'>" + String.format("%.2fM", Utils.getBalance(getContext()) / 1000000.0) + " $</font>";
@@ -407,7 +407,7 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                         public void onPositionClicked(int position) {
                                             PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
                                             Player player = playerSingleton.returnPlayer();
-                                            seasonViewModel.sellPlayer(player.getRealPosition());
+                                            seasonViewModel.sellPlayer(player.getRealPosition(), player.getPlayerId());
                                             userPlayers.remove(player);
                                             Utils.putBalance(getContext(), Utils.getBalance(getContext()) + player.getPlayerValue());
                                             String balanceS = getResources().getString(R.string.current_balance) + " <font color='#1b5e20'>" + String.format("%.2fM", Utils.getBalance(getContext()) / 1000000.0) + " $</font>";
@@ -426,7 +426,7 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                         public void onPositionClicked(int position) {
                                             PlayerSingleton playerSingleton = PlayerSingleton.getInstance();
                                             Player player = playerSingleton.returnPlayer();
-                                            seasonViewModel.sellPlayer(player.getRealPosition());
+                                            seasonViewModel.sellPlayer(player.getRealPosition(), player.getPlayerId());
                                             userPlayers.remove(player);
                                             Utils.putBalance(getContext(), Utils.getBalance(getContext()) + player.getPlayerValue());
                                             String balanceS = getResources().getString(R.string.current_balance) + " <font color='#1b5e20'>" + String.format("%.2fM", Utils.getBalance(getContext()) / 1000000.0) + " $</font>";
