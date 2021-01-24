@@ -58,5 +58,9 @@ public class PlayerRepository {
     public LiveData<List<Player>> transferQueryOnlyNameSet(String teamName){
         return playerDao.transferQueryOnlyNameSet(teamName);
     }
+    public LiveData<List<Player>> userPlayers(List<Integer> playerIds){
+        return playerDao.userPlayers(playerIds);
+    }
+
 
 }

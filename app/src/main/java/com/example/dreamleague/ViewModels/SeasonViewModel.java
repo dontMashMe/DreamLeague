@@ -1,9 +1,6 @@
 package com.example.dreamleague.ViewModels;
 
 import android.app.Application;
-import android.text.Spannable;
-import android.text.style.ForegroundColorSpan;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -11,12 +8,14 @@ import androidx.lifecycle.LiveData;
 
 import com.example.dreamleague.DataModels.DreamTeam;
 import com.example.dreamleague.DataModels.GameResults;
+import com.example.dreamleague.DataModels.LineupSingleton;
 import com.example.dreamleague.DataModels.Match;
 import com.example.dreamleague.DataModels.MatchScores;
 import com.example.dreamleague.DataModels.Player;
 import com.example.dreamleague.DataModels.PlayerPoints;
 import com.example.dreamleague.DataModels.Squads;
 import com.example.dreamleague.DataModels.Team;
+import com.example.dreamleague.DataModels.Utils;
 import com.example.dreamleague.R;
 import com.example.dreamleague.Repository.DreamTeamRepository;
 import com.example.dreamleague.Repository.MatchScoresRepository;
@@ -77,17 +76,9 @@ public class SeasonViewModel extends AndroidViewModel {
 
     }
 
-    public void updatePlayerPoints(List<Player> players, Match match) {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(() -> {
-            for (Player a : players) {
-                int numberOfGoals = matchScoresRepository.returnNumberOfGoals(a.getPlayerId());
-                a.setPointsAcquired(calculatePlayerPoints(match, a, numberOfGoals));
-            }
-            playerPointsRepository.updatePlayerPoints(players);
 
-        });
-        executor.shutdown();
+    public int getAllPointsSum(){
+        return playerPointsRepository.getAllPointsSum();
     }
 
     public LiveData<List<Player>> transferQueryOnlyPositionSet(String position) {
@@ -115,6 +106,12 @@ public class SeasonViewModel extends AndroidViewModel {
         matchScoresRepository.InsertMatchScores(matchScores);
     }
 
+    public int getPlayerPointsInt(int playerId){
+        return playerPointsRepository.getPlayerPointsInt(playerId);
+    }
+    public LiveData<List<PlayerPoints>> getAllPlayerPoints(){
+        return playerPointsRepository.getAllPlayerPoints();
+    }
     public LiveData<List<Player>> getAllPlayers() {
         return this.allPlayers;
     }
@@ -158,8 +155,12 @@ public class SeasonViewModel extends AndroidViewModel {
     public LiveData<Integer> getPlayerPoints(int playerId) {
         return playerPointsRepository.getPlayerPoints(playerId);
     }
+    public LiveData<List<Player>> userPlayers(List<Integer> playerIds){
+        return playerRepository.userPlayers(playerIds);
+    }
 
-    public List<Match> getMatchesFromWeekStatic(List<Match> matches, int week) {
+
+        public List<Match> getMatchesFromWeekStatic(List<Match> matches, int week) {
         List<Match> returnList = new ArrayList<>();
         for (Match a : matches) {
             if (a.getWeek() == week) returnList.add(a);
@@ -409,16 +410,16 @@ public class SeasonViewModel extends AndroidViewModel {
     private void weightSetter(Player player) {
         switch (player.getPosition()) {
             case "Goalkeeper":
-                player.setProbabilityWeight(0.00); //shouldnt happen
+                player.setProbabilityWeight(0.05); //shouldnt happen
                 break;
             case "Defender":
-                player.setProbabilityWeight(0.10 + (Double.parseDouble(player.getPlayerRating()) / 1000));
+                player.setProbabilityWeight(0.20 + (Double.parseDouble(player.getPlayerRating()) / 1000));
                 break;
             case "Midfielder":
-                player.setProbabilityWeight(0.30 + (Double.parseDouble(player.getPlayerRating())) / 1000);
+                player.setProbabilityWeight(0.40 + (Double.parseDouble(player.getPlayerRating())) / 1000);
                 break;
             case "Attacker":
-                player.setProbabilityWeight(0.70 + (Double.parseDouble(player.getPlayerRating())) / 1000);
+                player.setProbabilityWeight(0.60 + (Double.parseDouble(player.getPlayerRating())) / 1000);
                 break;
         }
     }
@@ -601,6 +602,7 @@ public class SeasonViewModel extends AndroidViewModel {
                 break;
         }
         playerPointsRepository.insertPlayer(player.getPlayerId());
+        Utils.putBalance(getApplication(), Utils.getBalance(getApplication())-player.getPlayerValue());
     }
 
     //nisam pretjerano ponosan na ovo ali ne znam kak drugacije da to napravim
@@ -645,15 +647,13 @@ public class SeasonViewModel extends AndroidViewModel {
         return 0;
     }
 
-    //nadogradi, za sad samo golovi se broje
-    public LiveData<Integer> playerNumberOfGoals(int playerId) {
-        return matchScoresRepository.countPlayerNumberOfGoals(playerId);
+    public void updatePlayerPoints(List<Player> players, Match match) {
+        for (Player a : players) {
+            int numberOfGoals = matchScoresRepository.returnNumberOfGoals(a.getPlayerId(), match.getGameId());
+            a.setPointsAcquired(calculatePlayerPoints(match, a, numberOfGoals));
+        }
+        playerPointsRepository.updatePlayerPoints(players);
     }
-
-    public LiveData<List<Match>> allMatchesFromPlayersTeam(int teamId, int currentWeek) {
-        return matchesRepository.allMatchesFromPlayersTeam(teamId, currentWeek);
-    }
-
 
     public int calculatePlayerPoints(Match match, Player player, int numberOfGoals) {
         int pointsSum = 0;
@@ -672,14 +672,14 @@ public class SeasonViewModel extends AndroidViewModel {
                             pointsSum += 1;
                             break;
                     }
-
                 }
-            } else if (match.getTeamHomeScore() == match.getTeamAwayScore()) pointsSum += 1;
+            }
+            else if (match.getTeamHomeScore() == match.getTeamAwayScore()) pointsSum += 1;
         }
         else if (match.getTeamAway() == player.getTeam().getTeam_id()) {
             if (match.getTeamAwayScore() > match.getTeamHomeScore()) {
                 pointsSum += 2;
-                if (match.getTeamAwayScore() == 0) {
+                if (match.getTeamHomeScore() == 0) {
                     switch (player.getPosition()) {
                         case "Goalkeeper":
                         case "Defender":
@@ -690,9 +690,9 @@ public class SeasonViewModel extends AndroidViewModel {
                             break;
                     }
                 }
-            } else if (match.getTeamAwayScore() == match.getTeamHomeScore()) pointsSum += 1;
+            }
+            else if (match.getTeamAwayScore() == match.getTeamHomeScore()) pointsSum += 1;
         }
-
         //broj golova
         switch (player.getPosition()) {
             case "Goalkeeper":

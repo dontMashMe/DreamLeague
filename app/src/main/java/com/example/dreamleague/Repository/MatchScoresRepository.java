@@ -23,11 +23,7 @@ public class MatchScoresRepository {
     }
 
     public void InsertMatchScores(MatchScores matchScores){
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(()->{
-            matchScoresDao.insert(matchScores);
-        });
-        executor.shutdown();
+        matchScoresDao.insert(matchScores);
     }
 
     public List<MatchScores> getMatchScoresForGame(int gameId){
@@ -45,8 +41,9 @@ public class MatchScoresRepository {
         return matchScoresDao.countPlayerNumberOfGoals(playerId);
     }
 
-    public int returnNumberOfGoals(int playerId){
-        return matchScoresDao.returnNumberOfGoals(playerId);
+
+    public int returnNumberOfGoals(int playerId, int gameId){
+        return matchScoresDao.returnNumberOfGoals(playerId,  gameId);
     }
 
 

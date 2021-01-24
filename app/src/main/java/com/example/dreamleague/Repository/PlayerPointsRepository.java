@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import com.example.dreamleague.DAOs.PlayerPointsDao;
 import com.example.dreamleague.DataModels.Database;
 import com.example.dreamleague.DataModels.Player;
+import com.example.dreamleague.DataModels.PlayerPoints;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -57,5 +58,17 @@ public class PlayerPointsRepository {
     public LiveData<Integer> getPlayerPoints(int playerId){
         return playerPointsDao.getPlayerPoints(playerId);
     }
+
+    public int getPlayerPointsInt(int playerId){
+        return playerPointsDao.getPlayerPointsInt(playerId);
+    }
+    public LiveData<List<PlayerPoints>> getAllPlayerPoints(){
+        return playerPointsDao.getAllPlayerPoints();
+    }
+    public int getAllPointsSum(){
+        return playerPointsDao.getAllPointsSum();
+    }
+
+
 
 }

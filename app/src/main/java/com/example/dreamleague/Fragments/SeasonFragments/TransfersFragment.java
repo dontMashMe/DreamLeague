@@ -100,6 +100,10 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
     }
     List<DreamTeam> currentDreamTeam = new ArrayList<>();
 
+    void updateBalance(){
+        String balanceS = getResources().getString(R.string.current_balance) + " <font color='#1b5e20'>" + String.format("%.2fM", Utils.getBalance(getContext()) / 1000000.0) + " $</font>";
+        balance.setText(Html.fromHtml(balanceS), TextView.BufferType.SPANNABLE);
+    }
     void setupVars(View view) {
         //misc
         List<Integer> userPlayers = new ArrayList<>();
@@ -202,6 +206,7 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                                 player.setRealPosition(freePos);
                                                 seasonViewModel.buyPlayer(player, currentDreamTeam.get(0));
                                                 Toast.makeText(getContext(), "Igrač " + player.getName() + " uspješno kupljen!", Toast.LENGTH_SHORT).show();
+                                                updateBalance();
                                                 playerList.remove(player);
 
                                             } else {
@@ -240,6 +245,8 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                                 player.setRealPosition(freePos);
                                                 seasonViewModel.buyPlayer(player, currentDreamTeam.get(0));
                                                 Toast.makeText(getContext(), "Igrač " + player.getName() + " uspješno kupljen!", Toast.LENGTH_SHORT).show();
+                                                updateBalance();
+
                                                 playerList.remove(player);
 
                                             } else {
@@ -278,6 +285,8 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                                 player.setRealPosition(freePos);
                                                 seasonViewModel.buyPlayer(player, currentDreamTeam.get(0));
                                                 Toast.makeText(getContext(), "Igrač " + player.getName() + " uspješno kupljen!", Toast.LENGTH_SHORT).show();
+                                                updateBalance();
+
                                                 playerList.remove(player);
 
                                             } else {
@@ -317,6 +326,8 @@ public class TransfersFragment extends Fragment implements AdapterView.OnItemSel
                                                 player.setRealPosition(freePos);
                                                 seasonViewModel.buyPlayer(player, currentDreamTeam.get(0));
                                                 Toast.makeText(getContext(), "Igrač " + player.getName() + " uspješno kupljen!", Toast.LENGTH_SHORT).show();
+                                                updateBalance();
+
                                                 playerList.remove(player);
 
                                             } else {

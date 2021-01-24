@@ -61,4 +61,7 @@ public interface PlayerDao {
             "where team.name = :team_name AND player.position IN (SELECT player.position from player)" +
             "order by player.playerRating DESC")
     LiveData<List<Player>> transferQueryOnlyNameSet(String team_name);
+
+    @Query("SELECT * FROM Player WHERE playerId IN (:playerIds)")
+    LiveData<List<Player>> userPlayers(List<Integer> playerIds);
 }

@@ -5,8 +5,10 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "Player")
-public class Player {
+public class Player{
     @PrimaryKey
     private int playerId;
     @NonNull
@@ -25,9 +27,6 @@ public class Player {
     private int realPosition;
 
     @Ignore
-    private int teamKit;
-
-    @Ignore
     private int pointsAcquired;
 
     public int getPointsAcquired() {
@@ -38,13 +37,6 @@ public class Player {
         this.pointsAcquired = pointsAcquired;
     }
 
-    public int getTeamKit() {
-        return teamKit;
-    }
-
-    public void setTeamKit(int teamKit) {
-        this.teamKit = teamKit;
-    }
     //realPosition je integer koji predstavlja "stvarnu" poziciju igraca na terenu, a mapirani su ispod
     //ovim redosljedom se daju konstruktoru DreamTeam klase, koja kao podatkovne clanove sadrzi id-eve igrača na njihovim pozicijima
     //1-goalie

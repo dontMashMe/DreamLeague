@@ -93,8 +93,10 @@ public class MatchesFragment extends Fragment implements AdapterView.OnItemSelec
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, items);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-        LiveData<List<Team>> teams = seasonViewModel.getAllTeams();
-        teams.observe(getViewLifecycleOwner(), teams1 -> allTeams.addAll(teams1));
+
+        LiveData<List<Player>> allPlayers = seasonViewModel.getAllPlayers();
+        allPlayers.observe(getViewLifecycleOwner(), players1 -> players.addAll(players1));
+
         recyclerView = view.findViewById(R.id.rec_view_matches);
     }
 
@@ -117,36 +119,22 @@ public class MatchesFragment extends Fragment implements AdapterView.OnItemSelec
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         LiveData<List<Match>> matchesFromWeek = seasonViewModel.getMatchesFromWeek((Integer) parent.getItemAtPosition(position));
+        LiveData<List<Team>> teams = seasonViewModel.getAllTeams();
         matchesFromWeek.observe(getViewLifecycleOwner(), matches -> {
-            LiveData<List<Player>> allPlayers = seasonViewModel.getAllPlayers();
-            allPlayers.observe(getViewLifecycleOwner(), players1 -> {
-                players.addAll(players1);
-                ExecutorService executor = Executors.newSingleThreadExecutor();
-                Runnable runnable = () -> {
-                    new Handler(Looper.getMainLooper()).post(() -> asycdialog.show());
-                    for (Match a : matches) {
-                        a.setMatchScores(seasonViewModel.getMatchScoresForGame(a.getGameId()));
-                    }
-                    try {
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    getActivity().runOnUiThread(() -> asycdialog.dismiss());
-                };
-                executor.execute(runnable);
-                executor.shutdown();
-                List<Match> matchesSetupd = seasonViewModel.setTeamsAndLogos(matches, allTeams);
-
-                //nazalost moram poslat i listu igrača kako bi prikazao strijelce..
+            teams.observe(getViewLifecycleOwner(), teams1 -> {
+                for (Match a : matches) {
+                    a.setMatchScores(seasonViewModel.getMatchScoresForGame(a.getGameId()));
+                }
+                List<Match> matchesSetupd = seasonViewModel.setTeamsAndLogos(matches, teams1);
+                //nazalost moram poslat i listu igrača kako bi prikazao strijelce
                 MatchesRecViewAdapter matchesRecViewAdapter = new MatchesRecViewAdapter(matchesSetupd, players);
                 recyclerView.setAdapter(matchesRecViewAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             });
-
         });
 
     }
+
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {

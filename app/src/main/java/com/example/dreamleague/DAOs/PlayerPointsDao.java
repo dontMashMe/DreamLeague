@@ -4,6 +4,10 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 
+import com.example.dreamleague.DataModels.PlayerPoints;
+
+import java.util.List;
+
 @Dao
 public interface PlayerPointsDao {
 
@@ -19,5 +23,12 @@ public interface PlayerPointsDao {
     @Query("SELECT points FROM PlayerPoints WHERE playerId = :playerId")
     LiveData<Integer> getPlayerPoints(int playerId);
 
+    @Query("SELECT points FROM PlayerPoints WHERE playerId = :playerId")
+    int getPlayerPointsInt(int playerId);
 
+    @Query("SELECT * FROM PlayerPoints")
+    LiveData<List<PlayerPoints>> getAllPlayerPoints();
+
+    @Query("SELECT sum(points) FROM playerpoints")
+    int getAllPointsSum();
 }

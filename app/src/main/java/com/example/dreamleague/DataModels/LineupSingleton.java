@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class LineupSingleton {
     private static LineupSingleton single_instance = null;
-    private ArrayList<Player> players = new ArrayList<>();
-
+    private final ArrayList<Player> players = new ArrayList<>();
+    private final ArrayList<Integer> playerIds = new ArrayList<>();
     private LineupSingleton(){};
 
     public static LineupSingleton getInstance()
@@ -23,5 +23,12 @@ public class LineupSingleton {
         this.players.add(player);
     }
     public List<Player> ReturnList(){return this.players;}
+
+    public void addPlayerId(int playerId){
+        this.playerIds.add(playerId);
+    }
+    public List<Integer> returnPlayerIds(){
+        return this.playerIds;
+    }
 
 }
