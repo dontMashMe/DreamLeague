@@ -12,10 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.dreamleague.DataModels.DreamTeam;
 import com.example.dreamleague.DataModels.LineupSingleton;
 import com.example.dreamleague.DataModels.MatchScores;
 import com.example.dreamleague.DataModels.Player;
 import com.example.dreamleague.DataModels.PlayerPoints;
+import com.example.dreamleague.DataModels.PostGameScores;
+import com.example.dreamleague.DataModels.Utils;
 import com.example.dreamleague.R;
 import com.example.dreamleague.ViewModels.SeasonViewModel;
 
@@ -29,6 +32,7 @@ public class PopWeekResults extends AppCompatActivity {
     TextView txt_players_points, txt_total_points;
     Button btn_continue;
     SeasonViewModel seasonViewModel;
+    int totalPoints = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +61,7 @@ public class PopWeekResults extends AppCompatActivity {
 
         allPlayerPoints.observe(this, ppPoints -> {
             List<PlayerPoints> ppPointsSt = new ArrayList<>(ppPoints);
+            totalPoints = calculateTotalPoints(ppPointsSt);
             ppPointsSt = calc(playerScoresOld, ppPointsSt);
             int sum = 0;
             //loopamo izracunatu listu
@@ -66,6 +71,7 @@ public class PopWeekResults extends AppCompatActivity {
                     if (a.getPlayerId() == b.getPlayerId()) {
                         sum+=a.getPoints(); //suma bodova
                         stringBuilder.append("-").append(b.getName()).append(": ").append(a.getPoints()).append("\n");
+
                     }
                 }
             }
@@ -80,7 +86,19 @@ public class PopWeekResults extends AppCompatActivity {
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                if(Utils.getCurrentWeek(PopWeekResults.this) < 20){
+                    finish();
+                }
+                else{
+                    LiveData<List<DreamTeam>> dreamTeam = seasonViewModel.getDreamTeam();
+                    dreamTeam.observe(PopWeekResults.this, dreamTeams -> {
+                        PostGameScores postGameScore = new PostGameScores(0, dreamTeams.get(0).getName(), totalPoints);
+                        seasonViewModel.insertPostGameScore(postGameScore);
+                        startActivity(new Intent(PopWeekResults.this, PostGameActivity.class));
+                    });
+
+                }
+
             }
         });
 
@@ -99,6 +117,14 @@ public class PopWeekResults extends AppCompatActivity {
             }
         }
         return  returnList;
+    }
+
+    int calculateTotalPoints(List<PlayerPoints> preCalc){
+        int sum = 0;
+        for(PlayerPoints a : preCalc){
+            sum += a.getPoints();
+        }
+        return sum;
     }
 
 }

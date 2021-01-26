@@ -22,6 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activities.PostGameActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.PopPlayerInfo"
             android:theme="@style/CustomTheme"/>
         <activity

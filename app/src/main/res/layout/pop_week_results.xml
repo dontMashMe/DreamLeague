@@ -10,27 +10,26 @@
         android:id="@+id/txt_player_points_acq"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:textColor="@color/white"
+        android:layout_marginTop="120dp"
+        android:gravity="center_horizontal"
         android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center_horizontal" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/pop_week_total_congrat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="@id/txt_player_points_acq"
-        app:layout_constraintEnd_toEndOf="@id/txt_player_points_acq"
-        app:layout_constraintBottom_toTopOf="@id/txt_player_points_acq"
-        android:textSize="24sp"
+        android:layout_marginBottom="15dp"
+        android:gravity="center_horizontal"
         android:textAlignment="center"
-        android:layout_marginBottom="5dp"
-        tools:layout_editor_absoluteY="54dp"
-        android:gravity="center_horizontal" />
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@id/txt_player_points_acq"
+        app:layout_constraintEnd_toEndOf="@id/txt_player_points_acq"
+        app:layout_constraintStart_toStartOf="@id/txt_player_points_acq" />
 
     <Button
         android:id="@+id/btn_weekres_continue"
@@ -40,6 +39,8 @@
         android:rotation="-0"
         android:rotationY="0"
         android:text="@string/nastavi"
+        android:background="@color/purple_500"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@id/txt_player_points_acq"
         app:layout_constraintStart_toStartOf="@id/txt_player_points_acq"
         app:layout_constraintTop_toBottomOf="@id/txt_player_points_acq" />

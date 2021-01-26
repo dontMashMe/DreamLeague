@@ -13,6 +13,7 @@ import com.example.dreamleague.DataModels.Match;
 import com.example.dreamleague.DataModels.MatchScores;
 import com.example.dreamleague.DataModels.Player;
 import com.example.dreamleague.DataModels.PlayerPoints;
+import com.example.dreamleague.DataModels.PostGameScores;
 import com.example.dreamleague.DataModels.Squads;
 import com.example.dreamleague.DataModels.Team;
 import com.example.dreamleague.DataModels.Utils;
@@ -22,6 +23,7 @@ import com.example.dreamleague.Repository.MatchScoresRepository;
 import com.example.dreamleague.Repository.MatchesRepository;
 import com.example.dreamleague.Repository.PlayerPointsRepository;
 import com.example.dreamleague.Repository.PlayerRepository;
+import com.example.dreamleague.Repository.PostGameScoresRepository;
 import com.example.dreamleague.Repository.SquadsRepository;
 import com.example.dreamleague.Repository.TeamRepository;
 
@@ -43,6 +45,7 @@ public class SeasonViewModel extends AndroidViewModel {
     private final MatchesRepository matchesRepository;
     private final MatchScoresRepository matchScoresRepository;
     private final PlayerPointsRepository playerPointsRepository;
+    private final PostGameScoresRepository postGameScoresRepository;
 
     private final LiveData<List<DreamTeam>> dreamTeam;
     private final LiveData<List<Player>> allPlayers;
@@ -70,13 +73,23 @@ public class SeasonViewModel extends AndroidViewModel {
         matchScoresRepository = new MatchScoresRepository(application);
 
         playerPointsRepository = new PlayerPointsRepository(application);
+        postGameScoresRepository = new PostGameScoresRepository(application);
         fillLogoMap();
         fillMap();
 
 
     }
 
+    public void deleteDreamTeam(DreamTeam dreamTeam){
+        dreamTeamRepository.deleteDreamTeam(dreamTeam);
+    }
 
+        public void insertPostGameScore(PostGameScores postGameScores){
+        postGameScoresRepository.insertPostGameScore(postGameScores);
+    }
+    public LiveData<List<PostGameScores>> getAllPostGameScores(){
+        return postGameScoresRepository.getAllPostGameScores();
+    }
     public int getAllPointsSum(){
         return playerPointsRepository.getAllPointsSum();
     }

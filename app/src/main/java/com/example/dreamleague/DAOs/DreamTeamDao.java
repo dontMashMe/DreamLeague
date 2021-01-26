@@ -20,6 +20,8 @@ public interface DreamTeamDao {
     @Update
     void update(DreamTeam dreamTeam);
 
+    @Delete
+    void delete(DreamTeam dreamTeam);
 
     @Query("SELECT * FROM UserTeam")
     LiveData<List<DreamTeam>> getDreamTeam();

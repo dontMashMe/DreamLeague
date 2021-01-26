@@ -10,10 +10,11 @@ import com.example.dreamleague.DAOs.MatchScoresDao;
 import com.example.dreamleague.DAOs.MatchesDao;
 import com.example.dreamleague.DAOs.PlayerDao;
 import com.example.dreamleague.DAOs.PlayerPointsDao;
+import com.example.dreamleague.DAOs.PostGameScoresDao;
 import com.example.dreamleague.DAOs.SquadsDao;
 import com.example.dreamleague.DAOs.TeamDao;
 
-@androidx.room.Database(entities = {Player.class, Team.class, Squads.class, DreamTeam.class, Match.class, MatchScores.class, PlayerPoints.class}, version=2)
+@androidx.room.Database(entities = {Player.class, Team.class, Squads.class, DreamTeam.class, Match.class, MatchScores.class, PlayerPoints.class, PostGameScores.class}, version=2)
 public abstract class Database extends RoomDatabase {
     private static Database instance;
     public abstract PlayerDao playerDao();
@@ -23,6 +24,7 @@ public abstract class Database extends RoomDatabase {
     public abstract MatchesDao matchesDao();
     public abstract MatchScoresDao matchScoresDao();
     public abstract PlayerPointsDao playerPointsDao();
+    public abstract PostGameScoresDao postGameScoresDao();
     public static synchronized Database getInstance(Context context){
         if(instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(),

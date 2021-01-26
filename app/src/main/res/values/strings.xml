@@ -37,6 +37,8 @@
     <string name="prodaj_igra_a">Prodaj igrača</string>
     <string name="slikica">slikica</string>
     <string name="nastavi">NASTAVI</string>
+    <string name="total_points">Total points</string>
+    <string name="zapo_ni_novu_sezonu">Započni novu sezonu!</string>
 
 
 </resources>

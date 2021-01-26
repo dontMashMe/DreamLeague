@@ -48,8 +48,6 @@ public class MatchesFragment extends Fragment implements AdapterView.OnItemSelec
     SeasonViewModel seasonViewModel;
     RecyclerView recyclerView;
     Spinner spinner;
-    List<Team> allTeams = new ArrayList<>();
-    List<Match> allMatches = new ArrayList<>();
     List<Player> players = new ArrayList<>();
     ProgressDialog asycdialog;
     ImageButton imb_leaderBoards;
