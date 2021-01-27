@@ -27,6 +27,7 @@ public interface DreamTeamDao {
     LiveData<List<DreamTeam>> getDreamTeam();
 
 
+
     //kad bolje razmislim tablica je trebala izgledati drugacije
     //trebala je sadrzavati samo playerId, realPosition id
     //npr playerId 234 - realPositionId 1 -> golman.. itd.

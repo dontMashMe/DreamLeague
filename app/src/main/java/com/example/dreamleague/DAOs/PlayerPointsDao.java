@@ -31,4 +31,7 @@ public interface PlayerPointsDao {
 
     @Query("SELECT sum(points) FROM playerpoints")
     int getAllPointsSum();
+
+    @Query("DELETE FROM PlayerPoints")
+    void deleteAllPlayerPoints();
 }

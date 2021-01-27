@@ -31,4 +31,8 @@ public class PostGameScoresRepository {
     public LiveData<List<PostGameScores>> getAllPostGameScores(){
         return postGameScoresDao.getAllPostGameScores();
     }
+
+    public void deleteAllPostGameScores(){
+        postGameScoresDao.deleteAllPostGameScores();
+    }
 }

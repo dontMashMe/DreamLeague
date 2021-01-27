@@ -23,4 +23,7 @@ public interface MatchScoresDao {
 
     @Query("SELECT sum(numberOfGoals) from MatchScores where playerId = :playerId and gameId = :gameId")
     int returnNumberOfGoals(int playerId, int gameId);
+
+    @Query("DELETE FROM MatchScores")
+    void deleteAllMatchScores();
 }

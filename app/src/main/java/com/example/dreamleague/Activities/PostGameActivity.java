@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dreamleague.Adapters.SeasonAdapters.PostGameAdapter;
 import com.example.dreamleague.DataModels.DreamTeam;
+import com.example.dreamleague.DataModels.LineupSingleton;
 import com.example.dreamleague.DataModels.Match;
 import com.example.dreamleague.DataModels.PostGameScores;
 import com.example.dreamleague.R;
@@ -23,6 +24,8 @@ import com.example.dreamleague.ViewModels.SeasonViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class PostGameActivity extends AppCompatActivity {
 
@@ -44,6 +47,7 @@ public class PostGameActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.post_game_recycler);
         points_acquired = findViewById(R.id.txt_points_acquired_season);
         LiveData<List<PostGameScores>> postGameScoresLiveData = seasonViewModel.getAllPostGameScores();
+
         postGameScoresLiveData.observe(this, postGameScores -> {
             points_acquired.append(String.valueOf(postGameScores.get(postGameScores.size() - 1).getTotalScore()));
             PostGameAdapter postGameAdapter = new PostGameAdapter(postGameScores);
@@ -56,9 +60,16 @@ public class PostGameActivity extends AppCompatActivity {
         dreamTeamLiveData.observe(this, new Observer<List<DreamTeam>>() {
             @Override
             public void onChanged(List<DreamTeam> dreamTeams) {
-                for(DreamTeam a : dreamTeams){
-                    seasonViewModel.deleteDreamTeam(a);
-                }
+                ExecutorService executor = Executors.newSingleThreadExecutor();
+                executor.execute(()-> {
+                    for(DreamTeam a : dreamTeams){
+                        seasonViewModel.deleteDreamTeam(a);
+                    }
+                    seasonViewModel.deleteAllMatches();
+                    seasonViewModel.deleteAllMatchScores();
+                    seasonViewModel.deleteAllPlayerPoints();
+                });
+                executor.shutdown();
             }
         });
         btn_newSeason.setOnClickListener(kickOffClick);
@@ -68,6 +79,9 @@ public class PostGameActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
+            finish();
+            LineupSingleton lineupSingleton = LineupSingleton.getInstance();
+            lineupSingleton.ReturnList().clear();
             startActivity(intent);
 
         }

@@ -66,13 +66,19 @@ public class HomeFragment extends Fragment {
         return fragment;
     }
 
+    LiveData<List<Match>> matchesLiveData;
+    LiveData<List<DreamTeam>> dreamTeamLiveData;
+    LiveData<List<Player>> playerLiveData;
+    LiveData<List<Squads>> squadsLiveData;
+    LiveData<List<Team>> teamLiveData;
+
     private void runSetup(View view) {
-        if (currentUserTeam.isEmpty() || allTeamsWithPlayers.isEmpty()) {
-            LiveData<List<Match>> matchesLiveData = seasonViewModel.getAllMatches();
-            LiveData<List<DreamTeam>> dreamTeamLiveData = seasonViewModel.getDreamTeam();
-            LiveData<List<Player>> playerLiveData = seasonViewModel.getAllPlayers();
-            LiveData<List<Squads>> squadsLiveData = seasonViewModel.getAllSquads();
-            LiveData<List<Team>> teamLiveData = seasonViewModel.getAllTeams();
+        if (Utils.getCurrentWeek(getContext()) < 20) {
+            matchesLiveData = seasonViewModel.getAllMatches();
+            dreamTeamLiveData = seasonViewModel.getDreamTeam();
+            playerLiveData = seasonViewModel.getAllPlayers();
+            squadsLiveData = seasonViewModel.getAllSquads();
+            teamLiveData = seasonViewModel.getAllTeams();
             dreamTeamLiveData.observe(getViewLifecycleOwner(), dreamTeams -> playerLiveData.observe(getViewLifecycleOwner(), players -> squadsLiveData.observe(getViewLifecycleOwner(), squads -> teamLiveData.observe(getViewLifecycleOwner(), teams -> {
                 matchesLiveData.observe(getViewLifecycleOwner(), matches -> {
                     if (allMatches.isEmpty()) {
@@ -105,7 +111,6 @@ public class HomeFragment extends Fragment {
                         txt_team_name.setText(dreamTeams.get(dreamTeams.size() - 1).getName());
                         String text = getResources().getString(R.string.week) + " <font color='#6300ee'>" + Utils.getCurrentWeek(getContext()) + "</font>";
                         txt_current_week.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
-
 
 
                         //postavljanje igrača na pozicije
@@ -220,9 +225,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         seasonViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication()))
                 .get(SeasonViewModel.class);
-
         runSetup(view);
-
         return view;
     }
 
@@ -258,7 +261,7 @@ public class HomeFragment extends Fragment {
                 ExecutorService executor = Executors.newSingleThreadExecutor();
                 HashMap<Integer, Integer> playerScoresOld = new HashMap<>();
                 executor.execute(() -> {
-                    for(Player a : currentUserTeam){
+                    for (Player a : currentUserTeam) {
                         a.setPointsAcquired(seasonViewModel.getPlayerPointsInt(a.getPlayerId()));
                         playerScoresOld.put(a.getPlayerId(), a.getPointsAcquired());
                         lineupSingleton.AddPlayer(a);
@@ -281,13 +284,18 @@ public class HomeFragment extends Fragment {
                     intent.putExtra("map", playerScoresOld);
                     startActivity(intent);
 
-
                 });
                 executor.shutdown();
                 Utils.putCurrentWeekSharedPreference(getContext(), currentWeek + 1);
+                if (Utils.getCurrentWeek(getContext()) == 20) {
+                    dreamTeamLiveData.removeObservers(getViewLifecycleOwner());
+                    matchesLiveData.removeObservers(getViewLifecycleOwner());
+                    playerLiveData.removeObservers(getViewLifecycleOwner());
+                    teamLiveData.removeObservers(getViewLifecycleOwner());
+                    squadsLiveData.removeObservers(getViewLifecycleOwner());
+                }
                 String text = getResources().getString(R.string.week) + " <font color='#6300ee'>" + Utils.getCurrentWeek(getContext()) + "</font>";
                 txt_current_week.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
-
             }
 
         }

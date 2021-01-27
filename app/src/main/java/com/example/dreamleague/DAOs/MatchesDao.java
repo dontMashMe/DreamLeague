@@ -33,4 +33,6 @@ public interface MatchesDao {
     @Query("SELECT * FROM Matches WHERE teamAway = :teamId AND week < :currentWeek OR teamHome =:teamId AND week < :currentWeek")
     LiveData<List<Match>> allMatchesFromPlayersTeam (int teamId, int currentWeek);
 
+    @Query("DELETE FROM Matches")
+    void deleteAllMatches();
 }

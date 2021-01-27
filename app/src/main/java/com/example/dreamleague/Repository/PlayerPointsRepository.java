@@ -69,6 +69,9 @@ public class PlayerPointsRepository {
         return playerPointsDao.getAllPointsSum();
     }
 
+    public void deleteAllPlayerPoints(){
+        playerPointsDao.deleteAllPlayerPoints();
+    }
 
 
 }

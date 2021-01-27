@@ -50,5 +50,9 @@ public class MatchesRepository {
     public LiveData<List<Match>> allMatchesFromPlayersTeam (int teamId, int currentWeek){
         return matchesDao.allMatchesFromPlayersTeam(teamId, currentWeek);
     }
+
+    public void deleteAllMatches(){
+        matchesDao.deleteAllMatches();
+    }
 }
 

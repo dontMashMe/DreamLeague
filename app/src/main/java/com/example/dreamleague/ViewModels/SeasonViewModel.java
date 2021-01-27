@@ -80,6 +80,16 @@ public class SeasonViewModel extends AndroidViewModel {
 
     }
 
+    public void deleteAllMatches(){
+        matchesRepository.deleteAllMatches();
+    }
+    public void deleteAllMatchScores(){
+        matchScoresRepository.deleteAllMatchScores();
+    }
+    public void deleteAllPlayerPoints(){
+        playerPointsRepository.deleteAllPlayerPoints();
+    }
+
     public void deleteDreamTeam(DreamTeam dreamTeam){
         dreamTeamRepository.deleteDreamTeam(dreamTeam);
     }

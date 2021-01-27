@@ -17,4 +17,7 @@ public interface PostGameScoresDao {
 
     @Query("SELECT * FROM PostGameScores ORDER BY totalScore DESC")
     LiveData<List<PostGameScores>> getAllPostGameScores();
+
+    @Query("DELETE FROM PostGameScores")
+    void deleteAllPostGameScores();
 }

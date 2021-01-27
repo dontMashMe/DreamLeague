@@ -82,7 +82,6 @@ public class PopWeekResults extends AppCompatActivity {
         txt_players_points = findViewById(R.id.txt_player_points_acq);
         txt_total_points = findViewById(R.id.pop_week_total_congrat);
         btn_continue = findViewById(R.id.btn_weekres_continue);
-
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +93,12 @@ public class PopWeekResults extends AppCompatActivity {
                     dreamTeam.observe(PopWeekResults.this, dreamTeams -> {
                         PostGameScores postGameScore = new PostGameScores(0, dreamTeams.get(0).getName(), totalPoints);
                         seasonViewModel.insertPostGameScore(postGameScore);
-                        startActivity(new Intent(PopWeekResults.this, PostGameActivity.class));
+                        dreamTeam.removeObservers(PopWeekResults.this);
+                        Intent intent = new Intent(PopWeekResults.this, PostGameActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+
                     });
 
                 }

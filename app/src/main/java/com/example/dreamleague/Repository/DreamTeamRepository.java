@@ -30,9 +30,7 @@ public class DreamTeamRepository {
     //te operacije je potrebno prebaciti na off-thread
     //executor postiže to
     public void deleteDreamTeam(DreamTeam dreamTeam){
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(()-> dreamTeamDao.delete(dreamTeam));
-        executor.shutdown();
+       dreamTeamDao.delete(dreamTeam);
     }
     public void insertDreamTeam(DreamTeam dreamTeam){
         ExecutorService executor = Executors.newSingleThreadExecutor();

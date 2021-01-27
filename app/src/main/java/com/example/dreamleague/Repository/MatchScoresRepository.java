@@ -46,6 +46,10 @@ public class MatchScoresRepository {
         return matchScoresDao.returnNumberOfGoals(playerId,  gameId);
     }
 
+    public void deleteAllMatchScores(){
+        matchScoresDao.deleteAllMatchScores();
+    }
+
 
 
 
