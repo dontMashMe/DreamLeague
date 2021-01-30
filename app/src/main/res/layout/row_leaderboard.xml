@@ -77,13 +77,23 @@
         android:id="@+id/txt_scoreboard_lastgames"
         android:layout_width="80dp"
         android:layout_height="21dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginBottom="29dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
         android:gravity="center_horizontal"
         android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imb_team_info"
+        android:layout_width="59dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="5dp"
+        android:background="?attr/selectableItemBackground"
+        app:layout_constraintEnd_toEndOf="@id/txt_scoreboard_lastgames"
+        app:layout_constraintStart_toStartOf="@id/txt_scoreboard_lastgames"
+        app:layout_constraintTop_toBottomOf="@id/txt_scoreboard_lastgames"
+
+        app:srcCompat="@android:drawable/ic_menu_info_details" />
 </androidx.constraintlayout.widget.ConstraintLayout>

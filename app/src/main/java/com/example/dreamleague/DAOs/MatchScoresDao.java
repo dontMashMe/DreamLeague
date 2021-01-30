@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.example.dreamleague.DataModels.MatchScores;
+import com.example.dreamleague.DataModels.NumberOfGoalsTuple;
 
 import java.util.List;
 
@@ -26,4 +27,10 @@ public interface MatchScoresDao {
 
     @Query("DELETE FROM MatchScores")
     void deleteAllMatchScores();
+
+    @Query("SELECT * FROM matchscores WHERE playerId IN (:playerIds)")
+    LiveData<List<MatchScores>> numberOfGoals(List<Integer> playerIds);
+
+    @Query("SELECT sum(numberOfGoals), playerId from MatchScores WHERE playerId IN (:playerIds) group by playerId")
+    LiveData<List<NumberOfGoalsTuple>> getNumberOfGoals(List<Integer> playerIds);
 }

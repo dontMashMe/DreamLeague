@@ -9,28 +9,36 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DreamLeague">
         <activity
+            android:name=".Activities.TeamInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".Activities.SeasonActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-        />
-        <activity android:name=".Activities.CreateTeamFragmentHolderActivity" android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.CreateTeamFragmentHolderActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.CreateTeamActivity" />
-        <activity android:name=".Activities.LeaderboardActivity" android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.MainActivity" android:theme="@style/AppTheme.NoActionBar">
-
+        <activity
+            android:name=".Activities.LeaderboardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Activities.PostGameActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.PopPlayerInfo"
-            android:theme="@style/CustomTheme"/>
+        <activity
+            android:name=".Activities.PopPlayerInfo"
+            android:theme="@style/CustomTheme" />
         <activity
             android:name=".Activities.PopWeekResults"
             android:theme="@style/Theme.Transparent" />
-
     </application>
 
 </manifest>

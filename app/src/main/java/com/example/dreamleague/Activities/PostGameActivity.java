@@ -55,7 +55,6 @@ public class PostGameActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
         });
 
-        List<DreamTeam> dreamTeams = new ArrayList<>();
         LiveData<List<DreamTeam>> dreamTeamLiveData = seasonViewModel.getDreamTeam();
         dreamTeamLiveData.observe(this, new Observer<List<DreamTeam>>() {
             @Override
@@ -68,6 +67,7 @@ public class PostGameActivity extends AppCompatActivity {
                     seasonViewModel.deleteAllMatches();
                     seasonViewModel.deleteAllMatchScores();
                     seasonViewModel.deleteAllPlayerPoints();
+                    seasonViewModel.resetAllTeamPoints();
                 });
                 executor.shutdown();
             }

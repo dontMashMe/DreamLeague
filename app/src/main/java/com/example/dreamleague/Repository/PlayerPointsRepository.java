@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.dreamleague.DAOs.PlayerPointsDao;
 import com.example.dreamleague.DataModels.Database;
+import com.example.dreamleague.DataModels.MatchScores;
 import com.example.dreamleague.DataModels.Player;
 import com.example.dreamleague.DataModels.PlayerPoints;
 
@@ -72,6 +73,7 @@ public class PlayerPointsRepository {
     public void deleteAllPlayerPoints(){
         playerPointsDao.deleteAllPlayerPoints();
     }
+
 
 
 }

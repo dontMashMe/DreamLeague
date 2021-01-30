@@ -29,4 +29,7 @@ public class TeamRepository {
     public void updateDraw(int team_id){
         teamDao.updateDrawPoints(team_id);
     }
+    public void resetAllTeamPoints(){
+        teamDao.resetAllTeamPoints();
+    }
 }

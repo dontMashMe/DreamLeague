@@ -35,4 +35,7 @@ public interface MatchesDao {
 
     @Query("DELETE FROM Matches")
     void deleteAllMatches();
+
+    @Query("SELECT * FROM Matches WHERE teamAway = :teamId OR teamHome =:teamId ORDER BY week ASC")
+    LiveData<List<Match>> getAllMatchesFromTeam(int teamId);
 }

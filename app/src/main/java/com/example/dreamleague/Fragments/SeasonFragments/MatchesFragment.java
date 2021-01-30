@@ -49,7 +49,6 @@ public class MatchesFragment extends Fragment implements AdapterView.OnItemSelec
     RecyclerView recyclerView;
     Spinner spinner;
     List<Player> players = new ArrayList<>();
-    ProgressDialog asycdialog;
     ImageButton imb_leaderBoards;
 
 
@@ -76,15 +75,10 @@ public class MatchesFragment extends Fragment implements AdapterView.OnItemSelec
         imb_leaderBoards = view.findViewById(R.id.imb_leaderboards);
         imb_leaderBoards.setOnClickListener(v -> {
             startActivity(new Intent(requireActivity(), LeaderboardActivity.class));
-            asycdialog.dismiss(); //activity leaka window u drugi activity ak se ne dismissa
             getActivity().finish();
         });
         players = new ArrayList<>();
-        asycdialog = new ProgressDialog(getActivity());
-        asycdialog.setMessage("Working");
-        asycdialog.getWindow().setGravity(Gravity.CENTER_VERTICAL);
-        asycdialog.getWindow().setGravity(Gravity.CENTER_HORIZONTAL);
-        asycdialog.setCancelable(false);
+
 
         spinner = view.findViewById(R.id.spinner_week);
         Integer[] items = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
@@ -101,7 +95,7 @@ public class MatchesFragment extends Fragment implements AdapterView.OnItemSelec
     @Override
     public void onPause() {
         super.onPause();
-        asycdialog.dismiss();
+
     }
 
     @Override

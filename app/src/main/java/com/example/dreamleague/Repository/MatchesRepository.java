@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import com.example.dreamleague.DAOs.MatchesDao;
 import com.example.dreamleague.DataModels.Database;
 import com.example.dreamleague.DataModels.Match;
+import com.example.dreamleague.DataModels.MatchScores;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -54,5 +55,10 @@ public class MatchesRepository {
     public void deleteAllMatches(){
         matchesDao.deleteAllMatches();
     }
+
+    public LiveData<List<Match>> getAllMatchesFromTeam(int teamId){
+        return matchesDao.getAllMatchesFromTeam(teamId);
+    }
+
 }
 

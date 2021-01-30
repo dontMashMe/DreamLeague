@@ -36,7 +36,7 @@ public interface PlayerDao {
             "inner join squads on player.playerId = squads.playerId\n" +
             "inner join team on team.team_id = squads.teamId\n" +
             "where team_id = :team_id\n" +
-            "order by team.team_id")
+            "order by player.playerValue ASC")
     LiveData<List<Player>> getPlayersFromTeam(int team_id);
 
 
@@ -64,4 +64,12 @@ public interface PlayerDao {
 
     @Query("SELECT * FROM Player WHERE playerId IN (:playerIds)")
     LiveData<List<Player>> userPlayers(List<Integer> playerIds);
+
+    @Query("SELECT player.playerId, player.name, dateOfBirth, position, playerRating, playerValue from player\n" +
+            "            inner join squads on player.playerId = squads.playerId\n" +
+            "            inner join team on team.team_id = squads.teamId\n" +
+            "            where team.team_id = :team_id AND player.position = \"\"\n" +
+            "            order by player.playerRating DESC")
+    Player getManager(int team_id);
+
 }

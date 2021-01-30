@@ -28,5 +28,9 @@ public interface TeamDao {
     @Query("UPDATE TEAM SET points = points + 1 WHERE team_id = :team_id")
     void updateDrawPoints(int team_id);
 
+    @Query("UPDATE TEAM SET points = 0")
+    void resetAllTeamPoints();
+
+
 
 }

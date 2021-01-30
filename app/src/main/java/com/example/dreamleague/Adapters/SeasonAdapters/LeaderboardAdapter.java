@@ -1,14 +1,17 @@
 package com.example.dreamleague.Adapters.SeasonAdapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.dreamleague.Activities.TeamInfoActivity;
 import com.example.dreamleague.DataModels.Team;
 import com.example.dreamleague.R;
 
@@ -39,12 +42,21 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         viewHolder.txt_team_name.setText(team.getName());
         viewHolder.img_team.setImageResource(team.getTeamLogo());
         viewHolder.txt_games.setText(team.getLast5games());
+        viewHolder.imb_team_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), TeamInfoActivity.class);
+                intent.putExtra("TEAM_ID", team.getTeam_id());
+                v.getContext().startActivity(intent);
+            }
+        });
 
     }
 
     static class RowViewHolder extends  RecyclerView.ViewHolder{
         ImageView img_team;
         TextView txt_position, txt_team_name, txt_team_points, txt_games;
+        ImageButton imb_team_info;
 
         public RowViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -53,6 +65,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             txt_team_name = itemView.findViewById(R.id.txt_team_name_leaderboard);
             txt_team_points = itemView.findViewById(R.id.txt_points);
             txt_games = itemView.findViewById(R.id.txt_scoreboard_lastgames);
+            imb_team_info = itemView.findViewById(R.id.imb_team_info);
         }
     }
 

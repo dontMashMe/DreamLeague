@@ -8,6 +8,7 @@ import com.example.dreamleague.DAOs.MatchScoresDao;
 import com.example.dreamleague.DataModels.Database;
 import com.example.dreamleague.DataModels.Match;
 import com.example.dreamleague.DataModels.MatchScores;
+import com.example.dreamleague.DataModels.NumberOfGoalsTuple;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,13 @@ public class MatchScoresRepository {
     public void deleteAllMatchScores(){
         matchScoresDao.deleteAllMatchScores();
     }
+    public LiveData<List<MatchScores>> numberOfGoals(List<Integer> playerIds){
+        return matchScoresDao.numberOfGoals(playerIds);
+    }
+
+   public LiveData<List<NumberOfGoalsTuple>> getNumberOfGoals(List<Integer> playerIds){
+        return matchScoresDao.getNumberOfGoals(playerIds);
+   }
 
 
 

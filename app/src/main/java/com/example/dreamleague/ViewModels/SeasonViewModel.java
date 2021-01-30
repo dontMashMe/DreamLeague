@@ -11,6 +11,7 @@ import com.example.dreamleague.DataModels.GameResults;
 import com.example.dreamleague.DataModels.LineupSingleton;
 import com.example.dreamleague.DataModels.Match;
 import com.example.dreamleague.DataModels.MatchScores;
+import com.example.dreamleague.DataModels.NumberOfGoalsTuple;
 import com.example.dreamleague.DataModels.Player;
 import com.example.dreamleague.DataModels.PlayerPoints;
 import com.example.dreamleague.DataModels.PostGameScores;
@@ -76,31 +77,44 @@ public class SeasonViewModel extends AndroidViewModel {
         postGameScoresRepository = new PostGameScoresRepository(application);
         fillLogoMap();
         fillMap();
-
-
     }
 
-    public void deleteAllMatches(){
+    public LiveData<List<NumberOfGoalsTuple>> getNumberOfGoals(List<Integer> playerIds){
+        return matchScoresRepository.getNumberOfGoals(playerIds);
+    }
+    public void resetAllTeamPoints() {
+        teamRepository.resetAllTeamPoints();
+    }
+
+    public LiveData<List<Match>> getAllMatchesFromTeam(int teamId) {
+        return matchesRepository.getAllMatchesFromTeam(teamId);
+    }
+
+    public void deleteAllMatches() {
         matchesRepository.deleteAllMatches();
     }
-    public void deleteAllMatchScores(){
+
+    public void deleteAllMatchScores() {
         matchScoresRepository.deleteAllMatchScores();
     }
-    public void deleteAllPlayerPoints(){
+
+    public void deleteAllPlayerPoints() {
         playerPointsRepository.deleteAllPlayerPoints();
     }
 
-    public void deleteDreamTeam(DreamTeam dreamTeam){
+    public void deleteDreamTeam(DreamTeam dreamTeam) {
         dreamTeamRepository.deleteDreamTeam(dreamTeam);
     }
 
-        public void insertPostGameScore(PostGameScores postGameScores){
+    public void insertPostGameScore(PostGameScores postGameScores) {
         postGameScoresRepository.insertPostGameScore(postGameScores);
     }
-    public LiveData<List<PostGameScores>> getAllPostGameScores(){
+
+    public LiveData<List<PostGameScores>> getAllPostGameScores() {
         return postGameScoresRepository.getAllPostGameScores();
     }
-    public int getAllPointsSum(){
+
+    public int getAllPointsSum() {
         return playerPointsRepository.getAllPointsSum();
     }
 
@@ -129,12 +143,14 @@ public class SeasonViewModel extends AndroidViewModel {
         matchScoresRepository.InsertMatchScores(matchScores);
     }
 
-    public int getPlayerPointsInt(int playerId){
+    public int getPlayerPointsInt(int playerId) {
         return playerPointsRepository.getPlayerPointsInt(playerId);
     }
-    public LiveData<List<PlayerPoints>> getAllPlayerPoints(){
+
+    public LiveData<List<PlayerPoints>> getAllPlayerPoints() {
         return playerPointsRepository.getAllPlayerPoints();
     }
+
     public LiveData<List<Player>> getAllPlayers() {
         return this.allPlayers;
     }
@@ -178,17 +194,52 @@ public class SeasonViewModel extends AndroidViewModel {
     public LiveData<Integer> getPlayerPoints(int playerId) {
         return playerPointsRepository.getPlayerPoints(playerId);
     }
-    public LiveData<List<Player>> userPlayers(List<Integer> playerIds){
-        return playerRepository.userPlayers(playerIds);
+
+    public Player getPlayerFromId(int playerId, List<Player> players){
+        for(Player a : players){
+            if(a.getPlayerId() == playerId) return a;
+        }
+        return null;
     }
 
 
-        public List<Match> getMatchesFromWeekStatic(List<Match> matches, int week) {
+
+    public LiveData<List<MatchScores>> numberOfGoals(List<Integer> playerIds){
+        return matchScoresRepository.numberOfGoals(playerIds);
+    }
+
+    public List<Match> getMatchesFromWeekStatic(List<Match> matches, int week) {
         List<Match> returnList = new ArrayList<>();
         for (Match a : matches) {
             if (a.getWeek() == week) returnList.add(a);
         }
         return returnList;
+    }
+
+    public Player findManager(List<Player> players) {
+        for (Player a : players) {
+            if (a.getPosition().equals("")) return a;
+        }
+        return null;
+    }
+
+    public double calculateTeamWinRate(List<Match> matches, int teamId, int week) {
+        double wins = 0, draws = 0, counter = 0;
+        for (Match a : matches) {
+            if (a.getWeek() < week) {
+                counter++;
+                if (a.getTeamHome() == teamId) {
+                    if (a.getTeamHomeScore() > a.getTeamAwayScore()) {
+                        wins++;
+                    } else if (a.getTeamHomeScore() == a.getTeamAwayScore()) draws++;
+                } else if (a.getTeamAway() == teamId) {
+                    if (a.getTeamAwayScore() > a.getTeamHomeScore()) {
+                        wins++;
+                    } else if (a.getTeamAwayScore() == a.getTeamHomeScore()) draws++;
+                }
+            }
+        }
+        return Math.round((2 * wins + draws) / (2 * counter) * 100) / 100.0;
     }
 
     //početno generiranje utakmica
@@ -371,8 +422,17 @@ public class SeasonViewModel extends AndroidViewModel {
         return null;
     }
 
-    private int setTeamKit(Map<String, Integer> map, Team team) {
+    public int setTeamKit(Team team) {
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            if (team.getName().equals(entry.getKey())) {
+                return entry.getValue();
+            }
+        }
+        return 0;
+    }
+
+    public int setTeamLogo(Team team) {
+        for (Map.Entry<String, Integer> entry : logo_map.entrySet()) {
             if (team.getName().equals(entry.getKey())) {
                 return entry.getValue();
             }
@@ -396,9 +456,9 @@ public class SeasonViewModel extends AndroidViewModel {
         List<Match> returnList = new ArrayList<>();
         for (Match a : matches) {
             a.setObjTeamHome(getTeamById(a.getTeamHome(), teams));
-            a.getObjTeamHome().setTeamLogo(setTeamKit(logo_map, a.getObjTeamHome()));
+            a.getObjTeamHome().setTeamLogo(setTeamLogo(a.getObjTeamHome()));
             a.setObjTeamAway(getTeamById(a.getTeamAway(), teams));
-            a.getObjTeamAway().setTeamLogo(setTeamKit(logo_map, a.getObjTeamAway()));
+            a.getObjTeamAway().setTeamLogo(setTeamLogo(a.getObjTeamAway()));
             returnList.add(a);
         }
         return returnList;
@@ -625,7 +685,7 @@ public class SeasonViewModel extends AndroidViewModel {
                 break;
         }
         playerPointsRepository.insertPlayer(player.getPlayerId());
-        Utils.putBalance(getApplication(), Utils.getBalance(getApplication())-player.getPlayerValue());
+        Utils.putBalance(getApplication(), Utils.getBalance(getApplication()) - player.getPlayerValue());
     }
 
     //nisam pretjerano ponosan na ovo ali ne znam kak drugacije da to napravim
@@ -696,10 +756,8 @@ public class SeasonViewModel extends AndroidViewModel {
                             break;
                     }
                 }
-            }
-            else if (match.getTeamHomeScore() == match.getTeamAwayScore()) pointsSum += 1;
-        }
-        else if (match.getTeamAway() == player.getTeam().getTeam_id()) {
+            } else if (match.getTeamHomeScore() == match.getTeamAwayScore()) pointsSum += 1;
+        } else if (match.getTeamAway() == player.getTeam().getTeam_id()) {
             if (match.getTeamAwayScore() > match.getTeamHomeScore()) {
                 pointsSum += 2;
                 if (match.getTeamHomeScore() == 0) {
@@ -713,8 +771,7 @@ public class SeasonViewModel extends AndroidViewModel {
                             break;
                     }
                 }
-            }
-            else if (match.getTeamAwayScore() == match.getTeamHomeScore()) pointsSum += 1;
+            } else if (match.getTeamAwayScore() == match.getTeamHomeScore()) pointsSum += 1;
         }
         //broj golova
         switch (player.getPosition()) {

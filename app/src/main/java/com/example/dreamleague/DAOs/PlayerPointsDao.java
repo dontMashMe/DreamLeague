@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 
+import com.example.dreamleague.DataModels.MatchScores;
+import com.example.dreamleague.DataModels.Player;
 import com.example.dreamleague.DataModels.PlayerPoints;
 
 import java.util.List;
@@ -34,4 +36,5 @@ public interface PlayerPointsDao {
 
     @Query("DELETE FROM PlayerPoints")
     void deleteAllPlayerPoints();
+
 }

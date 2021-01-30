@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.TeamInfoActivity">
+
+    <TextView
+        android:id="@+id/txt_most_goals_ti"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Most goals:"
+        app:layout_constraintStart_toStartOf="@id/txt_most_val_ti"
+        app:layout_constraintTop_toBottomOf="@id/txt_most_val_ti"
+        android:layout_marginTop="10dp" />
+
+    <ImageView
+        android:id="@+id/img_team_kit_ti"
+        android:layout_width="118dp"
+        android:layout_height="101dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view6"
+        tools:srcCompat="@drawable/arsenal_kit" />
+
+    <View
+        android:id="@+id/view6"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:background="#c0c0c0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_team_logo_ti" />
+
+    <View
+        android:id="@+id/view_underline"
+        android:layout_width="160dp"
+        android:layout_height="2dp"
+        android:background="#c0c0c0"
+        app:layout_constraintEnd_toEndOf="@id/txt_team_name_ti"
+        app:layout_constraintStart_toStartOf="@id/txt_team_name_ti"
+        app:layout_constraintTop_toBottomOf="@id/txt_team_name_ti"
+        tools:layout_editor_absoluteX="199dp"
+        tools:layout_editor_absoluteY="104dp" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="60dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="325dp"
+        android:layout_marginRight="325dp"
+        android:src="@drawable/lion"
+        android:translationZ="90dp"
+        app:layout_constraintBottom_toBottomOf="@id/cardView"
+        app:layout_constraintEnd_toEndOf="@id/cardView"
+        app:layout_constraintStart_toStartOf="@id/cardView"
+        app:layout_constraintTop_toTopOf="@id/cardView" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:cardBackgroundColor="@color/purple_500"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_header4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginRight="100dp"
+        android:text="Dream League"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:translationZ="90dp"
+        app:layout_constraintEnd_toEndOf="@id/cardView"
+        app:layout_constraintStart_toStartOf="@id/cardView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_team_logo_ti"
+        android:layout_width="132dp"
+        android:layout_height="137dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="22dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        tools:srcCompat="@drawable/arsenal_logo" />
+
+    <TextView
+        android:id="@+id/txt_team_name_ti"
+        android:layout_width="wrap_content"
+        android:maxWidth="200dp"
+        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="40dp"
+
+        android:layout_marginRight="40dp"
+        android:text="Arsenal FC"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/img_team_logo_ti"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        android:gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/txt_points_ti"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Points this season:"
+        app:layout_constraintStart_toStartOf="@id/view_underline"
+        app:layout_constraintTop_toBottomOf="@id/view_underline"
+        tools:layout_editor_absoluteX="200dp"
+        tools:layout_editor_absoluteY="128dp" />
+
+    <TextView
+        android:id="@+id/txt_wpr_ti"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Winning percentage:"
+        app:layout_constraintStart_toStartOf="@id/txt_points_ti"
+        app:layout_constraintTop_toBottomOf="@id/txt_points_ti"
+        tools:layout_editor_absoluteX="201dp"
+        tools:layout_editor_absoluteY="160dp" />
+
+    <TextView
+        android:id="@+id/txt_manager_ti"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Manager:"
+        app:layout_constraintStart_toStartOf="@id/txt_wpr_ti"
+        app:layout_constraintTop_toBottomOf="@id/txt_wpr_ti"
+        tools:layout_editor_absoluteX="200dp"
+        tools:layout_editor_absoluteY="190dp" />
+
+    <TextView
+        android:id="@+id/txt_most_val_ti"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Highest $ player:"
+        app:layout_constraintStart_toStartOf="@id/txt_manager_ti"
+        android:textColor="#1c9139"
+        app:layout_constraintTop_toBottomOf="@+id/view6"
+        tools:layout_editor_absoluteX="180dp" />
+
+    <TextView
+        android:id="@+id/textView25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Team kit"
+        app:layout_constraintStart_toStartOf="@id/img_team_kit_ti"
+        app:layout_constraintEnd_toEndOf="@id/img_team_kit_ti"
+        app:layout_constraintTop_toBottomOf="@id/img_team_kit_ti"
+        tools:layout_editor_absoluteX="55dp"
+        tools:layout_editor_absoluteY="393dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rec_view_team_info"
+        android:layout_width="380dp"
+        android:layout_height="328dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MATCHES"
+        app:layout_constraintStart_toStartOf="@id/rec_view_team_info"
+        app:layout_constraintEnd_toEndOf="@id/rec_view_team_info"
+        app:layout_constraintBottom_toTopOf="@id/rec_view_team_info"
+        tools:layout_editor_absoluteX="181dp"
+        tools:layout_editor_absoluteY="424dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
