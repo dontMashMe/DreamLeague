@@ -5,34 +5,113 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageButton
+        android:id="@+id/imb_clear_all"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:background="?attr/selectableItemBackground"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imb_undo"
+        app:layout_constraintTop_toBottomOf="@id/img_field"
+        app:srcCompat="@drawable/delete_all" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear all"
+        android:textColor="@color/purple_500"
+        app:layout_constraintBottom_toTopOf="@id/imb_clear_all"
+        app:layout_constraintEnd_toEndOf="@id/imb_clear_all"
+        app:layout_constraintStart_toStartOf="@id/imb_clear_all"
+        tools:layout_editor_absoluteX="327dp"
+        tools:layout_editor_absoluteY="604dp" />
+
+    <ImageButton
+        android:id="@+id/imb_undo"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:background="?attr/selectableItemBackground"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toStartOf="@id/imb_clear_all"
+        app:layout_constraintStart_toEndOf="@id/imb_autoFill"
+        app:layout_constraintTop_toBottomOf="@id/img_field"
+        app:srcCompat="@drawable/undo" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Undo"
+        android:textColor="@color/purple_500"
+        app:layout_constraintBottom_toTopOf="@id/imb_undo"
+        app:layout_constraintEnd_toEndOf="@id/imb_undo"
+        app:layout_constraintStart_toStartOf="@id/imb_undo"
+        tools:layout_editor_absoluteX="181dp"
+        tools:layout_editor_absoluteY="624dp" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="139dp"
+        android:layout_height="30dp"
+        android:layout_margin="4dp"
+        android:layout_marginTop="40dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:elevation="8dp"
+        app:cardCornerRadius="40dp"
+        app:cardElevation="10dp"
+        app:cardPreventCornerOverlap="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        tools:targetApi="lollipop">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/txt_create_teamname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple_500"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/txt_balance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginBottom="5dp"
+        android:text="15478571 mill"
         android:textColor="#43a047"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-
-        app:layout_constraintBottom_toTopOf="@id/img_field"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/img_field"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/img_field"
         android:layout_width="400dp"
-        android:layout_height="539dp"
+        android:layout_height="580dp"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:clickable="false"
         android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@+id/btn_startSeason"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +124,7 @@
         android:layout_width="83dp"
         android:layout_height="64dp"
         android:layout_marginTop="15dp"
-        android:src="@drawable/default_kit"
+        android:src="@drawable/default_kit2"
         app:layout_constraintEnd_toEndOf="@id/img_field"
         app:layout_constraintStart_toStartOf="@id/img_field"
         app:layout_constraintTop_toTopOf="@id/img_field" />
@@ -56,84 +135,73 @@
         android:layout_width="83dp"
 
         android:layout_height="64dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="50dp"
         android:src="@drawable/default_kit2"
         app:layout_constraintEnd_toStartOf="@id/imb_defend3"
         app:layout_constraintStart_toEndOf="@id/imb_defend1"
-        app:layout_constraintTop_toBottomOf="@id/txt_goalie_val"
-        tools:layout_editor_absoluteY="192dp" />
+        app:layout_constraintTop_toBottomOf="@id/txt_goalie_val" />
 
     <ImageButton
         android:id="@+id/imb_defend3"
         style="@style/imagebutton"
         android:layout_width="83dp"
         android:layout_height="64dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="50dp"
 
-        android:src="@drawable/default_kit"
+        android:src="@drawable/default_kit2"
         app:layout_constraintEnd_toStartOf="@id/imb_defend4"
         app:layout_constraintStart_toEndOf="@id/imb_defend2"
         app:layout_constraintTop_toBottomOf="@id/txt_goalie_val"
 
-        tools:layout_editor_absoluteY="194dp" />
+        />
 
     <ImageButton
         android:id="@+id/imb_defend4"
         style="@style/imagebutton"
         android:layout_width="83dp"
         android:layout_height="64dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="50dp"
 
-        android:src="@drawable/default_kit"
+        android:src="@drawable/default_kit2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/imb_defend3"
-        app:layout_constraintTop_toBottomOf="@id/txt_goalie_val"
-        tools:layout_editor_absoluteY="193dp" />
+        app:layout_constraintTop_toBottomOf="@id/txt_goalie_val" />
 
     <Button
         android:id="@+id/btn_startSeason"
-        android:layout_width="400dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="159dp"
-        android:layout_marginLeft="159dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="159dp"
-        android:layout_marginRight="159dp"
-        android:layout_marginBottom="20dp"
-        android:background="@color/purple_700"
-        android:text="@string/start_season"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/round_button"
+        android:text="Kick off"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_field" />
+        app:layout_constraintBottom_toBottomOf="@id/img_field"
+        app:layout_constraintEnd_toEndOf="@id/img_field"
+        app:layout_constraintStart_toStartOf="@id/img_field" />
 
     <ImageButton
         android:id="@+id/imb_attack1"
         style="@style/imagebutton"
         android:layout_width="83dp"
         android:layout_height="64dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="90dp"
 
-        android:src="@drawable/default_kit"
+        android:src="@drawable/default_kit2"
         app:layout_constraintBottom_toBottomOf="@id/img_field"
         app:layout_constraintEnd_toStartOf="@id/imb_attack2"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="514dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/imb_attack2"
         style="@style/imagebutton"
         android:layout_width="83dp"
         android:layout_height="64dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="90dp"
 
-        android:src="@drawable/default_kit"
+        android:src="@drawable/default_kit2"
         app:layout_constraintBottom_toBottomOf="@id/img_field"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/imb_attack1"
-        tools:layout_editor_absoluteY="514dp" />
+        app:layout_constraintStart_toEndOf="@id/imb_attack1" />
 
 
     <ImageButton
@@ -141,9 +209,9 @@
         style="@style/imagebutton"
         android:layout_width="83dp"
         android:layout_height="64dp"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="80dp"
 
-        android:src="@drawable/default_kit"
+        android:src="@drawable/default_kit2"
         app:layout_constraintEnd_toStartOf="@id/imb_midfield2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imb_defend1" />
@@ -155,8 +223,8 @@
         android:layout_height="64dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="35dp"
-        android:src="@drawable/default_kit"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/default_kit2"
         app:layout_constraintEnd_toStartOf="@id/imb_defend2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_goalie_val" />
@@ -167,8 +235,8 @@
         android:layout_width="83dp"
 
         android:layout_height="64dp"
-        android:layout_marginTop="75dp"
-        android:src="@drawable/default_kit"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/default_kit2"
         app:layout_constraintEnd_toStartOf="@id/imb_midfield3"
         app:layout_constraintStart_toEndOf="@id/imb_midfield1"
         app:layout_constraintTop_toBottomOf="@id/imb_defend2" />
@@ -179,12 +247,11 @@
         android:layout_width="83dp"
 
         android:layout_height="64dp"
-        android:layout_marginTop="75dp"
-        android:src="@drawable/default_kit"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/default_kit2"
         app:layout_constraintEnd_toStartOf="@id/imb_midfield4"
         app:layout_constraintStart_toEndOf="@id/imb_midfield2"
-        app:layout_constraintTop_toBottomOf="@id/imb_defend3"
-        tools:layout_editor_absoluteY="316dp" />
+        app:layout_constraintTop_toBottomOf="@id/imb_defend3" />
 
     <ImageButton
         android:id="@+id/imb_midfield4"
@@ -192,12 +259,11 @@
         android:layout_width="83dp"
 
         android:layout_height="64dp"
-        android:layout_marginTop="75dp"
-        android:src="@drawable/default_kit"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/default_kit2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/imb_midfield3"
-        app:layout_constraintTop_toBottomOf="@id/imb_defend4"
-        tools:layout_editor_absoluteY="316dp" />
+        app:layout_constraintTop_toBottomOf="@id/imb_defend4" />
 
 
     <TextView
@@ -476,12 +542,12 @@
         android:id="@+id/txt_goalie_pr"
         android:layout_width="16dp"
         android:layout_height="19dp"
+        android:layout_marginLeft="65dp"
         android:textColor="@color/purple_500"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/imb_goalie"
-        app:layout_constraintEnd_toEndOf="@id/imb_goalie"
         app:layout_constraintBottom_toBottomOf="@id/imb_goalie"
-        android:layout_marginLeft="65dp"
+        app:layout_constraintEnd_toEndOf="@id/imb_goalie"
+        app:layout_constraintStart_toStartOf="@id/imb_goalie"
         tools:layout_editor_absoluteX="198dp"
         tools:layout_editor_absoluteY="131dp" />
 
@@ -629,26 +695,25 @@
 
     <ImageButton
         android:id="@+id/imb_autoFill"
-        android:layout_width="106dp"
-        android:layout_height="31dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/img_field"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.846"
-        app:srcCompat="@drawable/auto_fill" />
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:background="?attr/selectableItemBackground"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toStartOf="@id/imb_undo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_field"
+        app:srcCompat="@drawable/autofill" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Auto Fill"
-        tools:layout_editor_absoluteX="296dp"
-        tools:layout_editor_absoluteY="13dp"
-        app:layout_constraintStart_toStartOf="@id/imb_autoFill"
+        android:textColor="@color/purple_500"
+        app:layout_constraintBottom_toTopOf="@id/imb_autoFill"
         app:layout_constraintEnd_toEndOf="@id/imb_autoFill"
-        app:layout_constraintBottom_toTopOf="@id/imb_autoFill"/>
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="@id/imb_autoFill" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -113,24 +113,28 @@ public class TeamInfoActivity extends AppCompatActivity {
             if (seasonViewModel.findManager(allPlayers) != null) {
                 txt_manager.append(" " + seasonViewModel.findManager(allPlayers).getName());
             } else txt_manager.append(" ? ");
+
             LiveData<List<NumberOfGoalsTuple>> numberOfGoals = seasonViewModel.getNumberOfGoals(playerIds);
             numberOfGoals.observe(this, new Observer<List<NumberOfGoalsTuple>>() {
                 @Override
                 public void onChanged(List<NumberOfGoalsTuple> numberOfGoalsTuples) {
-                    int max = numberOfGoalsTuples.get(0).getNumberOfGoals();
-                    int playerId = numberOfGoalsTuples.get(0).getPlayerId();
-                    for (NumberOfGoalsTuple a : numberOfGoalsTuples) {
-                        if (a.getNumberOfGoals() > max) {
-                            max = a.getNumberOfGoals();
-                            playerId = a.getPlayerId();
-                        }
+                    if(numberOfGoalsTuples.size() > 0){ //ako se klikne na team info prije nego ijedna utakmica je odigrana
+                        int max = numberOfGoalsTuples.get(0).getNumberOfGoals();
+                        int playerId = numberOfGoalsTuples.get(0).getPlayerId();
+                        for (NumberOfGoalsTuple a : numberOfGoalsTuples) {
+                            if (a.getNumberOfGoals() > max) {
+                                max = a.getNumberOfGoals();
+                                playerId = a.getPlayerId();
+                            }
 
-                    }
-                    for (Player a : allPlayers) {
-                        if (a.getPlayerId() == playerId) {
-                            txt_highest_scorer.append(" " + a.getName() + " (" + max + ")");
+                        }
+                        for (Player a : allPlayers) {
+                            if (a.getPlayerId() == playerId) {
+                                txt_highest_scorer.append(" " + a.getName() + " (" + max + ")");
+                            }
                         }
                     }
+
 
                 }
 

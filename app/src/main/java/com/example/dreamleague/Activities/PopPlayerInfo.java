@@ -85,6 +85,7 @@ public class PopPlayerInfo extends AppCompatActivity {
             public void onClick(View v) {
                     seasonViewModel.sellPlayer(player.getRealPosition(), player.getPlayerId());
                 Toast.makeText(PopPlayerInfo.this, "Igrač " + player.getName() + " uspješno prodan!", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 

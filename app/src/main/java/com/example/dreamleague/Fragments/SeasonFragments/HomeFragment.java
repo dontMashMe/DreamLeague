@@ -354,7 +354,7 @@ public class HomeFragment extends Fragment {
         kickOff = view.findViewById(R.id.btn_kickOff);
         kickOff.setOnClickListener(kickOffClick);
 
-        txt_team_name = view.findViewById(R.id.txt_dr_team_name);
+        txt_team_name = view.findViewById(R.id.txt_create_teamname);
         txt_current_week = view.findViewById(R.id.txt_current_week);
         txt_current_points = view.findViewById(R.id.txt_current_points);
 
