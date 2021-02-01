@@ -60,23 +60,28 @@ public class TeamInfoActivity extends AppCompatActivity {
     void setupMatches(int teamId) {
         LiveData<List<Match>> allMatchesFromTeam = seasonViewModel.getAllMatchesFromTeam(teamId);
         LiveData<List<Team>> teams = seasonViewModel.getAllTeams();
-        allMatchesFromTeam.observe(this, matches -> {
-            teams.observe(this, teams1 -> {
-                for (Match a : matches) {
-                    a.setMatchScores(seasonViewModel.getMatchScoresForGame(a.getGameId()));
-                }
-                for (Team a : teams1) {
-                    if (a.getTeam_id() == teamId) {
-                        teamWinrate = seasonViewModel.calculateTeamWinRate(matches, teamId, Utils.getCurrentWeek(this));
-                        setupViews(a);
+        LiveData<List<Player>> allAllPlayers = seasonViewModel.getAllPlayers();
+        allAllPlayers.observe(this, players -> {
+            allMatchesFromTeam.observe(this, matches -> {
+                teams.observe(this, teams1 -> {
+                    for (Match a : matches) {
+                        a.setMatchScores(seasonViewModel.getMatchScoresForGame(a.getGameId()));
                     }
-                }
-                List<Match> matchesSetupd = seasonViewModel.setTeamsAndLogos(matches, teams1);
-                MatchesRecViewAdapter matchesRecViewAdapter = new MatchesRecViewAdapter(matchesSetupd, allPlayers);
-                recyclerView.setAdapter(matchesRecViewAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                    for (Team a : teams1) {
+                        if (a.getTeam_id() == teamId) {
+                            teamWinrate = seasonViewModel.calculateTeamWinRate(matches, teamId, Utils.getCurrentWeek(this));
+                            setupViews(a);
+                            break;
+                        }
+                    }
+                    List<Match> matchesSetupd = seasonViewModel.setTeamsAndLogos(matches, teams1);
+                    MatchesRecViewAdapter matchesRecViewAdapter = new MatchesRecViewAdapter(matchesSetupd, players);
+                    recyclerView.setAdapter(matchesRecViewAdapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                });
             });
         });
+
     }
 
     void initializeViews() {

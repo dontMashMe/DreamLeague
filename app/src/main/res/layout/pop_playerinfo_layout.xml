@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
 
     <ImageView
@@ -14,14 +13,15 @@
         android:layout_marginStart="23dp"
         android:layout_marginLeft="23dp"
         android:layout_marginTop="60dp"
+        android:contentDescription="@string/slikica"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_foreground"
-        android:contentDescription="@string/slikica" />
+        app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <TextView
         android:id="@+id/txt_team_name_pop"
         android:layout_width="wrap_content"
+        android:maxWidth="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="@id/img_team_logo_pop"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintStart_toEndOf="@+id/img_team_logo_pop"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,38 +66,63 @@
         android:id="@+id/txt_player_pr_pop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginBottom="160dp"
         android:textColor="@color/purple_500"
-        android:textSize="50sp"
+        android:textSize="45sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.39" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:contentDescription="@string/slikica"
         android:id="@+id/imb_sell"
         android:layout_width="46dp"
         android:layout_height="46dp"
+        android:layout_marginTop="65dp"
 
-        android:layout_marginTop="56dp"
         android:background="?attr/selectableItemBackground"
+        android:contentDescription="@string/slikica"
         android:scaleType="centerInside"
         android:src="@drawable/sell"
         app:layout_constraintEnd_toEndOf="@id/txt_player_pr_pop"
         app:layout_constraintStart_toStartOf="@id/txt_player_pr_pop"
         app:layout_constraintTop_toBottomOf="@+id/txt_player_pr_pop" />
 
+    <ImageButton
+        android:id="@+id/imb_make_cap"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+
+        android:layout_marginTop="65dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginRight="60dp"
+        android:background="?attr/selectableItemBackground"
+        android:contentDescription="@string/slikica"
+        android:scaleType="centerInside"
+        android:src="@drawable/captain"
+        app:layout_constraintEnd_toStartOf="@+id/imb_sell"
+        app:layout_constraintTop_toBottomOf="@id/txt_player_pr_pop" />
+
     <TextView
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:text="@string/prodaj_igra_a"
         app:layout_constraintEnd_toEndOf="@id/imb_sell"
         app:layout_constraintStart_toStartOf="@id/imb_sell"
         app:layout_constraintTop_toBottomOf="@id/imb_sell" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/unaprijed_u_kapetana"
+        app:layout_constraintStart_toStartOf="@id/imb_make_cap"
+        app:layout_constraintEnd_toEndOf="@id/imb_make_cap"
+        app:layout_constraintTop_toBottomOf="@id/imb_make_cap"
+        android:layout_marginTop="5dp"
+        tools:layout_editor_absoluteX="240dp"
+        tools:layout_editor_absoluteY="190dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

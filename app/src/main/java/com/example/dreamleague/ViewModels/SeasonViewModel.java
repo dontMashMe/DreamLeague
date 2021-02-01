@@ -788,8 +788,7 @@ public class SeasonViewModel extends AndroidViewModel {
                 pointsSum += numberOfGoals * 4;
                 break;
         }
-        return pointsSum;
+        if(player.isCaptain()) return pointsSum*2;
+        else return pointsSum;
     }
-
-
 }

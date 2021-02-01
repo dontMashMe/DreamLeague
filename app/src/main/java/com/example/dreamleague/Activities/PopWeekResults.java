@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.dreamleague.DataModels.DreamTeam;
 import com.example.dreamleague.DataModels.LineupSingleton;
-import com.example.dreamleague.DataModels.MatchScores;
 import com.example.dreamleague.DataModels.Player;
 import com.example.dreamleague.DataModels.PlayerPoints;
 import com.example.dreamleague.DataModels.PostGameScores;

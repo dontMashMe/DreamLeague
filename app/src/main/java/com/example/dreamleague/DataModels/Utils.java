@@ -39,4 +39,15 @@ public class Utils {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return preferences.getInt("BALANCE", 0);
     }
+
+    public static void putCaptainId(Context context, int playerId){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("CAPTAIN", playerId);
+        editor.commit(); //mora biti commit jer inace ne radi idk
+    }
+    public static int getCaptainId(Context context){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getInt("CAPTAIN", 0);
+    }
 }

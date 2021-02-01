@@ -9,6 +9,7 @@
     <TextView
         android:id="@+id/txt_most_goals_ti"
         android:layout_width="wrap_content"
+        android:maxWidth="200dp"
         android:layout_height="wrap_content"
         android:text="Most goals:"
         app:layout_constraintStart_toStartOf="@id/txt_most_val_ti"
@@ -156,6 +157,7 @@
     <TextView
         android:id="@+id/txt_most_val_ti"
         android:layout_width="wrap_content"
+        android:maxWidth="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Highest $ player:"

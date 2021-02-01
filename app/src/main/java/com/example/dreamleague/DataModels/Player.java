@@ -25,9 +25,18 @@ public class Player{
     private Team team;
     @Ignore
     private int realPosition;
-
     @Ignore
     private int pointsAcquired;
+    @Ignore
+    private boolean isCaptain = false;
+
+    public boolean isCaptain() {
+        return isCaptain;
+    }
+
+    public void setCaptain(boolean captain) {
+        isCaptain = captain;
+    }
 
     public int getPointsAcquired() {
         return pointsAcquired;

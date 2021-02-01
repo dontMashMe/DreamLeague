@@ -1,7 +1,6 @@
 package com.example.dreamleague.Fragments.CreateFragments;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,12 +28,9 @@ import com.example.dreamleague.Listeners.PositionListener;
 import com.example.dreamleague.R;
 import com.example.dreamleague.ViewModels.CreateTeamViewModel;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Stack;
 
@@ -65,6 +60,7 @@ public class CreateTeamLineupFragment extends Fragment {
     CreateTeamViewModel createTeamViewModel;
     //dummy objekt, problem je jer ukoliko ga ne inicijaliziram kada god pokusam setat pozicije baca null object reference error
     DreamTeam dreamTeam = new DreamTeam(0, "-", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    Stack<Player> stackOfPlayers = new Stack<>();
 
     //klasa koja služi za grupiranje view-ova u logičku cjelinu, privremeno
     //todo->preko realPosition
@@ -392,7 +388,7 @@ public class CreateTeamLineupFragment extends Fragment {
                             a.getPlayerKit().setImageResource(R.drawable.default_kit2);
                             a.getPlayerValue().setText("");
                             a.getPlayerRating().setText("");
-                            stackOfPlayers.pop(); //izaci iz stacka
+                            stackOfPlayers.pop(); //izbaci iz stacka
                             break;
                         }
                     }
@@ -401,7 +397,6 @@ public class CreateTeamLineupFragment extends Fragment {
         });
 
     }
-    Stack<Player> stackOfPlayers = new Stack<>();
 
     void unsetAll(DreamTeam dreamTeam){
         dreamTeam.setGoalie(0);

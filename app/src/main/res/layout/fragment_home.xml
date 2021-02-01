@@ -630,6 +630,21 @@
         app:srcCompat="@drawable/field" />
 
     <TextView
+        android:id="@+id/txt_goalie_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="C"
+        android:visibility="invisible"
+
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_goalie_name"
+        app:layout_constraintTop_toTopOf="@id/s_txt_goalie_name"
+        app:layout_constraintBottom_toBottomOf="@id/s_txt_goalie_name" />
+
+    <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -723,5 +738,165 @@
         app:layout_constraintBottom_toBottomOf="@id/img_field3"
         app:layout_constraintEnd_toEndOf="@id/img_field3"
         app:layout_constraintStart_toStartOf="@id/img_field3" />
+
+    <TextView
+        android:id="@+id/txt_defender_left_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="1dp"
+        android:text="C"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="invisible"
+
+        app:layout_constraintBottom_toBottomOf="@id/s_txt_defenderLeft_name"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_defenderLeft_name"
+        app:layout_constraintTop_toTopOf="@id/s_txt_defenderLeft_name"
+        tools:layout_editor_absoluteX="89dp"
+        tools:layout_editor_absoluteY="276dp" />
+
+    <TextView
+        android:id="@+id/txt_mid_left_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="C"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="invisible"
+
+        app:layout_constraintTop_toTopOf="@id/s_txt_midLeft_name"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_midLeft_name"
+        app:layout_constraintBottom_toBottomOf="@id/s_txt_midLeft_name"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="1dp"
+         />
+
+    <TextView
+        android:id="@+id/txt_mid_mid_left_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="C"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="invisible"
+
+        app:layout_constraintEnd_toEndOf="@id/s_txt_midMidFirst_name"
+        app:layout_constraintTop_toTopOf="@id/s_txt_midMidFirst_name"
+        app:layout_constraintBottom_toBottomOf="@id/s_txt_midMidFirst_name"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="1dp"
+        />
+
+    <TextView
+        android:id="@+id/txt_mid_mid_right_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="C"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="invisible"
+
+        app:layout_constraintTop_toTopOf="@id/s_txt_midMidSecond_name"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_midMidSecond_name"
+        app:layout_constraintBottom_toBottomOf="@id/s_txt_midMidSecond_name"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="1dp"
+         />
+
+    <TextView
+        android:id="@+id/txt_mid_right_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="C"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="invisible"
+
+        app:layout_constraintEnd_toEndOf="@id/s_txt_midRight_name"
+        app:layout_constraintTop_toTopOf="@id/s_txt_midRight_name"
+        app:layout_constraintBottom_toBottomOf="@id/s_txt_midRight_name"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="1dp"
+       />
+
+    <TextView
+        android:id="@+id/txt_attacker_left_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="C"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="invisible"
+
+        app:layout_constraintEnd_toEndOf="@id/s_txt_attackerLeft_name"
+        app:layout_constraintTop_toTopOf="@id/s_txt_attackerLeft_name"
+        app:layout_constraintBottom_toBottomOf="@id/s_txt_attackerLeft_name"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="1dp"
+        />
+
+    <TextView
+        android:id="@+id/txt_attacker_right_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="C"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_attackerRight_name"
+        app:layout_constraintTop_toTopOf="@id/s_txt_attackerRight_name"
+        app:layout_constraintBottom_toBottomOf="@id/s_txt_attackerRight_name"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="1dp"
+         />
+
+    <TextView
+        android:id="@+id/txt_defender_mid_first_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="C"
+        android:visibility="invisible"
+
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_defenderMidFirst_name"
+        app:layout_constraintTop_toTopOf="@id/s_txt_defenderMidFirst_name"
+        app:layout_constraintBottom_toBottomOf="@id/s_txt_defenderMidFirst_name"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="1dp"
+         />
+
+    <TextView
+        android:id="@+id/txt_defender_mid_second_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="C"
+        android:visibility="invisible"
+
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="@id/s_txt_defenderMidSecond_name"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_defenderMidSecond_name"
+        app:layout_constraintBottom_toBottomOf="@id/s_txt_defenderMidSecond_name"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="1dp"
+         />
+
+    <TextView
+        android:id="@+id/txt_defender_right_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="C"
+        android:visibility="invisible"
+
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/s_txt_defenderRight_name"
+        app:layout_constraintTop_toTopOf="@id/s_txt_defenderRight_name"
+        app:layout_constraintBottom_toBottomOf="@id/s_txt_defenderRight_name"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="1dp"
+       />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
