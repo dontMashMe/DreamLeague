@@ -56,6 +56,10 @@ public class Player{
         this.playerValue = playerValue;
     }
 
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
+    }
+
     public int getPlayerId() {
         return playerId;
     }

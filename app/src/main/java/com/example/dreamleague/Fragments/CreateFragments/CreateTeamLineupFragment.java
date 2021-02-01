@@ -10,6 +10,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,10 +30,14 @@ import com.example.dreamleague.Listeners.PositionListener;
 import com.example.dreamleague.R;
 import com.example.dreamleague.ViewModels.CreateTeamViewModel;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
+import java.util.Stack;
 
 public class CreateTeamLineupFragment extends Fragment {
 
@@ -50,7 +55,7 @@ public class CreateTeamLineupFragment extends Fragment {
     ArrayList<PlayerViews> playerViews;
 
     Button btn_complete;
-    ImageButton btn_autoFill, btn_deleteAll;
+    ImageButton btn_autoFill, btn_deleteAll, btn_undo;
     /********************* BOILER PLATE *****************/
 
 
@@ -141,6 +146,7 @@ public class CreateTeamLineupFragment extends Fragment {
 
 
     void setupViews(View v) {
+        btn_undo = (ImageButton) v.findViewById(R.id.imb_undo);
         btn_complete = (Button) v.findViewById(R.id.btn_startSeason);
         btn_deleteAll = (ImageButton) v.findViewById(R.id.imb_clear_all);
 
@@ -329,6 +335,8 @@ public class CreateTeamLineupFragment extends Fragment {
                                     List<Player> boughtPlayers = lineupSingleton.ReturnList();
                                     lastRememberedTeamSize = boughtPlayers.size(); // potrebno ponovno postaviti kontrolnu varijablu jer u suprotnom
                                     //se desava isto sta se desavalo u onResume, fragment ne zna da niti jedan igrac nije kupljen, pa se onResume dio koda ponovno izvrsava
+
+                                    stackOfPlayers.add(a.getPlayer());
                                 }
                             }
                         });
@@ -343,6 +351,7 @@ public class CreateTeamLineupFragment extends Fragment {
                 for (PlayerViews a : playerViews) {
                     if (a.getPlayer() != null) {
                         userBalance += a.getPlayer().getPlayerValue();
+                        stackOfPlayers.remove(a.getPlayer());
                         a.setPlayer(null);
                         a.getPosition().setText("");
                         a.getPosition().setVisibility(View.INVISIBLE);
@@ -350,6 +359,7 @@ public class CreateTeamLineupFragment extends Fragment {
                         a.getPlayerKit().setImageResource(R.drawable.default_kit2);
                         a.getPlayerValue().setText("");
                         a.getPlayerRating().setText("");
+
                     }
                 }
                 unsetAll(dreamTeam);
@@ -360,8 +370,38 @@ public class CreateTeamLineupFragment extends Fragment {
 
             }
         });
+        //undo funkcionira na način da kupljene igrače dodam u STACK
+        //stack je 'stog' -> last in first out linearna struktura podataka **bitno!!
+        //kada korisnik stisne undo izbaci element iz stacka sve dok duljina stacka nije 0
+
+        btn_undo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(stackOfPlayers.size() > 0){
+                    Player player = stackOfPlayers.peek(); //"Pogledaj" prvi element u stacku
+                    for(PlayerViews a : playerViews){
+                        if(a.getPlayer() == player){
+                            userBalance += a.getPlayer().getPlayerValue();
+                            txt_balance.setText(String.format("Konto: %.2fM$", userBalance / 1000000.0));
+                            player.setPlayerId(0);
+                            createTeamViewModel.setRealPosOfDreamTeam(player, dreamTeam);
+                            a.setPlayer(null);
+                            a.getPosition().setText("");
+                            a.getPosition().setVisibility(View.INVISIBLE);
+                            a.getPlayerValue().setText("");
+                            a.getPlayerKit().setImageResource(R.drawable.default_kit2);
+                            a.getPlayerValue().setText("");
+                            a.getPlayerRating().setText("");
+                            stackOfPlayers.pop(); //izaci iz stacka
+                            break;
+                        }
+                    }
+                }
+            }
+        });
 
     }
+    Stack<Player> stackOfPlayers = new Stack<>();
 
     void unsetAll(DreamTeam dreamTeam){
         dreamTeam.setGoalie(0);
@@ -467,7 +507,6 @@ public class CreateTeamLineupFragment extends Fragment {
             if (!(lastRememberedTeamSize == players.size())) { //ako je kupnja uspješna u drugom fragmentu, veličina liste će biti različita od zadnje zapamćene                 //ugl bez ove provjere cudni bugovi gdje se zapamćena pozicija igraca ljepila posvuda
                 for (PlayerViews a : playerViews) {
                     if (a.getPosition() == lastRememberedPosition) {
-                        //postavi realnu poziciju na igraca
                         if (a.getPlayer() != null) { //provjeri jeli igrač već kupljen na toj poziciji, ako je dodaj balance nazad.
                             userBalance += a.getPlayer().getPlayerValue();
                         }
@@ -482,6 +521,7 @@ public class CreateTeamLineupFragment extends Fragment {
                         a.getPlayer().setRealPosition(a.getRealPosition()); //postavi realnu poziciju na igraca
                         createTeamViewModel.setRealPosOfDreamTeam(a.getPlayer(), dreamTeam);
                         a.getPlayerKit().setImageResource(createTeamViewModel.setPlayerKit(a.getPlayer()));
+                        stackOfPlayers.add(a.getPlayer());
                         break;
 
                     }
