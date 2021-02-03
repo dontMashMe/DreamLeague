@@ -368,8 +368,7 @@ public class CreateTeamLineupFragment extends Fragment {
         });
         //undo funkcionira na način da kupljene igrače dodam u STACK
         //stack je 'stog' -> last in first out linearna struktura podataka **bitno!!
-        //kada korisnik stisne undo izbaci element iz stacka sve dok duljina stacka nije 0
-
+        //kada korisnik stisne undo izbaci element iz stacka, očisti viewove za prikaz podataka o igraču, izbaci iz playerViews Liste
         btn_undo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -392,6 +391,8 @@ public class CreateTeamLineupFragment extends Fragment {
                             break;
                         }
                     }
+                    LineupSingleton lineupSingleton = LineupSingleton.getInstance();
+                    lineupSingleton.ReturnList().remove(player);
                 }
             }
         });

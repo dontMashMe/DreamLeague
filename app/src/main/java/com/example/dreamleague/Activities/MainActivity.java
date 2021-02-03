@@ -19,10 +19,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     /*
-    ovaj activity ce uglavnom sluziti samo za odluku koja faza igre će se pokretati
-    gledat ce kroz tablicu timova i ukoliko ne uoci predefinirani ID range user created timova
-    pokretat ce se activity za kreaciju tima (u pocetku, kada dodam
-    leaderboard vjerojatno cu morati dodati nesto u bazu sta bi provjerilo postoje li drugi timovi ?
+    startactivity, odlucuje koja faza aplikacije će se pokrenuti.
+    ukoliko ne postoji trenutan dreamteam redak u tablici, pokreni kreaciju tima
+    ako postoji, pokreni sezonu.
     */
     Intent intent;
     @Override

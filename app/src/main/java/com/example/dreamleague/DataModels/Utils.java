@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 
 import androidx.preference.PreferenceManager;
 
+
+//Utility klasa koja mi pruža API za SharedPreference polja koja mi trebaju (tjedan, balance, kapetan)
+//također služi za slanje pozicije i balansa pri kreaciji tima
 public class Utils {
 
     public Utils(String position, int Balance) {

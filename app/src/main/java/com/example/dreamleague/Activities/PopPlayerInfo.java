@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.dreamleague.DataModels.Player;
 import com.example.dreamleague.DataModels.PlayerSingleton;
 import com.example.dreamleague.DataModels.Utils;
-import com.example.dreamleague.Listeners.CaptainListener;
 import com.example.dreamleague.R;
 import com.example.dreamleague.ViewModels.SeasonViewModel;
 

@@ -33,7 +33,6 @@ import com.example.dreamleague.DataModels.PlayerSingleton;
 import com.example.dreamleague.DataModels.Squads;
 import com.example.dreamleague.DataModels.Team;
 import com.example.dreamleague.DataModels.Utils;
-import com.example.dreamleague.Listeners.CaptainListener;
 import com.example.dreamleague.R;
 import com.example.dreamleague.ViewModels.SeasonViewModel;
 
@@ -285,11 +284,17 @@ public class HomeFragment extends Fragment {
     private final AlphaAnimation alphaAnimation = new AlphaAnimation(0.2f, 1f);
     List<GameResults> gameResults = new ArrayList<>();
     /**
-     * Sve je statički
-     * Problem ako updateam bazu u observeru je to što je LiveData ... LiveData
-     * Konstantno čita iz baze i zapne u beskonačnom loopu updateanja istih records jer LiveData konstantno vuče iz baze
-     * morao sam koristit statičku listu matcheva, statičku listu igrača, timova, sve
-     * app je užasno spor na prvom loadu, ali dalje radi okej jer je sva cache-d
+     * Povuci sve utakmice za ovaj tjedan iz baze
+     * metodi advanceWeek proslijedi utakmice i timove sa igračima
+     * metoda izračuna rezultat i strijelce i vraća listu objekata GameResult
+     * gameResult objekt se sastoji od id-eva oba tima, broja pogotka za svaki tim Map<Player, Integer> gdje je key igrač, a value broj pogodaka
+     * loopaj kroz listu na off threadu, upiši MatchScores podatke (tablica za strijelce)
+     * upiši broj ostvarenih bodova svakog igrača u tablicu PlayerPoints
+     * upiši rezultate utakmica u tablicu Matches
+     * upiši broj bodova za tim u tablicu Teams (bodovi 3 ili 1, za pobjedu i neriješeno)
+     * pokreni activity PopWeekResults koja prikazuje broj ostvrenih bodova ovaj tjedan
+     * ------------------------------------------------------
+     * lineup singleton se koristi za slanje liste igrača PopWeekResults activitiyu koji prikazuje broj bodova
      */
     View.OnClickListener kickOffClick = new View.OnClickListener() {
         @Override
@@ -307,6 +312,8 @@ public class HomeFragment extends Fragment {
                 LineupSingleton lineupSingleton = LineupSingleton.getInstance();
                 lineupSingleton.ReturnList().clear();
                 ExecutorService executor = Executors.newSingleThreadExecutor();
+                //mapa koja sadrži broj bodova svakog igrača ostvarenog do ovog tjedna
+                //služi za izračun bodova igrača
                 HashMap<Integer, Integer> playerScoresOld = new HashMap<>();
                 int captainId = Utils.getCaptainId(getActivity());
                 executor.execute(() -> {
@@ -314,13 +321,15 @@ public class HomeFragment extends Fragment {
                         a.setPointsAcquired(seasonViewModel.getPlayerPointsInt(a.getPlayerId()));
                         playerScoresOld.put(a.getPlayerId(), a.getPointsAcquired());
                         lineupSingleton.AddPlayer(a);
-                        if (a.getPlayerId() == captainId) a.setCaptain(true);
+                        if (a.getPlayerId() == captainId) a.setCaptain(true); //pronađi kapetana
                     }
                     for (GameResults a : gameResults) {
+                        //strijelci doma
                         for (Map.Entry<Player, Integer> entry : a.getAwayTeamScorers().entrySet()) {
                             MatchScores matchScores = new MatchScores(0, a.getGameId(), entry.getKey().getPlayerId(), entry.getValue(), a.getTeamAwayId());
                             seasonViewModel.insertMatchScores(matchScores);
                         }
+                        //strijelci gosti
                         for (Map.Entry<Player, Integer> entry : a.getHomeTeamScorers().entrySet()) {
                             MatchScores matchScores = new MatchScores(0, a.getGameId(), entry.getKey().getPlayerId(), entry.getValue(), a.getHomeTeamId());
                             seasonViewModel.insertMatchScores(matchScores);
@@ -333,10 +342,18 @@ public class HomeFragment extends Fragment {
                     Intent intent = new Intent(requireActivity(), PopWeekResults.class);
                     intent.putExtra("map", playerScoresOld);
                     startActivity(intent);
-
+                    int sum = seasonViewModel.getAllPointsSum();
+                    //handler omogućava obaviti nešto na glavnom threadu iz off threada pomoću getMainLooper metode
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(()->{
+                        String text = getResources().getString(R.string.points) + ": <font color='#6300ee'>" + sum + "</font>";
+                        txt_current_points.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+                    });
                 });
                 executor.shutdown();
+                //ažuriraj tjedan
                 Utils.putCurrentWeekSharedPreference(getContext(), currentWeek + 1);
+                //ako je 20 tjedan, makni sve observere, aplikacija ulazi u novo stanje
                 if (Utils.getCurrentWeek(getContext()) == 20) {
                     dreamTeamLiveData.removeObservers(getViewLifecycleOwner());
                     matchesLiveData.removeObservers(getViewLifecycleOwner());

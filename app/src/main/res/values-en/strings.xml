@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DreamLeague</string>
+    <string name="welcome">Welcome to <b>DreamLeague!</b></string>
+    <string name="headerTxt"><u>Dream League</u></string>
+    <string name="intro">Create your team, choose players, win points\n and guide it to victory!</string>
+    <string name="intro2">To start, choose a name of your DreamLeague team.</string>
+    <string name="play">Play!</string>
+    <string name="logo">LOGO</string>
+    <string name="start_season">Finish and start season</string>
+    <string name="datum_ro_enja">Date of birth:</string>
+    <string name="title_activity_season">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_transfer">Transfer</string>
+    <string name="title_list">Matches</string>
+    <string name="list_attack">List of all players:</string>
+    <string name="list_mid">List of all midfielders:</string>
+    <string name="list_defend">List of all defenders:</string>
+    <string name="list_goalie">List of all goalkeepers:</string>
+    <string name="kit">KIT</string>
+    <string name="sort_by_pr">Sort by PR</string>
+    <string name="week">WEEK:</string>
+    <string name="dovoljno_novca">\"Not enough money\"</string>
+    <string name="igrac">Player:</string>
+    <string name="uspjesno_kupljen">\" successfuly bought.\"</string>
+    <string name="vrijednost"><u>Value</u>: %s$</string>
+    <string name="average_team_rating">Average team rating:</string>
+    <string name="points">POINTS</string>
+    <string name="average_team_cost">Average team cost:</string>
+    <string name="strijecli"><u>Scorers:</u></string>
+    <string name="leaderboards">Leaderboards</string>
+    <string name="buy">BUY</string>
+    <string name="sell">sell</string>
+    <string name="choose_a_position">Choose a position</string>
+    <string name="choose_a_team">Choose a team</string>
+    <string name="current_balance">Current balance:</string>
+    <string name="prodaj_igra_a">Sell player</string>
+    <string name="slikica">slikica</string>
+    <string name="nastavi">CONTINUE</string>
+    <string name="total_points">Total points</string>
+    <string name="zapo_ni_novu_sezonu">Start new season!</string>
+    <string name="unaprijed_u_kapetana">Captain</string>
+    <string name="osvojili_ste" formatted="false">Congratulations, you scored %d points!</string>
+    <string name="klub">Team</string>
+    <string name="bodovi">Points</string>
+    <string name="clear_all">Clear all</string>
+    <string name="undo">Undo</string>
+    <string name="auto_fill">Auto Fill</string>
+
+</resources>

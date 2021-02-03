@@ -28,15 +28,8 @@ public class PostGameScores {
         return teamName;
     }
 
-    public void setTeamName(@NonNull String teamName) {
-        this.teamName = teamName;
-    }
-
     public int getTotalScore() {
         return totalScore;
     }
 
-    public void setTotalScore(int totalScore) {
-        this.totalScore = totalScore;
-    }
 }

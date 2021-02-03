@@ -75,7 +75,7 @@ public class PopWeekResults extends AppCompatActivity {
                 }
             }
             txt_players_points.setText(String.valueOf(stringBuilder));
-            txt_total_points.setText(String.format("Čestitamo, osvojili ste %s bodova!", sum));
+            txt_total_points.setText(String.format(getString(R.string.osvojili_ste), sum));
             allPlayerPoints.removeObservers(this);
         });
         txt_players_points = findViewById(R.id.txt_player_points_acq);

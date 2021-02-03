@@ -18,38 +18,33 @@
     <string name="list_defend">Popis svih braniča:</string>
     <string name="list_goalie">Popis svih golmana:</string>
     <string name="kit">KIT</string>
-    <string name="sort_by_pr">Sort by PR</string>
-    <string name="week">WEEK:</string>
+    <string name="sort_by_pr">Sortiraj po PR</string>
+    <string name="week">TJEDAN:</string>
     <string name="dovoljno_novca">\"Nemate dovoljno novca! \"</string>
     <string name="igrac">Igrač:</string>
     <string name="uspjesno_kupljen">\" uspješno kupljen.\"</string>
     <string name="vrijednost"><u>Vrijednost</u>: %s$</string>
-    <string name="average_team_rating">Average team rating:</string>
-    <string name="points">POINTS</string>
-    <string name="average_team_cost">Average team cost:</string>
+    <string name="average_team_rating">Prosječna jačina tima:</string>
+    <string name="points">BODOVI</string>
+    <string name="average_team_cost">Prosječna cijena igrača:</string>
     <string name="strijecli"><u>Strijelci:</u></string>
-    <string name="leaderboards">Leaderboards</string>
-    <string name="buy">BUY</string>
-    <string name="sell">sell</string>
-    <string name="choose_a_position">Choose a position</string>
-    <string name="choose_a_team">Choose a team</string>
-    <string name="current_balance">Current balance:</string>
+    <string name="leaderboards">Tablica</string>
+    <string name="buy">KUPI</string>
+    <string name="sell">PRODAJ</string>
+    <string name="choose_a_position">Odaberi poziciju</string>
+    <string name="choose_a_team">Odaberi tim</string>
+    <string name="current_balance">Trenutan konto:</string>
     <string name="prodaj_igra_a">Prodaj igrača</string>
     <string name="slikica">slikica</string>
     <string name="nastavi">NASTAVI</string>
-    <string name="total_points">Total points</string>
+    <string name="total_points">Ukupno bodova</string>
     <string name="zapo_ni_novu_sezonu">Započni novu sezonu!</string>
     <string name="unaprijed_u_kapetana">Kapetan</string>
     <string name="osvojili_ste" formatted="false">Čestitamo, osvojili ste %d bodova!</string>
     <string name="klub">Klub</string>
     <string name="bodovi">Bodovi</string>
-    <string name="clear_all">Clear all</string>
-    <string name="undo">Undo</string>
-    <string name="auto_fill">Auto Fill</string>
+    <string name="clear_all">Obriši sve</string>
+    <string name="undo">Poništi</string>
+    <string name="auto_fill">Automatski</string>
 
-
-    <string-array name="lang_array">
-        <item>English</item>
-        <item>Hrvatski</item>
-    </string-array>
 </resources>

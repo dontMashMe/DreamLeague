@@ -10,7 +10,7 @@
         android:id="@+id/textWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="98dp"
+        android:layout_marginTop="75dp"
         android:text="@string/welcome"
         android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,11 +48,11 @@
         android:id="@+id/et_teamName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="14dp"
-        android:layout_marginEnd="101dp"
-        android:layout_marginRight="101dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:ems="15"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,11 +79,11 @@
         android:layout_height="50dp"
         android:layout_marginStart="105dp"
         android:layout_marginLeft="105dp"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="106dp"
         android:layout_marginRight="106dp"
-        android:text="@string/play"
         android:background="@android:color/background_dark"
+        android:text="@string/play"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_teamName" />
@@ -104,5 +104,15 @@
         app:layout_constraintTop_toBottomOf="@+id/textIntro"
         app:srcCompat="@drawable/premier"
         android:contentDescription="@string/logo" />
+
+    <Spinner
+        android:id="@+id/spinner_lang"
+        app:layout_constraintStart_toStartOf="@id/et_teamName"
+        app:layout_constraintEnd_toEndOf="@id/et_teamName"
+        app:layout_constraintTop_toBottomOf="@id/et_teamName"
+        android:layout_width="169dp"
+        android:layout_height="28dp"
+        tools:layout_editor_absoluteX="106dp"
+        tools:layout_editor_absoluteY="473dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
